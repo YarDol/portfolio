@@ -1,0 +1,174 @@
+{
+  "Metadata": {
+    "title": "Yaroslav Dolhushyn — Full-Stack-Entwickler",
+    "description": "Full-Stack-Entwickler in Deutschland. Entwicklung skalierbarer Web- & Mobile-Produkte mit TypeScript, React, Next.js und Node.js."
+  },
+  "Navigation": {
+    "home": "Startseite",
+    "about": "Über mich",
+    "experience": "Erfahrung",
+    "projects": "Projekte",
+    "contact": "Kontakt"
+  },
+  "Hero": {
+    "greeting": "Hallo, ich bin",
+    "name": "Yaroslav Dolhushyn",
+    "role": "Full-Stack-Entwickler",
+    "subtitle": "Ich verwandle Ideen in produktionsreife Apps — von pixelgenauen Frontends bis zu belastbaren Backend-Systemen. TypeScript überall.",
+    "cta": "Meine Arbeit",
+    "contact": "Kontakt aufnehmen"
+  },
+  "About": {
+    "label": "Über mich",
+    "title": "Über mich",
+    "description": "5+ kommerzielle Produkte mit über 100K Nutzern ausgeliefert — Ladezeiten um 40% reduziert, Infrastrukturkosten gesenkt und alles von KI-gestützten Sprach-Apps bis zu hochfrequentierten Video-Plattformen gebaut. Mir liegt sauberer Code und starke Teamarbeit am Herzen.",
+    "highlights": {
+      "experience": "2+ Jahre",
+      "experienceLabel": "Berufserfahrung",
+      "apps": "5+",
+      "appsLabel": "Apps geliefert",
+      "users": "100K+",
+      "usersLabel": "Nutzer erreicht",
+      "education": "M.Sc.",
+      "educationLabel": "Informatik"
+    },
+    "bio1": "Meine Stärke: Features von Anfang bis Ende verantworten — API-Design, React- oder React-Native-UI, AWS-Infrastruktur aufsetzen und sicherstellen, dass alles unter echtem Traffic standhält. Ich habe kleine Teams geleitet, Juniors gecoacht und Produktionsprobleme um 2 Uhr nachts gelöst — die volle Startup-Erfahrung.",
+    "bio2": "Wohnhaft in Sangerhausen, Deutschland mit voller Arbeitserlaubnis (§24). Ich suche ein Team, das schnell liefert, auf Qualität achtet und Produkte baut, die wirklich genutzt werden. Offen für Vor-Ort, hybrid oder remote in ganz Deutschland."
+  },
+  "Skills": {
+    "label": "Tech-Stack",
+    "title": "Fähigkeiten & Technologien",
+    "frontend": "Frontend",
+    "backend": "Backend",
+    "mobile": "Mobile",
+    "devops": "DevOps & Cloud",
+    "tools": "Tools & Plattformen",
+    "analytics": "Analytik & Werbung"
+  },
+  "Experience": {
+    "label": "Karriere",
+    "title": "Berufserfahrung",
+    "present": "Aktuell",
+    "kevych": {
+      "role": "Full-Stack-Entwickler",
+      "company": "Kevych Solutions",
+      "location": "Lviw, Ukraine (Remote)",
+      "period": "02/2024 — Aktuell",
+      "items": {
+        "0": "KI & Sprachberatungs-App (Tech Lead): Architektur einer React Native & Nest.js Plattform. Sprachberatungen und KI-Beratung über OpenAI mit eigenen Prompting-Pipelines.",
+        "1": "Kreative Design-Plattform: Headless Video-Rendering-Engine mit Puppeteer, Express und Nginx für serverseitiges React-Animations-Rendering.",
+        "2": "Unterhaltung & Medien: Skalierung eines Multi-Plattform-Ökosystems auf 70.000+ Nutzer über React Native Apps und Admin-Panels. Integration von KI-Funktionen, NestJS-APIs, Cloud Functions und Zahlungen über Stripe & PayPal.",
+        "3": "Video-Kursplattform: 2.000+ Nutzer und 700+ bezahlte Abonnements in 6 Stunden durch optimierte DB-Indizierung und Caching.",
+        "4": "E-Commerce-Migration: Migration von React zu Next.js. LCP/CLS um 40% verbessert und Hosting-Kosten um 17% gesenkt.",
+        "5": "Technische Führung: Standardisierung von CI/CD-Pipelines, Linting-Regeln und wiederverwendbaren Templates über Projekte."
+      }
+    }
+  },
+  "Education": {
+    "label": "Ausbildung",
+    "title": "Ausbildung & Zertifizierungen",
+    "master": {
+      "degree": "Master in Informatik",
+      "school": "Nationale Technische Universität Ternopil Iwan Puluj",
+      "period": "09/2024 — 01/2026",
+      "note": "Spezialisierung auf Softwarearchitektur und Cloud Computing"
+    },
+    "bachelor": {
+      "degree": "Bachelor in Informatik",
+      "school": "Nationale Technische Universität Ternopil Iwan Puluj",
+      "period": "09/2022 — 06/2024",
+      "note": "Mit Auszeichnung abgeschlossen"
+    },
+    "exchange": {
+      "degree": "Bachelor Künstliche Intelligenz (Unterbrochen)",
+      "school": "Technische Universität Košice",
+      "period": "09/2022 — 01/2023",
+      "note": "Schwerpunkt KI und Machine Learning"
+    },
+    "junior": {
+      "degree": "Fachlicher Junior-Bachelorabschluss",
+      "school": "Technisches College Ternopil Iwan Puluj",
+      "period": "09/2018 — 06/2022",
+      "note": "Mit Auszeichnung abgeschlossen"
+    },
+    "aws": "AWS Certified Cloud Practitioner CLF-C02 (2025)",
+    "front-end": "Front-end React JS Webentwicklungskurs (2024)",
+    "java-script": "JavaScript + React von Grund auf bis zum Ergebnis (2024)"
+  },
+  "Projects": {
+    "label": "Arbeit",
+    "title": "Ausgewählte Projekte",
+    "subtitle": "Eine Auswahl kommerzieller Produkte, die ich gebaut und ausgeliefert habe.",
+    "viewProject": "Projekt ansehen",
+    "viewCode": "Quellcode",
+    "items": {
+      "0": {
+        "title": "KI & Sprachberatungs-App",
+        "description": "Architektur einer Full-Stack-Plattform für Sprachberatungen (AWS S3) und KI-gestützte Beratung über OpenAI mit eigenen Prompting-Pipelines. SDLC-Leitung als Tech Lead und Mentoring eines Junior-Entwicklers.",
+        "role": "Tech Lead"
+      },
+      "1": {
+        "title": "Video-Kursplattform",
+        "description": "Abonnementbasierte Lernplattform mit 2.000+ Nutzern und 700+ bezahlten Abonnements in nur 6 Stunden nach Launch. Erreicht durch optimierte DB-Indizierung und Caching-Strategien. Eigene NestJS-APIs und Stripe-Integration für nahtlose Zahlungen.",
+        "role": "Full-Stack-Entwickler"
+      },
+      "2": {
+        "title": "Unterhaltungs- & Medienplattform",
+        "description": "Full-Stack-Plattform mit FSD-Architektur, Skalierung eines React-Native-Ökosystems auf 70.000+ Nutzer. KI-gestützte Funktionen, interne Admin-Systeme, NestJS-Services, Cloud Functions und globale Zahlungen über Stripe & PayPal.",
+        "role": "Full-Stack-Entwickler"
+      },
+      "3": {
+        "title": "E-Commerce Next.js-Migration",
+        "description": "Migration einer Legacy-React-SPA zu Next.js. Core Web Vitals (LCP/CLS) um 40% verbessert und Hosting-Kosten durch Docker-Containerisierung um 17% gesenkt. Mentoring eines Junior-Entwicklers in Next.js Best Practices und Performance-Optimierung.",
+        "role": "Full-Stack-Entwickler"
+      },
+      "4": {
+        "title": "Headless Video-Rendering-Engine",
+        "description": "Serverseitige Video-Rendering-Engine für eine Canva-ähnliche Design-Plattform. Clientseitige React-Animationen über Puppeteer, Express und Nginx, mit robuster Polling-API für zuverlässige MP4-Exporte unter hoher Last.",
+        "role": "Full-Stack-Entwickler"
+      },
+      "5": {
+        "title": "Internes CRM-System",
+        "description": "System für operatives Management, das Teams die Verwaltung von Nutzern, Workflows und Reporting ermöglicht. Standardisierung von CI/CD-Pipelines, Linting-Regeln und wiederverwendbaren Templates zur Verbesserung der Entwicklungseffizienz.",
+        "role": "Tech Lead"
+      },
+      "6": {
+        "title": "Healthcare SaaS Refaktorisierung",
+        "description": "Komplette Plattform-Refaktorisierung und Neugestaltung des Anmeldeablaufs, was zu höheren Konversionsraten und verbesserter Systemzuverlässigkeit führte.",
+        "role": "Full-Stack-Entwickler"
+      },
+      "7": {
+        "title": "Event- & Community-Plattform",
+        "description": "Features für einen Marktplatz, der Marken mit geprüften lokalen Communities wie Laufgruppen, Pilates-Kollektiven und Studios verbindet und authentische Partnerschaften ermöglicht.",
+        "role": "Frontend-Entwickler"
+      }
+    }
+  },
+  "Contact": {
+    "label": "Kontakt",
+    "title": "Kontakt aufnehmen",
+    "subtitle": "Haben Sie ein Projekt im Sinn oder möchten Sie eine Zusammenarbeit besprechen? Ich freue mich auf Ihre Nachricht.",
+    "name": "Name",
+    "namePlaceholder": "Ihr Name",
+    "email": "E-Mail",
+    "emailPlaceholder": "ihre@email.de",
+    "message": "Nachricht",
+    "messagePlaceholder": "Erzählen Sie mir von Ihrem Projekt oder Ihrer Anfrage...",
+    "send": "Nachricht senden",
+    "sending": "Wird gesendet...",
+    "success": "Nachricht gesendet! Ich melde mich bald bei Ihnen.",
+    "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut oder schreiben Sie mir direkt.",
+    "nameRequired": "Name ist erforderlich",
+    "emailRequired": "E-Mail ist erforderlich",
+    "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+    "messageRequired": "Nachricht ist erforderlich",
+    "orReachOut": "Oder kontaktieren Sie mich direkt",
+    "based": "Wohnhaft in Sangerhausen, Deutschland",
+    "availability": "Offen für Vor-Ort, hybrid oder remote weltweit"
+  },
+  "NotFound": {
+    "title": "Seite nicht gefunden",
+    "description": "Die gesuchte Seite existiert nicht.",
+    "backHome": "Zurück zur Startseite"
+  }
+}

@@ -1,0 +1,174 @@
+{
+  "Metadata": {
+    "title": "Yaroslav Dolhushyn — Full-Stack Engineer",
+    "description": "Full-Stack Engineer based in Germany. Building scalable web & mobile products with TypeScript, React, Next.js, and Node.js."
+  },
+  "Navigation": {
+    "home": "Home",
+    "about": "About",
+    "experience": "Experience",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "Hero": {
+    "greeting": "Hi, I'm",
+    "name": "Yaroslav Dolhushyn",
+    "role": "Full-Stack Engineer",
+    "subtitle": "I turn ideas into production-ready apps — from pixel-perfect frontends to resilient backend systems. TypeScript everywhere.",
+    "cta": "View My Work",
+    "contact": "Get in Touch"
+  },
+  "About": {
+    "label": "About",
+    "title": "About Me",
+    "description": "I've shipped 5+ commercial products reaching over 100K users — cutting load times by 40%, reducing infrastructure costs, and building everything from AI-powered voice apps to high-traffic video platforms. I care about code that lasts and teams that grow.",
+    "highlights": {
+      "experience": "2+ Years",
+      "experienceLabel": "Commercial Experience",
+      "apps": "5+",
+      "appsLabel": "Apps Delivered",
+      "users": "100K+",
+      "usersLabel": "Users Reached",
+      "education": "M.Sc.",
+      "educationLabel": "Computer Engineering"
+    },
+    "bio1": "My sweet spot is owning features end-to-end: designing the API, building the React or React Native UI, setting up the AWS infrastructure, and making sure it all holds up under real traffic. I've led small teams, mentored juniors, and debugged production issues at 2 AM — the full startup experience.",
+    "bio2": "Now based in Sangerhausen, Germany with full working rights (§24). I'm looking for a team that ships fast, cares about quality, and builds products people actually use. Open to on-site, hybrid, or remote across Germany."
+  },
+  "Skills": {
+    "label": "Tech Stack",
+    "title": "Skills & Technologies",
+    "frontend": "Frontend",
+    "backend": "Backend",
+    "mobile": "Mobile",
+    "devops": "DevOps & Cloud",
+    "tools": "Tools & Platforms",
+    "analytics": "Analytics & ADs"
+  },
+  "Experience": {
+    "label": "Career",
+    "title": "Work Experience",
+    "present": "Present",
+    "kevych": {
+      "role": "Full-Stack Engineer",
+      "company": "Kevych Solutions",
+      "location": "Lviv, Ukraine (Remote)",
+      "period": "02/2024 — Present",
+      "items": {
+        "0": "AI & Voice Advisory App (Tech Lead): Architected a React Native & Nest.js platform. Enabled voice consultations and AI advice via OpenAI with custom prompting pipelines.",
+        "1": "Creative Design Platform: Engineered a headless video rendering engine using Puppeteer, Express, and Nginx for server-side React animation rendering.",
+        "2": "Entertainment & Media: Scaled a multi-platform ecosystem to 70,000+ users across React Native apps and admin panels. Integrated AI-driven features, NestJS APIs, cloud functions, and payments via Stripe & PayPal.",
+        "3": "Video Course Platform: Handled 2,000+ users and 700+ paid subscriptions in 6 hours using optimized DB indexing and caching.",
+        "4": "E-commerce Migration: Migrated React to Next.js. Improved LCP/CLS by 40% and reduced hosting costs by 17%.",
+        "5": "Technical Leadership: Standardized CI/CD pipelines, linting rules, and reusable templates across projects."
+      }
+    }
+  },
+  "Education": {
+    "label": "Education",
+    "title": "Education & Certifications",
+    "master": {
+      "degree": "Master in Computer Engineering",
+      "school": "Ternopil Ivan Puluj National Technical University",
+      "period": "09/2024 — 01/2026",
+      "note": "Specialized in software architecture and cloud computing"
+    },
+    "bachelor": {
+      "degree": "Bachelor of Computer Engineering",
+      "school": "Ternopil Ivan Puluj National Technical University",
+      "period": "09/2022 — 06/2024",
+      "note": "Graduated with honors"
+    },
+    "exchange": {
+      "degree": "Bachelor of Artificial Intelligence (Interrupted)",
+      "school": "Technical University of Kosice",
+      "period": "09/2022 — 01/2023",
+      "note": "Focused on AI and machine learning courses"
+    },
+    "junior": {
+      "degree": "Professional Junior Bachelor's degree",
+      "school": "Ternopil State Ivan Pul'uj' Technical College",
+      "period": "09/2018 — 06/2022",
+      "note": "Graduated with honors"
+    },
+    "aws": "AWS Certified Cloud Practitioner CLF-C02 (2025)",
+    "front-end": "Front-end React JS Web Development Course (2024)",
+    "java-script": "JavaScript + React from scratch to result (2024)"
+  },
+  "Projects": {
+    "label": "Work",
+    "title": "Featured Projects",
+    "subtitle": "A selection of commercial products I've built and shipped.",
+    "viewProject": "View Project",
+    "viewCode": "Source Code",
+    "items": {
+      "0": {
+        "title": "AI & Voice Advisory App",
+        "description": "Architected a full-stack platform enabling voice consultations stored on AWS S3 and AI-powered advice via OpenAI with custom prompting pipelines. Led SDLC as Tech Lead and mentored a junior engineer.",
+        "role": "Tech Lead"
+      },
+      "1": {
+        "title": "Entertainment & Media Platform",
+        "description": "Delivered a full-stack platform using FSD architecture, scaling a React Native ecosystem to 70,000+ users. Built AI-powered features, internal admin systems, NestJS services, cloud functions, and global payments with Stripe & PayPal.",
+        "role": "Full-Stack Engineer"
+      },
+      "2": {
+        "title": "E-commerce Next.js Migration",
+        "description": "Migrated a legacy React SPA to Next.js. Improved Core Web Vitals (LCP/CLS) by 40% and reduced hosting costs by 17% through Docker containerization. Mentored a junior engineer on Next.js best practices and performance optimization.",
+        "role": "Full-Stack Engineer"
+      },
+      "3": {
+        "title": "Video Course Platform",
+        "description": "Subscription-based learning platform that handled 2,000+ users and 700+ paid subscriptions in just 6 hours after launch. Achieved through optimized DB indexing and caching strategies. Custom NestJS APIs and Stripe integration for seamless payments.",
+        "role": "Full-Stack Engineer"
+      },
+      "4": {
+        "title": "Headless Video Rendering Engine",
+        "description": "Built a server-side video rendering engine powering a Canva-like design platform. Executed client-side React animations via Puppeteer, Express, and Nginx, exposing a robust polling API for reliable MP4 exports under high load.",
+        "role": "Full-Stack Engineer"
+      },
+      "5": {
+        "title": "Internal CRM Platform",
+        "description": "Built a system for operational management, enabling teams to manage users, workflows, and reporting across the organization. Standardized CI/CD pipelines, linting rules, and reusable templates across projects to improve development efficiency and code quality.",
+        "role": "Tech Lead"
+      },
+      "6": {
+        "title": "Healthcare SaaS Refactor",
+        "description": "Delivered a full platform refactor and re-architected the signup flow, increasing conversion rates and improving system reliability.",
+        "role": "Full-Stack Engineer"
+      },
+      "7": {
+        "title": "Event & Community Platform",
+        "description": "Built features for a marketplace connecting brands with vetted local communities such as run clubs, pilates collectives, and studios, enabling authentic partnerships over cold impressions.",
+        "role": "Frontend Engineer"
+      }
+    }
+  },
+  "Contact": {
+    "label": "Contact",
+    "title": "Get in Touch",
+    "subtitle": "Have a project in mind or want to discuss an opportunity? I'd love to hear from you.",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "emailPlaceholder": "your@email.com",
+    "message": "Message",
+    "messagePlaceholder": "Tell me about your project or opportunity...",
+    "send": "Send Message",
+    "sending": "Sending...",
+    "success": "Message sent! I'll get back to you soon.",
+    "error": "Something went wrong. Please try again or email me directly.",
+    "nameRequired": "Name is required",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Please enter a valid email",
+    "messageRequired": "Message is required",
+    "orReachOut": "Or reach out directly",
+    "based": "Based in Sangerhausen, Germany",
+    "availability": "Open to on-site, hybrid, or remote across the world"
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "description": "The page you're looking for doesn't exist.",
+    "backHome": "Back to Home"
+  }
+}
