@@ -4,10 +4,10 @@ export const siteConfig = {
   location: "Sangerhausen, Germany",
   email: "yardolhushyn@gmail.com",
   phone: "+49 160 425 1263",
-  url: "https://yaroslav.dev",
+  url: "https://yaroslavdolhushyn.dev/",
   links: {
     github: "https://github.com/yarDol",
     linkedin: "https://www.linkedin.com/in/yaroslav-dolhushyn-46466418a/",
   },
-  cvUrl: "https://yaroslav.dev/cv.pdf",
+  cvUrl: "https://yaroslavdolhushyn.dev/cv.pdf",
 } as const;
