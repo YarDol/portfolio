@@ -11,6 +11,7 @@ import { Experience } from "@/components/sections/experience";
 import { Projects } from "@/components/sections/projects";
 import { Contact } from "@/components/sections/contact";
 import { Footer } from "@/components/layout/footer";
+import Chat from "@/components/chat/ai-chat";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -31,6 +32,7 @@ export default function HomePage({ params }: Props) {
       <Experience />
       <Projects />
       <Contact />
+      <Chat locale={locale} />
       <Footer />
     </>
   );

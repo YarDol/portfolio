@@ -108,18 +108,18 @@
         "role": "Tech Lead"
       },
       "1": {
-        "title": "Video-Kursplattform",
-        "description": "Abonnementbasierte Lernplattform mit 2.000+ Nutzern und 700+ bezahlten Abonnements in nur 6 Stunden nach Launch. Erreicht durch optimierte DB-Indizierung und Caching-Strategien. Eigene NestJS-APIs und Stripe-Integration für nahtlose Zahlungen.",
-        "role": "Full-Stack-Entwickler"
-      },
-      "2": {
         "title": "Unterhaltungs- & Medienplattform",
         "description": "Full-Stack-Plattform mit FSD-Architektur, Skalierung eines React-Native-Ökosystems auf 70.000+ Nutzer. KI-gestützte Funktionen, interne Admin-Systeme, NestJS-Services, Cloud Functions und globale Zahlungen über Stripe & PayPal.",
         "role": "Full-Stack-Entwickler"
       },
-      "3": {
+      "2": {
         "title": "E-Commerce Next.js-Migration",
         "description": "Migration einer Legacy-React-SPA zu Next.js. Core Web Vitals (LCP/CLS) um 40% verbessert und Hosting-Kosten durch Docker-Containerisierung um 17% gesenkt. Mentoring eines Junior-Entwicklers in Next.js Best Practices und Performance-Optimierung.",
+        "role": "Full-Stack-Entwickler"
+      },
+      "3": {
+        "title": "Video-Kursplattform",
+        "description": "Abonnementbasierte Lernplattform mit 2.000+ Nutzern und 700+ bezahlten Abonnements in nur 6 Stunden nach Launch. Erreicht durch optimierte DB-Indizierung und Caching-Strategien. Eigene NestJS-APIs und Stripe-Integration für nahtlose Zahlungen.",
         "role": "Full-Stack-Entwickler"
       },
       "4": {

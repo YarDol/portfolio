@@ -9,4 +9,5 @@ export const siteConfig = {
     github: "https://github.com/yarDol",
     linkedin: "https://www.linkedin.com/in/yaroslav-dolhushyn-46466418a/",
   },
+  cvUrl: "https://yaroslav.dev/cv.pdf",
 } as const;
