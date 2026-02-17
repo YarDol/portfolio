@@ -21,10 +21,10 @@ export function Header() {
   return (
     <motion.header
       className={clsx(
-        "fixed top-0 z-50 w-full transition-colors duration-300",
+        "fixed top-0 z-50 w-full border-b transition-colors duration-300",
         scrolled
-          ? "border-b border-border bg-background/80 backdrop-blur-md"
-          : "bg-transparent"
+          ? "border-border bg-background/80 backdrop-blur-md"
+          : "border-transparent bg-transparent",
       )}
     >
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
