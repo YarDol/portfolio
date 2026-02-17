@@ -1,7 +1,8 @@
 "use client";
 
 import { useChat, type UIMessage } from "@ai-sdk/react";
-import { TextStreamChatTransport } from "ai";
+import { DefaultChatTransport } from "ai";
+import { useTranslations } from "next-intl";
 import { useState, useRef, useEffect, memo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Markdown from "react-markdown";
@@ -18,49 +19,52 @@ import {
 } from "lucide-react";
 
 const MemoizedMarkdown = memo(
-  function MarkdownRenderer({ content }: { content: string }) { return (
-    <Markdown
-      components={{
-        p: ({ children }) => <p className="mb-1.5 last:mb-0">{children}</p>,
-        strong: ({ children }) => (
-          <strong className="font-semibold">{children}</strong>
-        ),
-        em: ({ children }) => <em className="italic">{children}</em>,
-        ul: ({ children }) => (
-          <ul className="list-disc list-inside mb-1.5 last:mb-0 space-y-0.5">
-            {children}
-          </ul>
-        ),
-        ol: ({ children }) => (
-          <ol className="list-decimal list-inside mb-1.5 last:mb-0 space-y-0.5">
-            {children}
-          </ol>
-        ),
-        li: ({ children }) => <li className="leading-relaxed">{children}</li>,
-        a: ({ href, children }) => (
-          <a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-accent underline underline-offset-2 hover:text-accent-light transition-colors"
-          >
-            {children}
-          </a>
-        ),
-        code: ({ children }) => (
-          <code className="px-1 py-0.5 rounded bg-foreground/10 text-xs font-mono">
-            {children}
-          </code>
-        ),
-      }}
-    >
-      {content}
-    </Markdown>
-  ); },
+  function MarkdownRenderer({ content }: { content: string }) {
+    return (
+      <Markdown
+        components={{
+          p: ({ children }) => <p className="mb-1.5 last:mb-0">{children}</p>,
+          strong: ({ children }) => (
+            <strong className="font-semibold">{children}</strong>
+          ),
+          em: ({ children }) => <em className="italic">{children}</em>,
+          ul: ({ children }) => (
+            <ul className="list-disc list-inside mb-1.5 last:mb-0 space-y-0.5">
+              {children}
+            </ul>
+          ),
+          ol: ({ children }) => (
+            <ol className="list-decimal list-inside mb-1.5 last:mb-0 space-y-0.5">
+              {children}
+            </ol>
+          ),
+          li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+          a: ({ href, children }) => (
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-accent underline underline-offset-2 hover:text-accent-light transition-colors"
+            >
+              {children}
+            </a>
+          ),
+          code: ({ children }) => (
+            <code className="px-1 py-0.5 rounded bg-foreground/10 text-xs font-mono">
+              {children}
+            </code>
+          ),
+        }}
+      >
+        {content}
+      </Markdown>
+    );
+  },
   (prev, next) => prev.content === next.content,
 );
 
 export default function Chat({ locale = "en" }: { locale?: string }) {
+  const t = useTranslations("Chat");
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [shakeInput, setShakeInput] = useState(false);
@@ -68,7 +72,7 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { messages, sendMessage, status, error, clearError } = useChat({
-    transport: new TextStreamChatTransport({
+    transport: new DefaultChatTransport({
       api: "/api/chat",
       body: { locale },
     }),
@@ -79,7 +83,10 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
 
   useEffect(() => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+      messagesEndRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
     }
   }, [messages, isWaiting]);
 
@@ -103,11 +110,10 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
     i: number,
   ) => {
     if (part.type === "text") {
-      const isAssistant = messages.find((m) => m.id === messageId)?.role === "assistant";
+      const isAssistant =
+        messages.find((m) => m.id === messageId)?.role === "assistant";
       const isActiveStream =
-        isStreaming &&
-        messages.at(-1)?.id === messageId &&
-        isAssistant;
+        isStreaming && messages.at(-1)?.id === messageId && isAssistant;
 
       if (!isAssistant) {
         return (
@@ -121,7 +127,7 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
         <div key={`${messageId}-${i}`} className="chat-markdown">
           <MemoizedMarkdown content={part.text} />
           {isActiveStream && (
-            <span className="inline-block w-[2px] h-3.5 bg-accent rounded-full align-middle ml-0.5 animate-[cursor-blink_0.8s_steps(2)_infinite]" />
+            <span className="inline-block w-0.5 h-3.5 bg-accent rounded-full align-middle ml-0.5 animate-[cursor-blink_0.8s_steps(2)_infinite]" />
           )}
         </div>
       );
@@ -147,7 +153,7 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
               className="inline-flex items-center gap-1.5 mt-1 px-3 py-1.5 rounded-lg bg-accent/10 text-accent text-sm font-medium hover:bg-accent/20 transition-colors"
             >
               <Download className="size-3.5" />
-              Download CV
+              {t("downloadCV")}
             </a>
           );
         }
@@ -176,7 +182,7 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
             className="inline-flex items-center gap-1.5 text-xs text-muted"
           >
             <Sparkles className="size-3 animate-pulse" />
-            Looking up info...
+            {t("lookingUp")}
           </span>
         );
       }
@@ -187,9 +193,11 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
     return null;
   };
 
+  const quickActions = [t("quickStack"), t("quickProjects"), t("quickCV")];
+
   return (
     <>
-        <motion.button
+      <motion.button
         onClick={() => setIsOpen(true)}
         className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex items-center justify-center size-12 sm:size-14 rounded-full bg-accent text-white shadow-lg shadow-accent/25 hover:shadow-accent/40 transition-shadow cursor-pointer"
         whileHover={{ scale: 1.05 }}
@@ -201,7 +209,7 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
           pointerEvents: isOpen ? "none" : "auto",
         }}
         transition={{ duration: 0.2 }}
-        aria-label="Open chat"
+        aria-label={t("title")}
       >
         <MessageCircle className="size-6" />
       </motion.button>
@@ -213,7 +221,7 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
-            className="fixed inset-0 sm:inset-auto sm:bottom-6 sm:right-6 z-50 flex flex-col w-full h-full sm:w-[380px] sm:h-[540px] sm:rounded-2xl border-0 sm:border border-border bg-card shadow-2xl overflow-hidden"
+            className="fixed inset-0 sm:inset-auto sm:bottom-6 sm:right-6 z-50 flex flex-col w-full h-full sm:w-95 sm:h-135 sm:rounded-2xl border-0 sm:border border-border bg-card shadow-2xl overflow-hidden"
           >
             <div className="flex items-center justify-between px-4 sm:px-5 py-4 pt-[max(1rem,env(safe-area-inset-top))] border-b border-border bg-card">
               <div className="flex items-center gap-3">
@@ -223,17 +231,17 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-foreground leading-none">
-                    Ask about Yaroslav
+                    {t("title")}
                   </p>
                   <p className="text-xs text-muted mt-0.5">
-                    AI-powered portfolio assistant
+                    {t("subtitle")}
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
                 className="flex items-center justify-center size-8 rounded-lg text-muted hover:text-foreground hover:bg-foreground/5 transition-colors cursor-pointer"
-                aria-label="Close chat"
+                aria-label={t("title")}
               >
                 <X className="size-4" />
               </button>
@@ -247,19 +255,14 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-foreground">
-                      Hi! I know everything about Yaroslav.
+                      {t("welcome")}
                     </p>
                     <p className="text-xs text-muted mt-1.5 leading-relaxed">
-                      Ask me about his experience, skills, projects, or anything
-                      else.
+                      {t("welcomeSub")}
                     </p>
                   </div>
                   <div className="flex flex-wrap justify-center gap-2 mt-1">
-                    {[
-                      "What's his tech stack?",
-                      "Tell me about his projects",
-                      "Download CV",
-                    ].map((q) => (
+                    {quickActions.map((q) => (
                       <button
                         key={q}
                         onClick={() => {
@@ -326,9 +329,9 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
                     </div>
                     <div className="px-3.5 py-3 rounded-2xl rounded-bl-md bg-foreground/4 border border-border/60">
                       <div className="flex gap-1 items-center">
-                        <span className="size-[5px] rounded-full bg-accent/60 animate-[typing-dot_1.4s_ease-in-out_infinite]" />
-                        <span className="size-[5px] rounded-full bg-accent/60 animate-[typing-dot_1.4s_ease-in-out_0.2s_infinite]" />
-                        <span className="size-[5px] rounded-full bg-accent/60 animate-[typing-dot_1.4s_ease-in-out_0.4s_infinite]" />
+                        <span className="size-1.25 rounded-full bg-accent/60 animate-[typing-dot_1.4s_ease-in-out_infinite]" />
+                        <span className="size-1.25 rounded-full bg-accent/60 animate-[typing-dot_1.4s_ease-in-out_0.2s_infinite]" />
+                        <span className="size-1.25 rounded-full bg-accent/60 animate-[typing-dot_1.4s_ease-in-out_0.4s_infinite]" />
                       </div>
                     </div>
                   </motion.div>
@@ -350,12 +353,12 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
                   <div className="flex items-center gap-2 px-4 py-2 bg-red-500/10 text-red-500 dark:text-red-400 text-xs">
                     <AlertCircle className="size-3.5 shrink-0" />
                     <span className="flex-1 truncate">
-                      Something went wrong. Please try again.
+                      {t("error")}
                     </span>
                     <button
                       onClick={clearError}
                       className="text-red-500/60 hover:text-red-500 transition-colors cursor-pointer"
-                      aria-label="Dismiss error"
+                      aria-label="Dismiss"
                     >
                       <X className="size-3" />
                     </button>
@@ -372,7 +375,7 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
                 ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask something..."
+                placeholder={t("placeholder")}
                 className={`flex-1 bg-transparent text-sm text-foreground placeholder:text-muted outline-none transition-colors ${
                   shakeInput
                     ? "placeholder:text-red-400 animate-[shake_0.4s_ease-in-out]"
@@ -384,7 +387,7 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
                 type="submit"
                 disabled={isWaiting}
                 className="flex items-center justify-center size-8 rounded-lg bg-accent text-white disabled:opacity-40 hover:bg-accent-light transition-colors cursor-pointer disabled:cursor-not-allowed"
-                aria-label="Send message"
+                aria-label={t("placeholder")}
               >
                 <Send className="size-3.5" />
               </button>

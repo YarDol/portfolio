@@ -1,6 +1,7 @@
 import en from "@/messages/en.json";
 import de from "@/messages/de.json";
 import { siteConfig } from "@/lib/constants";
+import { skillCategories } from "@/lib/skills";
 
 type Locale = "en" | "de";
 const messages: Record<Locale, typeof en> = { en, de };
@@ -13,7 +14,6 @@ export function getProfile(locale: Locale) {
   const m = msg(locale);
   return {
     name: "Yaroslav Dolhushyn",
-    age: 23,
     role: m.Hero.role,
     location: siteConfig.location,
     workAuthorization: "Full working rights in Germany (§24)",
@@ -41,77 +41,6 @@ export function getProfile(locale: Locale) {
   };
 }
 
-const skillData: Record<string, string[]> = {
-  frontend: [
-    "React.js",
-    "Next.js",
-    "TypeScript",
-    "Tailwind CSS",
-    "Zustand",
-    "Redux",
-    "MobX",
-    "TanStack Query",
-    "Radix UI",
-    "MUI",
-    "Three.js",
-    "WebSockets",
-  ],
-  backend: [
-    "Node.js",
-    "Nest.js",
-    "Express.js",
-    "PostgreSQL",
-    "MongoDB",
-    "Redis",
-    "Kafka",
-    "TypeORM",
-    "Prisma",
-    "GraphQL",
-    "REST API",
-    "Microservices",
-    "OpenAI / LLM",
-  ],
-  mobile: [
-    "React Native",
-    "Native Modules",
-    "Deep Linking",
-    "Push Notifications",
-    "Expo",
-    "App Store Deployment",
-  ],
-  devops: [
-    "AWS (S3, Lambda, RDS)",
-    "Docker",
-    "GitHub Actions",
-    "Nginx",
-    "Vercel",
-    "Cloudflare",
-    "VPS",
-    "PM2",
-  ],
-  tools: [
-    "Git",
-    "Figma",
-    "Sentry",
-    "Postman",
-    "Swagger",
-    "Cursor",
-    "Firebase",
-    "Cloud Code",
-    "Intercom",
-  ],
-  analytics: [
-    "Crashlytics",
-    "Amplitude",
-    "GA4",
-    "Meta ADs",
-    "Google Ads",
-    "Instabug",
-    "Mixpanel",
-    "Hotjar",
-  ],
-};
-
 export function getSkills(locale: Locale) {
   const m = msg(locale);
   const labels: Record<string, string> = {
@@ -123,9 +52,9 @@ export function getSkills(locale: Locale) {
     analytics: m.Skills.analytics,
   };
 
-  return Object.entries(skillData).map(([key, skills]) => ({
+  return skillCategories.map(({ key, skills }) => ({
     category: labels[key] ?? key,
-    skills,
+    skills: [...skills],
   }));
 }
 

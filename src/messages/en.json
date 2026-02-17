@@ -166,6 +166,19 @@
     "based": "Based in Sangerhausen, Germany",
     "availability": "Open to on-site, hybrid, or remote across the world"
   },
+  "Chat": {
+    "title": "Ask about Yaroslav",
+    "subtitle": "AI-powered portfolio assistant",
+    "welcome": "Hi! I know everything about Yaroslav.",
+    "welcomeSub": "Ask me about his experience, skills, projects, or anything else.",
+    "placeholder": "Ask something...",
+    "error": "Something went wrong. Please try again.",
+    "lookingUp": "Looking up info...",
+    "downloadCV": "Download CV",
+    "quickStack": "What's his tech stack?",
+    "quickProjects": "Tell me about his projects",
+    "quickCV": "Download CV"
+  },
   "NotFound": {
     "title": "Page not found",
     "description": "The page you're looking for doesn't exist.",

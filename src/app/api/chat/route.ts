@@ -15,107 +15,31 @@ import {
   getEducation,
   getContactInfo,
 } from "@/lib/portfolio-rag";
+import { checkRateLimit } from "@/lib/rate-limit";
 import { z } from "zod";
 import { siteConfig } from "@/lib/constants";
 
-export const runtime = "edge";
-
-const OFF_TOPIC_RESPONSE =
-  "I can only provide information about Yaroslav Dolhushyn and his professional work.";
-
-const YAROSLAV_KEYWORDS = [
-  "yaroslav",
-  "dolhushyn",
-  "cv",
-  "resume",
-  "portfolio",
-  "skill",
-  "stack",
-  "tech",
-  "experience",
-  "project",
-  "work",
-  "job",
-  "hire",
-  "developer",
-  "engineer",
-  "contact",
-  "email",
-  "phone",
-  "linkedin",
-  "github",
-  "education",
-  "certif",
-  "aws",
-  "react",
-  "next",
-  "node",
-  "nest",
-  "typescript",
-  "mobile",
-  "native",
-  "who",
-  "what",
-  "tell",
-  "about",
-  "can you",
-  "know",
-  "hello",
-  "hi",
-  "hey",
-  "hallo",
-  "guten",
-  "arbeit",
-  "erfahrung",
-  "fähigkeit",
-  "projekt",
-  "kontakt",
-  "lebenslauf",
-  "entwickler",
-  "ausbildung",
-  "download",
-];
-
-function isLikelyOffTopic(text: string): boolean {
-  const lower = text.toLowerCase();
-  if (lower.length < 4) return false;
-  return !YAROSLAV_KEYWORDS.some((kw) => lower.includes(kw));
-}
+export const maxDuration = 30;
 
 type Locale = "en" | "de";
 
 export async function POST(req: Request) {
+  // Rate limiting
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    req.headers.get("x-real-ip") ??
+    "unknown";
+
+  const { allowed } = checkRateLimit(ip);
+  if (!allowed) {
+    return new Response(
+      JSON.stringify({ error: "Too many requests. Please try again later." }),
+      { status: 429, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
   const { messages, locale: rawLocale } = await req.json();
   const locale: Locale = rawLocale === "de" ? "de" : "en";
-
-  const lastUserMsg = [...messages]
-    .reverse()
-    .find((m: { role: string }) => m.role === "user");
-
-  if (lastUserMsg) {
-    const parts: { type: string; text?: string }[] =
-      lastUserMsg.parts ?? lastUserMsg.content ?? [];
-    const text = Array.isArray(parts)
-      ? parts
-          .filter((p) => p.type === "text" && p.text)
-          .map((p) => p.text)
-          .join(" ")
-      : typeof parts === "string"
-        ? parts
-        : "";
-
-    if (text && isLikelyOffTopic(text)) {
-      const stream = new ReadableStream({
-        start(controller) {
-          controller.enqueue(new TextEncoder().encode(OFF_TOPIC_RESPONSE));
-          controller.close();
-        },
-      });
-      return new Response(stream, {
-        headers: { "Content-Type": "text/plain; charset=utf-8" },
-      });
-    }
-  }
 
   const modelMessages = await convertToModelMessages(messages);
 
@@ -123,6 +47,7 @@ export async function POST(req: Request) {
     model: openai("gpt-4o-mini"),
     system: portfolioSystemPrompt,
     messages: modelMessages,
+    maxOutputTokens: 500,
     stopWhen: stepCountIs(5),
 
     tools: {
@@ -179,5 +104,5 @@ export async function POST(req: Request) {
     },
   });
 
-  return result.toTextStreamResponse();
+  return result.toUIMessageStreamResponse();
 }

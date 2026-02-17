@@ -166,6 +166,19 @@
     "based": "Wohnhaft in Sangerhausen, Deutschland",
     "availability": "Offen für Vor-Ort, hybrid oder remote weltweit"
   },
+  "Chat": {
+    "title": "Fragen zu Yaroslav",
+    "subtitle": "KI-gestützter Portfolio-Assistent",
+    "welcome": "Hallo! Ich weiß alles über Yaroslav.",
+    "welcomeSub": "Fragen Sie mich zu seiner Erfahrung, seinen Fähigkeiten, Projekten oder anderem.",
+    "placeholder": "Frage stellen...",
+    "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+    "lookingUp": "Informationen werden abgerufen...",
+    "downloadCV": "Lebenslauf herunterladen",
+    "quickStack": "Was ist sein Tech-Stack?",
+    "quickProjects": "Erzähl mir von seinen Projekten",
+    "quickCV": "Lebenslauf herunterladen"
+  },
   "NotFound": {
     "title": "Seite nicht gefunden",
     "description": "Die gesuchte Seite existiert nicht.",
