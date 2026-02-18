@@ -62,10 +62,9 @@ export const skillCategories = [
       "Playwright",
       "Intercom",
       "Jest",
-      "Telegram Bots",
-      "Whatsapp Bots",
-      "Twilio",
+      "Telegram & Whatsapp Bots",
       "Stripe",
+      "Puppeteer",
     ],
   },
   {
@@ -86,7 +85,7 @@ export const skillCategories = [
     skills: [
       "Crashlytics",
       "Amplitude",
-      "Meta ADs",
+      "Meta Ads",
       "Google Ads",
       "GA4",
       "Instabug",
