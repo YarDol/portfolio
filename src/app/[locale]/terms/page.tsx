@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { siteConfig } from "@/lib/constants";
 import type { Metadata } from "next";
+import { Locale } from "next-intl";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -105,7 +106,7 @@ const de: typeof en = {
 
 export default async function TermsPage({ params }: Props) {
   const { locale } = await params;
-  setRequestLocale(locale);
+  setRequestLocale(locale as Locale);
 
   const content = locale === "de" ? de : en;
 
