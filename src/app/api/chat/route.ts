@@ -24,7 +24,6 @@ export const maxDuration = 30;
 type Locale = "en" | "de";
 
 export async function POST(req: Request) {
-  // Rate limiting
   const ip =
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
     req.headers.get("x-real-ip") ??
