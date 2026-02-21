@@ -1,67 +1,25 @@
 "use client";
 
-import { useChat, type UIMessage } from "@ai-sdk/react";
+import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { useTranslations } from "next-intl";
-import { useState, useRef, useEffect, memo } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import Markdown from "react-markdown";
 import {
   MessageCircle,
   X,
   Send,
   Bot,
-  User,
-  Sparkles,
-  Download,
-  Mail,
   AlertCircle,
 } from "lucide-react";
-
-const MemoizedMarkdown = memo(
-  function MarkdownRenderer({ content }: { content: string }) {
-    return (
-      <Markdown
-        components={{
-          p: ({ children }) => <p className="mb-1.5 last:mb-0">{children}</p>,
-          strong: ({ children }) => (
-            <strong className="font-semibold">{children}</strong>
-          ),
-          em: ({ children }) => <em className="italic">{children}</em>,
-          ul: ({ children }) => (
-            <ul className="list-disc list-inside mb-1.5 last:mb-0 space-y-0.5">
-              {children}
-            </ul>
-          ),
-          ol: ({ children }) => (
-            <ol className="list-decimal list-inside mb-1.5 last:mb-0 space-y-0.5">
-              {children}
-            </ol>
-          ),
-          li: ({ children }) => <li className="leading-relaxed">{children}</li>,
-          a: ({ href, children }) => (
-            <a
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-accent underline underline-offset-2 hover:text-accent-light transition-colors"
-            >
-              {children}
-            </a>
-          ),
-          code: ({ children }) => (
-            <code className="px-1 py-0.5 rounded bg-foreground/10 text-xs font-mono">
-              {children}
-            </code>
-          ),
-        }}
-      >
-        {content}
-      </Markdown>
-    );
-  },
-  (prev, next) => prev.content === next.content,
-);
+import { useVoiceRecorder } from "@/hooks/use-voice-recorder";
+import { useTTS } from "@/hooks/use-tts";
+import {
+  VoiceButton,
+  type VoiceButtonDisplayState,
+} from "@/components/chat/voice-button";
+import { ChatMessage } from "@/components/chat/chat-message";
+import { ChatWelcome } from "@/components/chat/chat-welcome";
 
 export default function Chat({ locale = "en" }: { locale?: string }) {
   const t = useTranslations("Chat");
@@ -81,13 +39,80 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
   const isStreaming = status === "streaming";
   const isWaiting = status === "submitted" || status === "streaming";
 
+  const { isSpeaking: isTtsSpeaking, stop: ttsStop, feedChunk, flush: ttsFlush } = useTTS({
+    locale: locale ?? "en",
+  });
+
+  const lastSeenLengthRef = useRef(0);
+  const voiceActiveRef = useRef(false);
+  const [voiceActive, setVoiceActive] = useState(false);
+
+  const activateVoice = () => {
+    voiceActiveRef.current = true;
+    setVoiceActive(true);
+  };
+  const deactivateVoice = () => {
+    voiceActiveRef.current = false;
+    setVoiceActive(false);
+  };
+
   useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-      });
-    }
+    if (!voiceActiveRef.current) return;
+    const lastMsg = messages.at(-1);
+    if (!lastMsg || lastMsg.role !== "assistant") return;
+
+    const textContent = lastMsg.parts
+      .filter((p): p is { type: "text"; text: string } => p.type === "text")
+      .map((p) => p.text)
+      .join("");
+
+    const newText = textContent.slice(lastSeenLengthRef.current);
+    if (!newText) return;
+
+    lastSeenLengthRef.current = textContent.length;
+    feedChunk(newText);
+  }, [messages, feedChunk]);
+
+  useEffect(() => {
+    if (status !== "ready" || !voiceActiveRef.current) return;
+    ttsFlush();
+    voiceActiveRef.current = false;
+    lastSeenLengthRef.current = 0;
+  }, [status, ttsFlush]);
+
+  const {
+    state: voiceState,
+    startRecording,
+    stopRecording,
+    isSupported,
+  } = useVoiceRecorder({
+    onTranscript: (text) => {
+      if (!text.trim()) return;
+      ttsStop();
+      lastSeenLengthRef.current = 0;
+      activateVoice();
+      clearError();
+      sendMessage({ text });
+    },
+    onError: () => {
+      deactivateVoice();
+    },
+  });
+
+  const voiceDisplayState: VoiceButtonDisplayState = (() => {
+    if (voiceState === "recording") return "recording";
+    if (voiceState === "transcribing") return "transcribing";
+    if (voiceState === "error") return "error";
+    if (isWaiting && voiceActive) return "thinking";
+    if (isTtsSpeaking) return "speaking";
+    return "idle";
+  })();
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
   }, [messages, isWaiting]);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -99,98 +124,11 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
       setTimeout(() => setShakeInput(false), 500);
       return;
     }
+    ttsStop();
+    deactivateVoice();
     clearError();
     sendMessage({ text: input });
     setInput("");
-  };
-
-  const renderPart = (
-    part: UIMessage["parts"][number],
-    messageId: string,
-    i: number,
-  ) => {
-    if (part.type === "text") {
-      const isAssistant =
-        messages.find((m) => m.id === messageId)?.role === "assistant";
-      const isActiveStream =
-        isStreaming && messages.at(-1)?.id === messageId && isAssistant;
-
-      if (!isAssistant) {
-        return (
-          <span key={`${messageId}-${i}`} className="whitespace-pre-wrap">
-            {part.text}
-          </span>
-        );
-      }
-
-      return (
-        <div key={`${messageId}-${i}`} className="chat-markdown">
-          <MemoizedMarkdown content={part.text} />
-          {isActiveStream && (
-            <span className="inline-block w-0.5 h-3.5 bg-accent rounded-full align-middle ml-0.5 animate-[cursor-blink_0.8s_steps(2)_infinite]" />
-          )}
-        </div>
-      );
-    }
-
-    if (part.type.startsWith("tool-")) {
-      const toolPart = part as UIMessage["parts"][number] & {
-        toolCallId: string;
-        state: string;
-        output?: Record<string, unknown>;
-      };
-
-      if (toolPart.state === "output-available") {
-        const output = (toolPart.output ?? {}) as Record<string, string>;
-
-        if (part.type === "tool-downloadCV" && output.url) {
-          return (
-            <a
-              key={`${messageId}-${i}`}
-              href={output.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 mt-1 px-3 py-1.5 rounded-lg bg-accent/10 text-accent text-sm font-medium hover:bg-accent/20 transition-colors"
-            >
-              <Download className="size-3.5" />
-              {t("downloadCV")}
-            </a>
-          );
-        }
-
-        if (part.type === "tool-getContact" && output.email) {
-          return (
-            <div key={`${messageId}-${i}`} className="flex flex-col gap-1 mt-1">
-              <a
-                href={`mailto:${output.email}`}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent/10 text-accent text-sm font-medium hover:bg-accent/20 transition-colors w-fit"
-              >
-                <Mail className="size-3.5" />
-                {output.email}
-              </a>
-            </div>
-          );
-        }
-
-        return null;
-      }
-
-      if (toolPart.state === "call" || toolPart.state === "input-streaming") {
-        return (
-          <span
-            key={`${messageId}-${i}`}
-            className="inline-flex items-center gap-1.5 text-xs text-muted"
-          >
-            <Sparkles className="size-3 animate-pulse" />
-            {t("lookingUp")}
-          </span>
-        );
-      }
-
-      return null;
-    }
-
-    return null;
   };
 
   const quickActions = [t("quickStack"), t("quickProjects"), t("quickCV")];
@@ -233,13 +171,14 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
                   <p className="text-sm font-semibold text-foreground leading-none">
                     {t("title")}
                   </p>
-                  <p className="text-xs text-muted mt-0.5">
-                    {t("subtitle")}
-                  </p>
+                  <p className="text-xs text-muted mt-0.5">{t("subtitle")}</p>
                 </div>
               </div>
               <button
-                onClick={() => setIsOpen(false)}
+                onClick={() => {
+                  ttsStop();
+                  setIsOpen(false);
+                }}
                 className="flex items-center justify-center size-8 rounded-lg text-muted hover:text-foreground hover:bg-foreground/5 transition-colors cursor-pointer"
                 aria-label={t("title")}
               >
@@ -249,71 +188,27 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
 
             <div className="flex-1 overflow-y-auto px-3 sm:px-4 py-4 space-y-4 scroll-smooth">
               {messages.length === 0 && (
-                <div className="flex flex-col items-center justify-center h-full text-center px-6 gap-4">
-                  <div className="flex items-center justify-center size-14 rounded-2xl bg-accent/10">
-                    <Sparkles className="size-6 text-accent" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-foreground">
-                      {t("welcome")}
-                    </p>
-                    <p className="text-xs text-muted mt-1.5 leading-relaxed">
-                      {t("welcomeSub")}
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap justify-center gap-2 mt-1">
-                    {quickActions.map((q) => (
-                      <button
-                        key={q}
-                        onClick={() => {
-                          sendMessage({ text: q });
-                        }}
-                        className="px-3 py-1.5 text-xs rounded-full border border-border text-muted hover:text-foreground hover:border-accent/40 hover:bg-accent/5 transition-colors cursor-pointer"
-                      >
-                        {q}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                <ChatWelcome
+                  title={t("welcome")}
+                  subtitle={t("welcomeSub")}
+                  quickActions={quickActions}
+                  onAction={(text) => sendMessage({ text })}
+                />
               )}
 
-              {messages.map((message: UIMessage) => {
-                const isUser = message.role === "user";
-                return (
-                  <motion.div
-                    key={message.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                    className={`flex gap-2.5 ${isUser ? "flex-row-reverse" : "flex-row"}`}
-                  >
-                    <div
-                      className={`shrink-0 flex items-center justify-center size-7 rounded-full mt-0.5 ${
-                        isUser
-                          ? "bg-accent text-white"
-                          : "bg-accent/10 text-accent"
-                      }`}
-                    >
-                      {isUser ? (
-                        <User className="size-3.5" />
-                      ) : (
-                        <Bot className="size-3.5" />
-                      )}
-                    </div>
-                    <div
-                      className={`flex flex-col gap-1 max-w-[80%] sm:max-w-[75%] px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${
-                        isUser
-                          ? "bg-accent text-white rounded-br-md"
-                          : "bg-foreground/4 text-foreground border border-border/60 rounded-bl-md"
-                      }`}
-                    >
-                      {message.parts.map((part, i) =>
-                        renderPart(part, message.id, i),
-                      )}
-                    </div>
-                  </motion.div>
-                );
-              })}
+              {messages.map((message) => (
+                <ChatMessage
+                  key={message.id}
+                  message={message}
+                  isActiveStream={
+                    isStreaming &&
+                    messages.at(-1)?.id === message.id &&
+                    message.role === "assistant"
+                  }
+                  downloadLabel={t("downloadCV")}
+                  lookingUpLabel={t("lookingUp")}
+                />
+              ))}
 
               <AnimatePresence>
                 {isWaiting && messages.at(-1)?.role !== "assistant" && (
@@ -352,9 +247,7 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
                 >
                   <div className="flex items-center gap-2 px-4 py-2 bg-red-500/10 text-red-500 dark:text-red-400 text-xs">
                     <AlertCircle className="size-3.5 shrink-0" />
-                    <span className="flex-1 truncate">
-                      {t("error")}
-                    </span>
+                    <span className="flex-1 truncate">{t("error")}</span>
                     <button
                       onClick={clearError}
                       className="text-red-500/60 hover:text-red-500 transition-colors cursor-pointer"
@@ -383,6 +276,14 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
                 }`}
                 disabled={isWaiting}
               />
+              {isSupported && (
+                <VoiceButton
+                  displayState={voiceDisplayState}
+                  onStart={startRecording}
+                  onStop={stopRecording}
+                  disabled={isWaiting && voiceDisplayState === "idle"}
+                />
+              )}
               <button
                 type="submit"
                 disabled={isWaiting}

@@ -12,6 +12,7 @@ import { Projects } from "@/components/sections/projects";
 import { Contact } from "@/components/sections/contact";
 import { Footer } from "@/components/layout/footer";
 import Chat from "@/components/chat/ai-chat";
+import { VoiceWidget } from "@/components/voice/voice-widget";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -33,6 +34,7 @@ export default function HomePage({ params }: Props) {
       <Projects />
       <Contact />
       <Chat locale={locale} />
+      <VoiceWidget locale={locale} />
       <Footer />
     </>
   );
