@@ -160,7 +160,7 @@ export function VoiceWidget({ locale = "en" }: { locale?: string }) {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -5 }}
                       transition={{ duration: 0.18 }}
-                      className="text-sm text-muted font-medium tracking-wide"
+                      className="text-sm text-foreground/70 font-medium tracking-wide"
                     >
                       {t(state)}
                     </motion.p>
@@ -188,7 +188,7 @@ export function VoiceWidget({ locale = "en" }: { locale?: string }) {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.2 }}
-                      className="text-xs text-muted leading-relaxed max-w-60"
+                      className="text-xs leading-relaxed max-w-60 text-foreground/85"
                     >
                       {currentResponse}
                     </motion.p>
