@@ -5,13 +5,7 @@ import { DefaultChatTransport } from "ai";
 import { useTranslations } from "next-intl";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import {
-  MessageCircle,
-  X,
-  Send,
-  Bot,
-  AlertCircle,
-} from "lucide-react";
+import { MessageCircle, X, Send, Bot, AlertCircle } from "lucide-react";
 import { useVoiceRecorder } from "@/hooks/use-voice-recorder";
 import { useTTS } from "@/hooks/use-tts";
 import {
@@ -20,6 +14,7 @@ import {
 } from "@/components/chat/voice-button";
 import { ChatMessage } from "@/components/chat/chat-message";
 import { ChatWelcome } from "@/components/chat/chat-welcome";
+import { trackEvent } from "@/lib/gtag";
 
 export default function Chat({ locale = "en" }: { locale?: string }) {
   const t = useTranslations("Chat");
@@ -39,7 +34,12 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
   const isStreaming = status === "streaming";
   const isWaiting = status === "submitted" || status === "streaming";
 
-  const { isSpeaking: isTtsSpeaking, stop: ttsStop, feedChunk, flush: ttsFlush } = useTTS({
+  const {
+    isSpeaking: isTtsSpeaking,
+    stop: ttsStop,
+    feedChunk,
+    flush: ttsFlush,
+  } = useTTS({
     locale: locale ?? "en",
   });
 
@@ -129,14 +129,30 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
     clearError();
     sendMessage({ text: input });
     setInput("");
+    trackEvent("ai_message_send", {
+      event_category: "engagement",
+      event_label: "ai_message_send",
+      value: input.length,
+    });
+  };
+
+  const handleOpen = () => {
+    setIsOpen(true);
+    trackEvent("ai_button_click", {
+      event_category: "engagement",
+      event_label: "chat_open",
+      value: 1,
+    });
   };
 
   const quickActions = [t("quickStack"), t("quickProjects"), t("quickCV")];
+  const isThinking = isWaiting && messages.at(-1)?.role !== "assistant";
+  const isWelcome = messages.length === 0;
 
   return (
     <>
       <motion.button
-        onClick={() => setIsOpen(true)}
+        onClick={handleOpen}
         className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex items-center justify-center size-12 sm:size-14 rounded-full bg-accent text-white shadow-lg shadow-accent/25 hover:shadow-accent/40 transition-shadow cursor-pointer"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -187,7 +203,7 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
             </div>
 
             <div className="flex-1 overflow-y-auto px-3 sm:px-4 py-4 space-y-4 scroll-smooth">
-              {messages.length === 0 && (
+              {isWelcome && (
                 <ChatWelcome
                   title={t("welcome")}
                   subtitle={t("welcomeSub")}
@@ -211,7 +227,7 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
               ))}
 
               <AnimatePresence>
-                {isWaiting && messages.at(-1)?.role !== "assistant" && (
+                {isThinking && (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}

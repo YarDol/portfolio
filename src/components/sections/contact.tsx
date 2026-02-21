@@ -17,6 +17,7 @@ import {
   CheckCircle,
   AlertCircle,
 } from "lucide-react";
+import { trackEvent } from "@/lib/gtag";
 
 const initialState: ContactState = { success: false };
 
@@ -49,6 +50,22 @@ export function Contact() {
     }
   }, [state.success]);
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isPending) return;
+    const formData = new FormData(e.target as HTMLFormElement);
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const message = formData.get("message") as string;
+    trackEvent("contact_form_submit", {
+      event_category: "conversion",
+      event_label: "contact_form_submit",
+      value: name.length + email.length + message.length,
+    });
+    action(formData);
+    formRef.current?.reset();
+  };
+
   return (
     <section id="contact" className="border-t border-border py-24">
       <div className="mx-auto max-w-5xl px-6">
@@ -60,7 +77,7 @@ export function Contact() {
 
         <div className="grid gap-12 md:grid-cols-5">
           <ScrollReveal className="md:col-span-3">
-            <form ref={formRef} action={action} className="space-y-5">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <label
                   htmlFor="name"

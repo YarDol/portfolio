@@ -2,8 +2,12 @@
 
 import { Mic, MicOff, Loader2, Volume2 } from "lucide-react";
 import type { VoiceRecorderState } from "@/hooks/use-voice-recorder";
+import { trackEvent } from "@/lib/gtag";
 
-export type VoiceButtonDisplayState = VoiceRecorderState | "thinking" | "speaking";
+export type VoiceButtonDisplayState =
+  | VoiceRecorderState
+  | "thinking"
+  | "speaking";
 
 interface VoiceButtonProps {
   displayState: VoiceButtonDisplayState;
@@ -50,15 +54,28 @@ const config: Record<
   },
 };
 
-export function VoiceButton({ displayState, onStart, onStop, disabled }: VoiceButtonProps) {
+export function VoiceButton({
+  displayState,
+  onStart,
+  onStop,
+  disabled,
+}: VoiceButtonProps) {
   const { Icon, label, className, spin } = config[displayState];
 
-  const isClickable = displayState === "idle" || displayState === "recording" || displayState === "error";
+  const isClickable =
+    displayState === "idle" ||
+    displayState === "recording" ||
+    displayState === "error";
   const isDisabled = disabled || !isClickable;
 
   const handleClick = () => {
     if (displayState === "recording") onStop();
     else onStart();
+    trackEvent("chat_voice_button_click", {
+      event_category: "engagement",
+      event_label: displayState === "recording" ? "voice_stop" : "voice_start",
+      value: displayState === "recording" ? 0 : 1,
+    });
   };
 
   return (

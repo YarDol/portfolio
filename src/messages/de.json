@@ -21,11 +21,11 @@
   "About": {
     "label": "Über mich",
     "title": "Über mich",
-    "description": "5+ kommerzielle Produkte mit über 100K Nutzern ausgeliefert — Ladezeiten um 40% reduziert, Infrastrukturkosten gesenkt und alles von KI-gestützten Sprach-Apps bis zu hochfrequentierten Video-Plattformen gebaut. Mir liegt sauberer Code und starke Teamarbeit am Herzen.",
+    "description": "7+ kommerzielle Produkte mit über 100K Nutzern ausgeliefert — Ladezeiten um 40% reduziert, Infrastrukturkosten gesenkt und alles von KI-gestützten Sprach-Apps bis zu hochfrequentierten Video-Plattformen gebaut. Mir liegt sauberer Code und starke Teamarbeit am Herzen.",
     "highlights": {
       "experience": "2+ Jahre",
       "experienceLabel": "Berufserfahrung",
-      "apps": "5+",
+      "apps": "7+",
       "appsLabel": "Apps geliefert",
       "users": "100K+",
       "usersLabel": "Nutzer erreicht",
@@ -104,12 +104,12 @@
     "items": {
       "0": {
         "title": "KI & Sprachberatungs-App",
-        "description": "Architektur einer Full-Stack-Plattform für Sprachberatungen (AWS S3) und KI-gestützte Beratung über OpenAI mit eigenen Prompting-Pipelines. SDLC-Leitung als Tech Lead und Mentoring eines Junior-Entwicklers.",
+        "description": "Entwickelte und verantwortete die Architektur einer Full-Stack-Plattform für Voice-Konsultationen mit Speicherung auf AWS S3 sowie KI-gestützter Beratung über OpenAI mit maßgeschneiderten Prompting-Pipelines. Leitete den gesamten SDLC als Tech Lead, traf architektonische Entscheidungen, koordinierte die Umsetzung und betreute einen Junior-Engineer fachlich.",
         "role": "Tech Lead"
       },
       "1": {
         "title": "Unterhaltungs- & Medienplattform",
-        "description": "Full-Stack-Plattform mit FSD-Architektur, Skalierung eines React-Native-Ökosystems auf 70.000+ Nutzer. KI-gestützte Funktionen, interne Admin-Systeme, NestJS-Services, Cloud Functions und globale Zahlungen über Stripe & PayPal.",
+        "description": "Unterstützte die Skalierung eines Live-Marktplatzes für Creator und Marken auf über 70.000 Nutzer, indem zentrale Teile der Plattform von einer No-Code-Lösung zu einer robusten Full-Stack-Architektur migriert wurden. Beteiligte mich am Neuaufbau markenseitiger Workflows, Backend-Services und Monetarisierungssysteme zur Sicherstellung nachhaltigen Wachstums.",
         "role": "Full-Stack-Entwickler"
       },
       "2": {
@@ -129,17 +129,17 @@
       },
       "5": {
         "title": "Internes CRM-System",
-        "description": "System für operatives Management, das Teams die Verwaltung von Nutzern, Workflows und Reporting ermöglicht. Standardisierung von CI/CD-Pipelines, Linting-Regeln und wiederverwendbaren Templates zur Verbesserung der Entwicklungseffizienz.",
+        "description": "Übernahm Mentoring und fachliche Betreuung von 6 Praktikant:innen, führte gründliche Code-Reviews durch und gab konstruktives, umsetzbares Feedback zur Beschleunigung ihrer Entwicklung. Unterstützte Release-Vorbereitungen durch Stabilisierung neuer Features und Begleitung von Deployment-Prozessen. 3 Mentees wurden erfolgreich in Vollzeitpositionen übernommen.",
         "role": "Tech Lead"
       },
       "6": {
         "title": "Healthcare SaaS Refaktorisierung",
-        "description": "Komplette Plattform-Refaktorisierung und Neugestaltung des Anmeldeablaufs, was zu höheren Konversionsraten und verbesserter Systemzuverlässigkeit führte.",
+        "description": "Führte ein umfassendes Plattform-Refactoring durch und verbesserte dabei Wartbarkeit, Skalierbarkeit und Gesamtperformance des Systems. Konzipierte den Signup-Prozess neu, optimierte Validierungslogik, reduzierte Reibungspunkte und verbesserte das Onboarding – was zu höheren Conversion-Raten und gesteigerter Systemstabilität führte.",
         "role": "Full-Stack-Entwickler"
       },
       "7": {
         "title": "Event- & Community-Plattform",
-        "description": "Features für einen Marktplatz, der Marken mit geprüften lokalen Communities wie Laufgruppen, Pilates-Kollektiven und Studios verbindet und authentische Partnerschaften ermöglicht.",
+        "description": "Unterstützte die Entwicklung von Marktplatz-Features, die Marken mit geprüften lokalen Communities (z. B. Laufclubs, Pilates-Kollektiven und Studios) verbinden und authentische Partnerschaften ermöglichen. Arbeitete mich schnell in die Codebasis ein und unterstützte die termingerechte Umsetzung von Features unter engen Deadlines während eines kurzfristigen Engagements.",
         "role": "Frontend-Entwickler"
       }
     }

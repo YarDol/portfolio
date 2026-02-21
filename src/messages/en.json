@@ -21,11 +21,11 @@
   "About": {
     "label": "About",
     "title": "About Me",
-    "description": "I've shipped 5+ commercial products reaching over 100K users — cutting load times by 40%, reducing infrastructure costs, and building everything from AI-powered voice apps to high-traffic video platforms. I care about code that lasts and teams that grow.",
+    "description": "I've shipped 7+ commercial products reaching over 100K users — cutting load times by 40%, reducing infrastructure costs, and building everything from AI-powered voice apps to high-traffic video platforms. I care about code that lasts and teams that grow.",
     "highlights": {
       "experience": "2+ Years",
       "experienceLabel": "Commercial Experience",
-      "apps": "5+",
+      "apps": "7+",
       "appsLabel": "Apps Delivered",
       "users": "100K+",
       "usersLabel": "Users Reached",
@@ -104,12 +104,12 @@
     "items": {
       "0": {
         "title": "AI & Voice Advisory App",
-        "description": "Architected a full-stack platform enabling voice consultations stored on AWS S3 and AI-powered advice via OpenAI with custom prompting pipelines. Led SDLC as Tech Lead and mentored a junior engineer.",
+        "description": "Architected a full-stack platform enabling voice consultations stored on AWS S3 and AI-powered advice via OpenAI with custom prompting pipelines. Led the SDLC as Tech Lead, driving architectural decisions, overseeing delivery, and mentoring a junior engineer.",
         "role": "Tech Lead"
       },
       "1": {
         "title": "Entertainment & Media Platform",
-        "description": "Delivered a full-stack platform using FSD architecture, scaling a React Native ecosystem to 70,000+ users. Built AI-powered features, internal admin systems, NestJS services, cloud functions, and global payments with Stripe & PayPal.",
+        "description": "Helped scale a live creator-brand marketplace to 70,000+ users by transitioning critical parts of the platform from a no-code setup to a robust full-stack architecture. Contributed to rebuilding brand-facing flows, backend services, and monetization systems to support long-term growth.",
         "role": "Full-Stack Engineer"
       },
       "2": {
@@ -129,17 +129,17 @@
       },
       "5": {
         "title": "Internal CRM Platform",
-        "description": "Built a system for operational management, enabling teams to manage users, workflows, and reporting across the organization. Standardized CI/CD pipelines, linting rules, and reusable templates across projects to improve development efficiency and code quality.",
+        "description": "Owned mentorship and technical guidance for 6 interns, conducting thorough code reviews and providing actionable feedback to accelerate their growth. Drove launch readiness by stabilizing new features, and supporting deployment processes. 3 mentees were successfully hired as full-time engineers.",
         "role": "Tech Lead"
       },
       "6": {
         "title": "Healthcare SaaS Refactor",
-        "description": "Delivered a full platform refactor and re-architected the signup flow, increasing conversion rates and improving system reliability.",
-        "role": "Full-Stack Engineer"
+        "description": "Delivered a full platform refactor, improving code maintainability, scalability, and overall performance. Re-architected the signup flow by optimizing validation logic, reducing friction points, and streamlining user onboarding — resulting in increased conversion rates and improved system reliability.",
+        "role": "Frontend Engineer"
       },
       "7": {
         "title": "Event & Community Platform",
-        "description": "Built features for a marketplace connecting brands with vetted local communities such as run clubs, pilates collectives, and studios, enabling authentic partnerships over cold impressions.",
+        "description": "Assisted in developing marketplace features connecting brands with vetted local communities (run clubs, pilates collectives, studios), enabling authentic partnerships. Quickly onboarded into the codebase and supported feature delivery under tight deadlines during a short-term engagement.",
         "role": "Frontend Engineer"
       }
     }

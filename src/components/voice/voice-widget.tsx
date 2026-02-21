@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { X, Minus, Mic } from "lucide-react";
 import { useVoiceChat, type TtsEngine } from "@/hooks/use-voice-chat";
 import { VoiceOrb } from "./voice-orb";
+import { trackEvent } from "@/lib/gtag";
 
 const VOICE_DISABLED = process.env.NEXT_PUBLIC_VOICE_DISABLED === "true";
 const LLM_DISABLED = process.env.NEXT_PUBLIC_VOICE_LLM_DISABLED === "true";
@@ -42,6 +43,12 @@ export function VoiceWidget({ locale = "en" }: { locale?: string }) {
     if (isBlocked) return;
     if (state === "recording") stopRecording();
     else if (state === "idle" || state === "error") startRecording();
+
+    trackEvent("voice_widget_click", {
+      event_category: "engagement",
+      event_label: isBlocked ? "voice_widget_blocked" : "voice_widget_opened",
+      value: isBlocked ? 0 : 1,
+    });
   };
 
   const handleClose = () => {
