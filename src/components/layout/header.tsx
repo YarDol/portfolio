@@ -6,6 +6,7 @@ import { useState } from "react";
 import clsx from "clsx";
 import { LanguageSwitcher } from "./language-switcher";
 import { ThemeToggle } from "./theme-toggle";
+import { usePathname } from "@/i18n/navigation";
 
 const navItems = ["about", "experience", "projects", "contact"] as const;
 
@@ -13,6 +14,8 @@ export function Header() {
   const t = useTranslations("Navigation");
   const [scrolled, setScrolled] = useState(false);
   const { scrollY } = useScroll();
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolled(latest > 50);
@@ -28,7 +31,10 @@ export function Header() {
       )}
     >
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-        <a href="#hero" className="font-mono text-sm font-bold tracking-tight">
+        <a
+          href={isHome ? "#hero" : "/"}
+          className="font-mono text-sm font-bold tracking-tight"
+        >
           YD<span className="text-accent">.</span>
         </a>
 
@@ -36,7 +42,7 @@ export function Header() {
           {navItems.map((item) => (
             <a
               key={item}
-              href={`#${item}`}
+              href={isHome ? `#${item}` : `/#${item}`}
               className="text-sm text-muted transition-colors hover:text-foreground"
             >
               {t(item)}

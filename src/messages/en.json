@@ -164,7 +164,11 @@
     "messageRequired": "Message is required",
     "orReachOut": "Or reach out directly",
     "based": "Based in Sangerhausen, Germany",
-    "availability": "Open to on-site, hybrid, or remote across the world"
+    "availability": "Open to on-site, hybrid, or remote across the world",
+    "consentBefore": "I agree that my data (name, email, message) will be stored and used solely to respond to my inquiry, in accordance with the ",
+    "consentLink": "Privacy Policy",
+    "consentAfter": ".",
+    "consentRequired": "You must agree before sending"
   },
   "Chat": {
     "title": "Ask about Yaroslav",
@@ -189,6 +193,16 @@
     "quota": "Daily AI limit reached — please contact Yaroslav directly",
     "disabled": "Voice chat is currently disabled — contact Yaroslav to try it",
     "pill": "Voice"
+  },
+  "Cookies": {
+    "message": "This site uses cookies to analyze traffic and improve your experience.",
+    "learnMore": "Privacy Policy",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+  "Footer": {
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use"
   },
   "NotFound": {
     "title": "Page not found",

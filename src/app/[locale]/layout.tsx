@@ -6,6 +6,7 @@ import { routing } from "@/i18n/routing";
 import { siteConfig } from "@/lib/constants";
 import { DocumentLang } from "@/components/layout/document-lang";
 import { ThemeProvider } from "@/components/layout/theme-provider";
+import { CookieBanner } from "@/components/cookie-banner";
 
 type Locale = (typeof routing.locales)[number];
 
@@ -78,6 +79,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       <NextIntlClientProvider>
         <DocumentLang />
         {children}
+        <CookieBanner />
       </NextIntlClientProvider>
     </ThemeProvider>
   );

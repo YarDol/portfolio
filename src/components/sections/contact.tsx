@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
@@ -38,6 +39,8 @@ export function Contact() {
     initialState,
   );
   const formRef = useRef<HTMLFormElement>(null);
+  const [consented, setConsented] = useState(false);
+  const [consentTouched, setConsentTouched] = useState(false);
 
   function fieldError(key: string | undefined) {
     if (!key || !errorMap[key]) return null;
@@ -47,12 +50,16 @@ export function Contact() {
   useEffect(() => {
     if (state.success) {
       formRef.current?.reset();
+      setConsented(false);
+      setConsentTouched(false);
     }
   }, [state.success]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isPending) return;
+    setConsentTouched(true);
+    if (!consented) return;
     const formData = new FormData(e.target as HTMLFormElement);
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
@@ -137,6 +144,53 @@ export function Contact() {
                 {state.fieldErrors?.message && (
                   <p className="mt-1 text-xs text-red-500">
                     {fieldError(state.fieldErrors.message)}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-1">
+                <label className="flex items-start gap-3 cursor-pointer group">
+                  <div className="relative mt-0.5 shrink-0">
+                    <input
+                      type="checkbox"
+                      checked={consented}
+                      onChange={(e) => {
+                        setConsented(e.target.checked);
+                        setConsentTouched(true);
+                      }}
+                      className="sr-only peer"
+                    />
+                    <div className="size-4 rounded border border-border bg-background transition-colors peer-checked:border-accent peer-checked:bg-accent group-hover:border-accent/60" />
+                    {consented && (
+                      <svg
+                        className="absolute inset-0 m-auto size-2.5 text-white pointer-events-none"
+                        viewBox="0 0 12 10"
+                        fill="none"
+                      >
+                        <path
+                          d="M1 5l3.5 3.5L11 1"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    )}
+                  </div>
+                  <span className="text-xs text-muted leading-relaxed">
+                    {t("consentBefore")}
+                    <Link
+                      href="/privacy"
+                      className="underline underline-offset-2 hover:text-accent transition-colors"
+                    >
+                      {t("consentLink")}
+                    </Link>
+                    {t("consentAfter")}
+                  </span>
+                </label>
+                {consentTouched && !consented && (
+                  <p className="text-xs text-red-500 pl-7">
+                    {t("consentRequired")}
                   </p>
                 )}
               </div>

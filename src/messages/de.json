@@ -164,7 +164,11 @@
     "messageRequired": "Nachricht ist erforderlich",
     "orReachOut": "Oder kontaktieren Sie mich direkt",
     "based": "Wohnhaft in Sangerhausen, Deutschland",
-    "availability": "Offen für Vor-Ort, hybrid oder remote weltweit"
+    "availability": "Offen für Vor-Ort, hybrid oder remote weltweit",
+    "consentBefore": "Ich stimme zu, dass meine Daten (Name, E-Mail, Nachricht) ausschließlich zur Beantwortung meiner Anfrage gemäß der ",
+    "consentLink": "Datenschutzerklärung",
+    "consentAfter": " gespeichert und verwendet werden.",
+    "consentRequired": "Bitte stimmen Sie zu, bevor Sie senden"
   },
   "Chat": {
     "title": "Fragen zu Yaroslav",
@@ -189,6 +193,16 @@
     "quota": "Tageslimit erreicht — bitte Yaroslav direkt kontaktieren",
     "disabled": "Voice-Chat derzeit deaktiviert — Yaroslav kontaktieren",
     "pill": "Sprache"
+  },
+  "Cookies": {
+    "message": "Diese Website verwendet Cookies zur Analyse des Traffics und zur Verbesserung Ihres Erlebnisses.",
+    "learnMore": "Datenschutzerklärung",
+    "accept": "Akzeptieren",
+    "decline": "Ablehnen"
+  },
+  "Footer": {
+    "privacy": "Datenschutzerklärung",
+    "terms": "Nutzungsbedingungen"
   },
   "NotFound": {
     "title": "Seite nicht gefunden",
