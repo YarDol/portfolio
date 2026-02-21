@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 
 export type VoiceRecorderState = "idle" | "recording" | "transcribing" | "error";
 
@@ -63,10 +63,12 @@ export function useVoiceRecorder({ onTranscript, onError }: UseVoiceRecorderOpti
     }
   }, []);
 
-  const isSupported =
-    typeof window !== "undefined" &&
-    "mediaDevices" in navigator &&
-    "speechSynthesis" in window;
+  const [isSupported, setIsSupported] = useState(false);
+  useEffect(() => {
+    setIsSupported(
+      "mediaDevices" in navigator && "speechSynthesis" in window,
+    );
+  }, []);
 
   return { state, startRecording, stopRecording, isSupported };
 }

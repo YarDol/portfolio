@@ -67,10 +67,10 @@ function OrbIcon({ state }: { state: VoiceChatState }) {
     );
   }
 
-  if (state === "error") {
+  if (state === "error" || state === "quota" || state === "disabled") {
     return (
       <span className="text-white text-2xl font-light select-none" aria-hidden>
-        !
+        {state === "disabled" ? "×" : "!"}
       </span>
     );
   }
@@ -111,7 +111,7 @@ function Ring({
   const isRecording = state === "recording";
   const isSpeaking = state === "speaking";
   const isThinking = state === "thinking" || state === "transcribing";
-  const isIdle = state === "idle";
+  const isIdle = state === "idle" || state === "error" || state === "quota";
 
   const sharedStyle = {
     width: orbSize,
@@ -175,8 +175,8 @@ export function VoiceOrb({
   onClick,
   size = 96,
 }: VoiceOrbProps) {
-  const isError = state === "error";
-  const isIdle = state === "idle";
+  const isError = state === "error" || state === "quota" || state === "disabled";
+  const isIdle = state === "idle" || state === "error" || state === "quota" || state === "disabled";
 
   return (
     <div

@@ -179,6 +179,17 @@
     "quickProjects": "Tell me about his projects",
     "quickCV": "Download CV"
   },
+  "Voice": {
+    "idle": "Tap to speak",
+    "recording": "Listening…",
+    "transcribing": "Processing…",
+    "thinking": "Thinking…",
+    "speaking": "Speaking…",
+    "error": "Something went wrong — tap to try again",
+    "quota": "Daily AI limit reached — please contact Yaroslav directly",
+    "disabled": "Voice chat is currently disabled — contact Yaroslav to try it",
+    "pill": "Voice"
+  },
   "NotFound": {
     "title": "Page not found",
     "description": "The page you're looking for doesn't exist.",

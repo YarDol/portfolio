@@ -1,22 +1,23 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "motion/react";
 import { X, Minus, Mic } from "lucide-react";
-import { useVoiceChat } from "@/hooks/use-voice-chat";
+import { useVoiceChat, type TtsEngine } from "@/hooks/use-voice-chat";
 import { VoiceOrb } from "./voice-orb";
 
-const STATUS: Record<string, string> = {
-  idle: "Tap to speak",
-  recording: "Listening…",
-  transcribing: "Processing…",
-  thinking: "Thinking…",
-  speaking: "Speaking…",
-  error: "Something went wrong — tap to try again",
-};
+const VOICE_DISABLED = process.env.NEXT_PUBLIC_VOICE_DISABLED === "true";
+const LLM_DISABLED = process.env.NEXT_PUBLIC_VOICE_LLM_DISABLED === "true";
+const ELEVENLABS_DISABLED =
+  process.env.NEXT_PUBLIC_VOICE_ELEVENLABS_DISABLED === "true";
 
 export function VoiceWidget({ locale = "en" }: { locale?: string }) {
+  const t = useTranslations("Voice");
   const [isOpen, setIsOpen] = useState(false);
+  const [ttsEngine, setTtsEngine] = useState<TtsEngine>(
+    ELEVENLABS_DISABLED ? "browser" : "browser",
+  );
 
   const {
     state,
@@ -27,11 +28,18 @@ export function VoiceWidget({ locale = "en" }: { locale?: string }) {
     stopRecording,
     stop,
     isSupported,
-  } = useVoiceChat({ locale });
+  } = useVoiceChat({ locale, ttsEngine, disabled: LLM_DISABLED });
 
-  if (!isSupported) return null;
+  if (!isSupported || VOICE_DISABLED) return null;
+  const isActive =
+    state !== "idle" &&
+    state !== "error" &&
+    state !== "quota" &&
+    state !== "disabled";
+  const isBlocked = state === "disabled" || state === "quota";
 
   const handleOrbClick = () => {
+    if (isBlocked) return;
     if (state === "recording") stopRecording();
     else if (state === "idle" || state === "error") startRecording();
   };
@@ -44,8 +52,6 @@ export function VoiceWidget({ locale = "en" }: { locale?: string }) {
   const handleMinimize = () => {
     setIsOpen(false);
   };
-
-  const isActive = state !== "idle" && state !== "error";
 
   return (
     <>
@@ -76,7 +82,7 @@ export function VoiceWidget({ locale = "en" }: { locale?: string }) {
             </span>
             <Mic className="size-3.5 text-muted" />
             <span className="text-sm font-medium">
-              {isActive ? STATUS[state] : "Voice"}
+              {isActive ? t(state) : t("pill")}
             </span>
           </motion.button>
         )}
@@ -126,18 +132,39 @@ export function VoiceWidget({ locale = "en" }: { locale?: string }) {
                 size={96}
               />
 
-              <div className="flex flex-col items-center gap-3 text-center w-full min-h-18">
+              <div className="flex flex-col items-center gap-3 text-center w-full">
                 <AnimatePresence mode="wait">
-                  <motion.p
-                    key={state}
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -5 }}
-                    transition={{ duration: 0.18 }}
-                    className="text-sm text-muted font-medium tracking-wide"
-                  >
-                    {STATUS[state]}
-                  </motion.p>
+                  {isBlocked ? (
+                    <motion.div
+                      key="blocked"
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.2 }}
+                      className="flex flex-col items-center gap-3 w-full px-4 py-4 rounded-2xl bg-foreground/4 border border-border/40"
+                    >
+                      <p className="text-xs text-muted leading-relaxed max-w-52">
+                        {t(state)}
+                      </p>
+                      <a
+                        href="mailto:yardolhushyn@gmail.com"
+                        className="text-xs font-medium text-accent underline-offset-2 hover:underline transition-opacity hover:opacity-80"
+                      >
+                        yardolhushyn@gmail.com →
+                      </a>
+                    </motion.div>
+                  ) : (
+                    <motion.p
+                      key={state}
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -5 }}
+                      transition={{ duration: 0.18 }}
+                      className="text-sm text-muted font-medium tracking-wide"
+                    >
+                      {t(state)}
+                    </motion.p>
+                  )}
                 </AnimatePresence>
 
                 <AnimatePresence>
@@ -168,6 +195,28 @@ export function VoiceWidget({ locale = "en" }: { locale?: string }) {
                   )}
                 </AnimatePresence>
               </div>
+
+              {!ELEVENLABS_DISABLED && !LLM_DISABLED && (
+                <div
+                  className="flex items-center rounded-full border border-border/50 p-0.5"
+                  role="group"
+                  aria-label="TTS engine"
+                >
+                  {(["browser", "elevenlabs"] as TtsEngine[]).map((engine) => (
+                    <button
+                      key={engine}
+                      onClick={() => setTtsEngine(engine)}
+                      className={`text-xs px-3 py-1 rounded-full transition-colors cursor-pointer ${
+                        ttsEngine === engine
+                          ? "bg-foreground/10 text-foreground font-medium"
+                          : "text-muted hover:text-foreground"
+                      }`}
+                    >
+                      {engine === "browser" ? "Browser" : "ElevenLabs"}
+                    </button>
+                  ))}
+                </div>
+              )}
             </motion.div>
           </motion.div>
         )}

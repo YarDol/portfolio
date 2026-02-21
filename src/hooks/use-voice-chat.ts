@@ -9,7 +9,11 @@ export type VoiceChatState =
   | "transcribing"
   | "thinking"
   | "speaking"
-  | "error";
+  | "error"
+  | "quota"
+  | "disabled";
+
+export type TtsEngine = "browser" | "elevenlabs";
 
 export interface ConversationTurn {
   user: string;
@@ -19,6 +23,8 @@ export interface ConversationTurn {
 interface UseVoiceChatOptions {
   locale?: string;
   silenceTimeout?: number;
+  ttsEngine?: TtsEngine;
+  disabled?: boolean;
 }
 
 function splitSentences(text: string): {
@@ -39,13 +45,28 @@ function splitSentences(text: string): {
 export function useVoiceChat({
   locale = "en",
   silenceTimeout = 1000,
+  ttsEngine = "browser",
+  disabled = false,
 }: UseVoiceChatOptions = {}) {
-  const [state, setState] = useState<VoiceChatState>("idle");
+  const [state, setState] = useState<VoiceChatState>(
+    disabled ? "disabled" : "idle",
+  );
   const [transcript, setTranscript] = useState("");
   const [currentResponse, setCurrentResponse] = useState("");
   const [conversations, setConversations] = useState<ConversationTurn[]>([]);
 
   const audioLevel = useMotionValue(0);
+
+  const ttsEngineRef = useRef(ttsEngine);
+  const disabledRef = useRef(disabled);
+
+  useEffect(() => {
+    ttsEngineRef.current = ttsEngine;
+  }, [ttsEngine]);
+
+  useEffect(() => {
+    disabledRef.current = disabled;
+  }, [disabled]);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -95,6 +116,86 @@ export function useVoiceChat({
     ttsQueueRef.current = [];
     ttsSpeakingRef.current = false;
   }, []);
+
+  const elevenQueueRef = useRef<string[]>([]);
+  const elevenPlayingRef = useRef(false);
+  const elevenAudioRef = useRef<HTMLAudioElement | null>(null);
+  const elevenFetchAbortRef = useRef<AbortController | null>(null);
+
+  const stopElevenTTS = useCallback(() => {
+    elevenFetchAbortRef.current?.abort();
+    if (elevenAudioRef.current) {
+      elevenAudioRef.current.pause();
+      elevenAudioRef.current.src = "";
+      elevenAudioRef.current = null;
+    }
+    elevenQueueRef.current = [];
+    elevenPlayingRef.current = false;
+  }, []);
+
+  const elevenSpeakNext = useCallback(async () => {
+    if (!elevenQueueRef.current.length) {
+      elevenPlayingRef.current = false;
+      setState("idle");
+      return;
+    }
+    elevenPlayingRef.current = true;
+    const text = elevenQueueRef.current.shift()!;
+
+    const aborter = new AbortController();
+    elevenFetchAbortRef.current = aborter;
+
+    try {
+      const res = await fetch("/api/voice/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+        signal: aborter.signal,
+      });
+      if (!res.ok) throw new Error("TTS failed");
+
+      const blob = await res.blob();
+      if (aborter.signal.aborted) return;
+
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      elevenAudioRef.current = audio;
+
+      audio.onended = () => {
+        URL.revokeObjectURL(url);
+        elevenAudioRef.current = null;
+        if (!aborter.signal.aborted) elevenSpeakNext();
+      };
+      audio.onerror = () => {
+        URL.revokeObjectURL(url);
+        elevenAudioRef.current = null;
+        if (!aborter.signal.aborted) elevenSpeakNext();
+      };
+
+      audio.play().catch(() => {
+        if (!aborter.signal.aborted) elevenSpeakNext();
+      });
+    } catch {
+      if (!aborter.signal.aborted) elevenSpeakNext();
+    }
+  }, []);
+
+  const elevenEnqueue = useCallback(
+    (text: string) => {
+      if (!text.trim()) return;
+      elevenQueueRef.current.push(text);
+      if (!elevenPlayingRef.current) {
+        setState("speaking");
+        elevenSpeakNext();
+      }
+    },
+    [elevenSpeakNext],
+  );
+
+  const stopAllTTS = useCallback(() => {
+    stopTTS();
+    stopElevenTTS();
+  }, [stopTTS, stopElevenTTS]);
 
   const stopAudioPolling = useCallback(() => {
     if (animFrameRef.current) {
@@ -195,8 +296,8 @@ export function useVoiceChat({
         { role: "user", content: userText },
       ];
 
-      let fullText = "";
-      let buffer = "";
+      const enqueue =
+        ttsEngineRef.current === "elevenlabs" ? elevenEnqueue : ttsEnqueue;
 
       try {
         const res = await fetch("/api/voice/chat", {
@@ -205,35 +306,42 @@ export function useVoiceChat({
           body: JSON.stringify({ messages: historyRef.current, locale }),
           signal: abort.signal,
         });
-        if (!res.ok) throw new Error("Chat failed");
 
-        const reader = res.body!.getReader();
-        const decoder = new TextDecoder();
-        setState("speaking");
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          const chunk = decoder.decode(value, { stream: true });
-          buffer += chunk;
-          fullText += chunk;
-          setCurrentResponse(fullText);
-
-          const { complete, remaining } = splitSentences(buffer);
-          buffer = remaining;
-          complete.forEach((s) => ttsEnqueue(s));
+        if (res.status === 503) {
+          historyRef.current = historyRef.current.slice(0, -1);
+          setState("disabled");
+          return;
         }
 
-        if (buffer.trim()) ttsEnqueue(buffer.trim());
+        if (res.status === 429) {
+          historyRef.current = historyRef.current.slice(0, -1);
+          setState("quota");
+          return;
+        }
+
+        if (!res.ok) throw new Error("Chat failed");
+
+        const { text } = await res.json();
+        if (!text?.trim()) {
+          historyRef.current = historyRef.current.slice(0, -1);
+          setState("idle");
+          return;
+        }
+
+        setCurrentResponse(text);
+        setState("speaking");
+
+        const { complete, remaining } = splitSentences(text);
+        complete.forEach((s) => enqueue(s));
+        if (remaining.trim()) enqueue(remaining.trim());
 
         historyRef.current = [
           ...historyRef.current,
-          { role: "assistant", content: fullText },
+          { role: "assistant", content: text },
         ];
-
         setConversations((prev) => [
           ...prev,
-          { user: userText, assistant: fullText },
+          { user: userText, assistant: text },
         ]);
       } catch {
         if (abort.signal.aborted) return;
@@ -241,15 +349,16 @@ export function useVoiceChat({
         setState("error");
       }
     },
-    [locale, stopAudioPolling, ttsEnqueue],
+    [locale, stopAudioPolling, ttsEnqueue, elevenEnqueue],
   );
 
   const startRecording = useCallback(async () => {
+    if (disabled) return;
     abortRef.current?.abort();
     const abort = new AbortController();
     abortRef.current = abort;
 
-    stopTTS();
+    stopAllTTS();
     setTranscript("");
     setCurrentResponse("");
 
@@ -273,7 +382,7 @@ export function useVoiceChat({
     } catch {
       setState("error");
     }
-  }, [stopTTS, handleRecordingStop, startAudioPolling]);
+  }, [disabled, stopAllTTS, handleRecordingStop, startAudioPolling]);
 
   const stopRecording = useCallback(() => {
     if (silenceTimerRef.current) {
@@ -287,29 +396,31 @@ export function useVoiceChat({
 
   const stop = useCallback(() => {
     abortRef.current?.abort();
-    stopTTS();
+    stopAllTTS();
     stopAudioPolling();
     if (mediaRecorderRef.current?.state === "recording") {
       mediaRecorderRef.current.stop();
     }
     historyRef.current = [];
     setConversations([]);
-    setState("idle");
+    setState(disabledRef.current ? "disabled" : "idle");
     setTranscript("");
     setCurrentResponse("");
-  }, [stopTTS, stopAudioPolling]);
+  }, [stopAllTTS, stopAudioPolling]);
 
   useEffect(() => {
     return () => {
-      stopTTS();
+      stopAllTTS();
       stopAudioPolling();
     };
-  }, [stopTTS, stopAudioPolling]);
+  }, [stopAllTTS, stopAudioPolling]);
 
-  const isSupported =
-    typeof window !== "undefined" &&
-    "mediaDevices" in navigator &&
-    "speechSynthesis" in window;
+  const [isSupported, setIsSupported] = useState(false);
+  useEffect(() => {
+    setIsSupported(
+      "mediaDevices" in navigator && "speechSynthesis" in window,
+    );
+  }, []);
 
   return {
     state,
