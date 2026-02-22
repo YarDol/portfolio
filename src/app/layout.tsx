@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { GaScripts } from "@/components/ga-scripts";
+import { GaScripts } from "@/components/scripts/ga-scripts";
+import { ClarityScript } from "@/components/scripts/clarity-script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,6 +25,7 @@ export default function RootLayout({
       >
         {children}
         <GaScripts />
+        <ClarityScript />
       </body>
     </html>
   );

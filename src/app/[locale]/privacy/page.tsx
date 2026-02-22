@@ -34,27 +34,32 @@ const en = {
       body: `This website uses Google Analytics 4 (GA4), a web analytics service provided by Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland. GA4 collects anonymised usage data (pages visited, session duration, device type, approximate location based on IP) to help understand how visitors interact with the site.\n\nGA4 is only loaded after you have given your explicit consent via the cookie banner.\n\nLegal basis: Article 6(1)(a) GDPR (consent). You may withdraw consent at any time by clearing the cookie-consent entry in your browser's local storage.\n\nData may be transferred to Google LLC servers in the United States under standard contractual clauses. For more information, see Google's Privacy Policy at https://policies.google.com/privacy.`,
     },
     {
-      heading: "4. AI Chat",
+      heading: "4. Session Recording & Heatmaps — Microsoft Clarity",
+      body: `This website uses Microsoft Clarity, a session analytics service provided by Microsoft Corporation, One Microsoft Way, Redmond, WA 98052, USA. Clarity records anonymised user sessions including mouse movements, clicks, scrolls, and heatmaps to help understand how visitors interact with the site. Clarity may capture the content visible on screen during a session.\n\nMicrosoft Clarity is only loaded after you have given your explicit consent via the cookie banner.\n\nLegal basis: Article 6(1)(a) GDPR (consent). You may withdraw consent at any time by clearing the cookie-consent entry in your browser's local storage.\n\nData may be transferred to Microsoft servers in the United States under standard contractual clauses. For more information, see Microsoft's Privacy Statement at https://privacy.microsoft.com/en-us/privacystatement.`,
+    },
+    {
+      heading: "5. AI Chat",
+
       body: `The portfolio includes an AI-powered chat assistant. Messages you send are transmitted to the OpenAI API (OpenAI, L.L.C., San Francisco, USA) to generate a response. Messages are processed in real time and are not stored on our servers beyond the active browser session.\n\nLegal basis: Article 6(1)(f) GDPR (legitimate interest in providing an interactive portfolio experience). Data is not used to train AI models.\n\nFor more information, see OpenAI's Privacy Policy at https://openai.com/policies/privacy-policy.`,
     },
     {
-      heading: "5. Voice Chat",
+      heading: "6. Voice Chat",
       body: `The portfolio includes an optional voice chat feature. When you use it:\n\n• Your microphone audio is recorded locally in your browser and sent to Groq, Inc. (USA) for speech-to-text transcription.\n• The transcribed text is sent to Groq's LLM API to generate a response.\n• Optionally, the text response is converted to speech via ElevenLabs, Inc. (USA).\n\nAudio recordings and transcripts are not stored on our servers. Processing is transient and used only to generate the reply.\n\nLegal basis: Article 6(1)(a) GDPR (your explicit action of activating the microphone constitutes consent). You may stop voice processing at any time by closing the voice widget.\n\nFor more information, see:\n• Groq Privacy Policy: https://groq.com/privacy-policy/\n• ElevenLabs Privacy Policy: https://elevenlabs.io/privacy`,
     },
     {
-      heading: "6. Cookies & Local Storage",
-      body: `This website uses browser local storage (not cookies) to remember your cookie consent preference. No tracking cookies are placed without your consent. If you accept analytics cookies, Google Analytics 4 may set its own cookies (__ga, __ga_*) in your browser to distinguish sessions.\n\nYou can withdraw consent at any time by clearing your browser's local storage for this domain.`,
+      heading: "7. Cookies & Local Storage",
+      body: `This website uses browser local storage (not cookies) to remember your cookie consent preference. No tracking cookies are placed without your consent.\n\nIf you accept analytics cookies, the following third-party cookies may be set:\n• Google Analytics 4: __ga, __ga_* (session/user distinction)\n• Microsoft Clarity: _clsk, _clck (session recording)\n\nYou can withdraw consent at any time by clearing your browser's local storage for this domain.`,
     },
     {
-      heading: "7. Your Rights",
+      heading: "8. Your Rights",
       body: `Under GDPR, you have the right to:\n\n• Access the personal data we hold about you (Art. 15)\n• Rectification of inaccurate data (Art. 16)\n• Erasure of your data ("right to be forgotten") (Art. 17)\n• Restriction of processing (Art. 18)\n• Data portability (Art. 20)\n• Object to processing (Art. 21)\n• Withdraw consent at any time without affecting the lawfulness of prior processing (Art. 7(3))\n\nTo exercise any of these rights, please contact: ${siteConfig.email}\n\nYou also have the right to lodge a complaint with your local supervisory authority. In Germany, this is the relevant Landesbeauftragter für den Datenschutz.`,
     },
     {
-      heading: "8. Data Security",
+      heading: "9. Data Security",
       body: `This website is served over HTTPS. We take appropriate technical and organisational measures to protect your personal data against accidental or unlawful destruction, loss, alteration, or unauthorised disclosure.`,
     },
     {
-      heading: "9. Changes to This Policy",
+      heading: "10. Changes to This Policy",
       body: `We may update this Privacy Policy from time to time. The "last updated" date at the top of this page reflects the most recent revision. We encourage you to review this page periodically.`,
     },
   ],
@@ -78,27 +83,31 @@ const de: typeof en = {
       body: `Diese Website nutzt Google Analytics 4 (GA4), einen Webanalysedienst der Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. GA4 erhebt anonymisierte Nutzungsdaten (besuchte Seiten, Sitzungsdauer, Gerätetyp, ungefährer Standort auf Basis der IP-Adresse), um zu verstehen, wie Besucher mit der Website interagieren.\n\nGA4 wird erst nach Ihrer ausdrücklichen Einwilligung über das Cookie-Banner geladen.\n\nRechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO (Einwilligung). Sie können Ihre Einwilligung jederzeit widerrufen, indem Sie den Eintrag „cookie_consent" im Local Storage Ihres Browsers löschen.\n\nDaten können an Server von Google LLC in den USA unter Standardvertragsklauseln übermittelt werden. Weitere Informationen finden Sie in der Datenschutzerklärung von Google: https://policies.google.com/privacy?hl=de`,
     },
     {
-      heading: "4. KI-Chat",
+      heading: "4. Sitzungsaufzeichnung & Heatmaps – Microsoft Clarity",
+      body: `Diese Website verwendet Microsoft Clarity, einen Sitzungsanalysedienst der Microsoft Corporation, One Microsoft Way, Redmond, WA 98052, USA. Clarity zeichnet anonymisierte Nutzersitzungen auf – darunter Mausbewegungen, Klicks, Scrollverhalten und Heatmaps – um zu verstehen, wie Besucher mit der Website interagieren. Clarity kann den während einer Sitzung sichtbaren Bildschirminhalt erfassen.\n\nMicrosoft Clarity wird erst nach Ihrer ausdrücklichen Einwilligung über das Cookie-Banner geladen.\n\nRechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO (Einwilligung). Sie können Ihre Einwilligung jederzeit widerrufen, indem Sie den Eintrag „cookie_consent" im Local Storage Ihres Browsers löschen.\n\nDaten können an Server von Microsoft in den USA unter Standardvertragsklauseln übermittelt werden. Weitere Informationen finden Sie in der Datenschutzerklärung von Microsoft: https://privacy.microsoft.com/de-de/privacystatement`,
+    },
+    {
+      heading: "5. KI-Chat",
       body: `Das Portfolio enthält einen KI-gestützten Chat-Assistenten. Ihre Nachrichten werden zur Generierung einer Antwort an die OpenAI API (OpenAI, L.L.C., San Francisco, USA) übermittelt. Die Nachrichten werden in Echtzeit verarbeitet und nach der aktiven Browser-Sitzung nicht auf unseren Servern gespeichert.\n\nRechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einem interaktiven Portfolio-Erlebnis). Die Daten werden nicht zum Training von KI-Modellen verwendet.\n\nWeitere Informationen finden Sie in der Datenschutzerklärung von OpenAI: https://openai.com/policies/privacy-policy`,
     },
     {
-      heading: "5. Sprach-Chat",
+      heading: "6. Sprach-Chat",
       body: `Das Portfolio enthält eine optionale Sprach-Chat-Funktion. Bei deren Nutzung gilt:\n\n• Ihre Mikrofon-Aufnahme wird lokal im Browser erfasst und zur Sprachtranskription an Groq, Inc. (USA) übermittelt.\n• Der transkribierte Text wird zur Antwortgenerierung an die LLM-API von Groq gesendet.\n• Optional wird die Textantwort über ElevenLabs, Inc. (USA) in Sprache umgewandelt.\n\nAudioaufnahmen und Transkripte werden nicht auf unseren Servern gespeichert. Die Verarbeitung erfolgt nur zur Erzeugung der Antwort.\n\nRechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO (die aktive Aktivierung des Mikrofons gilt als Einwilligung). Sie können die Sprachverarbeitung jederzeit durch Schließen des Sprach-Widgets beenden.\n\nWeitere Informationen:\n• Datenschutzerklärung Groq: https://groq.com/privacy-policy/\n• Datenschutzerklärung ElevenLabs: https://elevenlabs.io/privacy`,
     },
     {
-      heading: "6. Cookies & Local Storage",
-      body: `Diese Website nutzt den Local Storage des Browsers (keine Cookies) zur Speicherung Ihrer Einwilligungsentscheidung. Ohne Ihre Einwilligung werden keine Tracking-Cookies gesetzt. Bei Akzeptanz der Analyse-Cookies kann Google Analytics 4 eigene Cookies (__ga, __ga_*) in Ihrem Browser setzen.\n\nSie können Ihre Einwilligung jederzeit widerrufen, indem Sie den Local Storage dieser Domain in Ihrem Browser löschen.`,
+      heading: "7. Cookies & Local Storage",
+      body: `Diese Website nutzt den Local Storage des Browsers (keine Cookies) zur Speicherung Ihrer Einwilligungsentscheidung. Ohne Ihre Einwilligung werden keine Tracking-Cookies gesetzt.\n\nBei Akzeptanz der Analyse-Cookies können folgende Drittanbieter-Cookies gesetzt werden:\n• Google Analytics 4: __ga, __ga_* (Sitzungs-/Nutzererkennung)\n• Microsoft Clarity: _clsk, _clck (Sitzungsaufzeichnung)\n\nSie können Ihre Einwilligung jederzeit widerrufen, indem Sie den Local Storage dieser Domain in Ihrem Browser löschen.`,
     },
     {
-      heading: "7. Ihre Rechte",
+      heading: "8. Ihre Rechte",
       body: `Gemäß DSGVO haben Sie folgende Rechte:\n\n• Auskunftsrecht (Art. 15 DSGVO)\n• Recht auf Berichtigung (Art. 16 DSGVO)\n• Recht auf Löschung (Art. 17 DSGVO)\n• Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO)\n• Recht auf Datenübertragbarkeit (Art. 20 DSGVO)\n• Widerspruchsrecht (Art. 21 DSGVO)\n• Widerruf der Einwilligung (Art. 7 Abs. 3 DSGVO)\n\nZur Ausübung Ihrer Rechte wenden Sie sich bitte an: ${siteConfig.email}\n\nSie haben zudem das Recht, sich bei der zuständigen Datenschutzbehörde zu beschweren. In Deutschland ist dies der jeweils zuständige Landesbeauftragte für den Datenschutz.`,
     },
     {
-      heading: "8. Datensicherheit",
+      heading: "9. Datensicherheit",
       body: `Diese Website wird über HTTPS ausgeliefert. Wir treffen angemessene technische und organisatorische Maßnahmen, um Ihre personenbezogenen Daten vor unbeabsichtigter oder unrechtmäßiger Vernichtung, Verlust, Veränderung oder unbefugter Offenlegung zu schützen.`,
     },
     {
-      heading: "9. Änderungen dieser Datenschutzerklärung",
+      heading: "10. Änderungen dieser Datenschutzerklärung",
       body: `Wir können diese Datenschutzerklärung von Zeit zu Zeit aktualisieren. Das Datum „Zuletzt aktualisiert" am Anfang dieser Seite gibt den Stand der letzten Überarbeitung an. Wir empfehlen, diese Seite regelmäßig zu überprüfen.`,
     },
   ],

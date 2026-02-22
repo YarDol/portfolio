@@ -30,31 +30,35 @@ const en = {
       body: `This website is a personal portfolio showcasing the professional work, skills, and background of Yaroslav Dolhushyn. It is provided for informational purposes only and does not constitute a commercial offering, employment contract, or binding professional engagement.`,
     },
     {
-      heading: "3. AI-Powered Features",
+      heading: "3. Analytics & Session Recording",
+      body: `This site uses Google Analytics 4 and Microsoft Clarity to understand how visitors use the site. These tools may collect anonymised usage data including page views, session duration, clicks, and screen recordings. They are only activated after your explicit consent via the cookie banner.\n\nFor full details on what is collected and how, see the Privacy Policy.`,
+    },
+    {
+      heading: "4. AI-Powered Features",
       body: `This site includes experimental AI features:\n\n• AI Chat — answers questions about Yaroslav's background using a language model. Responses are generated automatically and may not always be accurate or complete.\n• Voice Chat — allows spoken interaction with the AI assistant. Audio is processed by third-party APIs (Groq, ElevenLabs) and is not stored.\n\nThese features are provided "as is" for demonstration purposes. Do not rely on AI-generated responses as professional or legal advice. The operator makes no guarantees regarding accuracy, availability, or fitness for a particular purpose.`,
     },
     {
-      heading: "4. Intellectual Property",
+      heading: "5. Intellectual Property",
       body: `All content on this site — including text, design, code, and media — is the property of Yaroslav Dolhushyn unless otherwise stated. You may not reproduce, redistribute, or use any content commercially without prior written permission.\n\nProject descriptions and experience information represent Yaroslav's own contributions to past professional engagements and do not reveal confidential client information.`,
     },
     {
-      heading: "5. Limitation of Liability",
+      heading: "6. Limitation of Liability",
       body: `To the fullest extent permitted by applicable law, the operator shall not be liable for any direct, indirect, incidental, or consequential damages arising from your use of this website or its AI features, including but not limited to reliance on AI-generated content.\n\nThe site is provided without warranties of any kind, express or implied.`,
     },
     {
-      heading: "6. External Links",
+      heading: "7. External Links",
       body: `This site may contain links to third-party websites (GitHub, LinkedIn, external projects). These links are provided for convenience only. The operator has no control over and accepts no responsibility for the content or privacy practices of external sites.`,
     },
     {
-      heading: "7. Governing Law",
+      heading: "8. Governing Law",
       body: `These terms are governed by the laws of the Federal Republic of Germany. Any disputes shall be subject to the exclusive jurisdiction of the competent courts in Germany, unless mandatory consumer protection laws in your country of residence require otherwise.`,
     },
     {
-      heading: "8. Contact",
+      heading: "9. Contact",
       body: `For questions about these terms, please contact:\n${siteConfig.email}`,
     },
     {
-      heading: "9. Changes",
+      heading: "10. Changes",
       body: `The operator reserves the right to update these Terms of Use at any time. The "last updated" date reflects the most recent revision. Continued use of the site after changes constitutes acceptance of the revised terms.`,
     },
   ],
@@ -74,31 +78,35 @@ const de: typeof en = {
       body: `Diese Website ist ein persönliches Portfolio, das die berufliche Arbeit, Fähigkeiten und den Werdegang von Yaroslav Dolhushyn präsentiert. Sie dient ausschließlich Informationszwecken und stellt kein kommerzielles Angebot, keinen Arbeitsvertrag oder eine verbindliche berufliche Verpflichtung dar.`,
     },
     {
-      heading: "3. KI-gestützte Funktionen",
+      heading: "3. Analyse & Sitzungsaufzeichnung",
+      body: `Diese Website verwendet Google Analytics 4 und Microsoft Clarity, um zu verstehen, wie Besucher die Website nutzen. Diese Tools können anonymisierte Nutzungsdaten erfassen, darunter Seitenaufrufe, Sitzungsdauer, Klicks und Bildschirmaufzeichnungen. Sie werden nur nach Ihrer ausdrücklichen Einwilligung über das Cookie-Banner aktiviert.\n\nVollständige Details zu den erhobenen Daten und deren Verwendung finden Sie in der Datenschutzerklärung.`,
+    },
+    {
+      heading: "4. KI-gestützte Funktionen",
       body: `Diese Website enthält experimentelle KI-Funktionen:\n\n• KI-Chat – beantwortet Fragen zu Yaroslavs Hintergrund mithilfe eines Sprachmodells. Antworten werden automatisch generiert und sind möglicherweise nicht immer korrekt oder vollständig.\n• Sprach-Chat – ermöglicht gesprochene Interaktion mit dem KI-Assistenten. Audiodaten werden von Drittanbieter-APIs (Groq, ElevenLabs) verarbeitet und nicht gespeichert.\n\nDiese Funktionen werden „wie besehen" zu Demonstrationszwecken bereitgestellt. KI-generierte Antworten stellen keine professionelle oder rechtliche Beratung dar. Der Betreiber übernimmt keine Garantie für Richtigkeit, Verfügbarkeit oder Eignung für einen bestimmten Zweck.`,
     },
     {
-      heading: "4. Geistiges Eigentum",
+      heading: "5. Geistiges Eigentum",
       body: `Alle Inhalte dieser Website – einschließlich Texte, Design, Code und Medien – sind Eigentum von Yaroslav Dolhushyn, sofern nicht anders angegeben. Eine Vervielfältigung, Weitergabe oder kommerzielle Nutzung von Inhalten ist ohne vorherige schriftliche Genehmigung nicht gestattet.\n\nProjektbeschreibungen und Erfahrungsangaben basieren auf Yaroslavs eigenen Beiträgen zu früheren beruflichen Tätigkeiten und enthalten keine vertraulichen Kundeninformationen.`,
     },
     {
-      heading: "5. Haftungsbeschränkung",
+      heading: "6. Haftungsbeschränkung",
       body: `Soweit gesetzlich zulässig, haftet der Betreiber nicht für direkte, indirekte, zufällige oder Folgeschäden, die aus der Nutzung dieser Website oder ihrer KI-Funktionen entstehen, einschließlich der Nutzung KI-generierter Inhalte.\n\nDie Website wird ohne jegliche ausdrückliche oder stillschweigende Gewährleistung bereitgestellt.`,
     },
     {
-      heading: "6. Externe Links",
+      heading: "7. Externe Links",
       body: `Diese Website kann Links zu Websites Dritter enthalten (GitHub, LinkedIn, externe Projekte). Diese Links dienen lediglich der Bequemlichkeit. Der Betreiber hat keine Kontrolle über externe Websites und übernimmt keine Verantwortung für deren Inhalte oder Datenschutzpraktiken.`,
     },
     {
-      heading: "7. Anwendbares Recht",
+      heading: "8. Anwendbares Recht",
       body: `Diese Nutzungsbedingungen unterliegen dem Recht der Bundesrepublik Deutschland. Für etwaige Streitigkeiten sind die zuständigen deutschen Gerichte ausschließlich zuständig, sofern nicht zwingende Verbraucherschutzvorschriften Ihres Wohnsitzlandes anderes vorschreiben.`,
     },
     {
-      heading: "8. Kontakt",
+      heading: "9. Kontakt",
       body: `Bei Fragen zu diesen Nutzungsbedingungen wenden Sie sich bitte an:\n${siteConfig.email}`,
     },
     {
-      heading: "9. Änderungen",
+      heading: "10. Änderungen",
       body: `Der Betreiber behält sich das Recht vor, diese Nutzungsbedingungen jederzeit zu aktualisieren. Das Datum „Zuletzt aktualisiert" gibt den Stand der letzten Überarbeitung an. Die weitere Nutzung der Website nach Änderungen gilt als Zustimmung zu den aktualisierten Bedingungen.`,
     },
   ],
