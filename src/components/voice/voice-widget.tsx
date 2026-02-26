@@ -72,7 +72,7 @@ export function VoiceWidget({ locale = "en" }: { locale?: string }) {
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-50 flex items-center gap-2.5 pl-3 pr-4 py-2.5 rounded-full bg-card border border-border text-foreground shadow-lg hover:border-accent/40 hover:shadow-accent/10 transition-all cursor-pointer"
+            className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-48 flex items-center gap-2.5 pl-3 pr-4 py-2.5 rounded-full bg-card border border-border text-foreground shadow-lg hover:border-accent/40 hover:shadow-accent/10 transition-all cursor-pointer"
             aria-label="Open voice assistant"
           >
             <span className="relative flex size-2 shrink-0">

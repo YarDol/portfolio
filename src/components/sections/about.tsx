@@ -26,7 +26,7 @@ export function About() {
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           {highlights.map(({ key, labelKey }, i) => (
             <ScrollReveal key={key} delay={i * 0.1}>
-              <div className="rounded-2xl border border-border bg-card p-6 text-center">
+              <div className="rounded-2xl border border-border bg-card p-6 text-center h-full">
                 <p className="text-3xl font-bold text-accent">
                   {t(`highlights.${key}`)}
                 </p>
