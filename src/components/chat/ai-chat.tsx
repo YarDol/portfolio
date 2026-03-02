@@ -5,7 +5,7 @@ import { DefaultChatTransport } from "ai";
 import { useTranslations } from "next-intl";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { MessageCircle, X, Send, Bot, AlertCircle } from "lucide-react";
+import { MessageCircle, Send } from "lucide-react";
 import { useVoiceRecorder } from "@/hooks/use-voice-recorder";
 import { useTTS } from "@/hooks/use-tts";
 import {
@@ -14,6 +14,9 @@ import {
 } from "@/components/chat/voice-button";
 import { ChatMessage } from "@/components/chat/chat-message";
 import { ChatWelcome } from "@/components/chat/chat-welcome";
+import { ChatHeader } from "@/components/chat/chat-header";
+import { ChatError } from "@/components/chat/chat-error";
+import { ChatThinking } from "@/components/chat/chat-thinking";
 import { trackEvent } from "@/lib/gtag";
 
 export default function Chat({ locale = "en" }: { locale?: string }) {
@@ -145,6 +148,11 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
     });
   };
 
+  const handleClose = () => {
+    ttsStop();
+    setIsOpen(false);
+  };
+
   const quickActions = [t("quickStack"), t("quickProjects"), t("quickCV")];
   const isThinking = isWaiting && messages.at(-1)?.role !== "assistant";
   const isWelcome = messages.length === 0;
@@ -177,30 +185,11 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
             className="fixed inset-0 sm:inset-auto sm:bottom-6 sm:right-6 z-50 flex flex-col w-full h-full sm:w-95 sm:h-135 sm:rounded-2xl border-0 sm:border border-border bg-card shadow-2xl overflow-hidden"
           >
-            <div className="flex items-center justify-between px-4 sm:px-5 py-4 pt-[max(1rem,env(safe-area-inset-top))] border-b border-border bg-card">
-              <div className="flex items-center gap-3">
-                <div className="relative flex items-center justify-center size-9 rounded-full bg-accent/10">
-                  <Bot className="size-4.5 text-accent" />
-                  <span className="absolute -bottom-0.5 -right-0.5 size-2.5 rounded-full bg-green-500 ring-2 ring-card" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-foreground leading-none">
-                    {t("title")}
-                  </p>
-                  <p className="text-xs text-muted mt-0.5">{t("subtitle")}</p>
-                </div>
-              </div>
-              <button
-                onClick={() => {
-                  ttsStop();
-                  setIsOpen(false);
-                }}
-                className="flex items-center justify-center size-8 rounded-lg text-muted hover:text-foreground hover:bg-foreground/5 transition-colors cursor-pointer"
-                aria-label={t("title")}
-              >
-                <X className="size-4" />
-              </button>
-            </div>
+            <ChatHeader
+              title={t("title")}
+              subtitle={t("subtitle")}
+              onClose={handleClose}
+            />
 
             <div className="flex-1 overflow-y-auto px-3 sm:px-4 py-4 space-y-4 scroll-smooth">
               {isWelcome && (
@@ -227,26 +216,7 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
               ))}
 
               <AnimatePresence>
-                {isThinking && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="flex gap-2.5"
-                  >
-                    <div className="shrink-0 flex items-center justify-center size-7 rounded-full bg-accent/10 text-accent">
-                      <Bot className="size-3.5" />
-                    </div>
-                    <div className="px-3.5 py-3 rounded-2xl rounded-bl-md bg-foreground/4 border border-border/60">
-                      <div className="flex gap-1 items-center">
-                        <span className="size-1.25 rounded-full bg-accent/60 animate-[typing-dot_1.4s_ease-in-out_infinite]" />
-                        <span className="size-1.25 rounded-full bg-accent/60 animate-[typing-dot_1.4s_ease-in-out_0.2s_infinite]" />
-                        <span className="size-1.25 rounded-full bg-accent/60 animate-[typing-dot_1.4s_ease-in-out_0.4s_infinite]" />
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
+                {isThinking && <ChatThinking />}
               </AnimatePresence>
 
               <div ref={messagesEndRef} />
@@ -254,25 +224,7 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
 
             <AnimatePresence>
               {error && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="overflow-hidden"
-                >
-                  <div className="flex items-center gap-2 px-4 py-2 bg-red-500/10 text-red-500 dark:text-red-400 text-xs">
-                    <AlertCircle className="size-3.5 shrink-0" />
-                    <span className="flex-1 truncate">{t("error")}</span>
-                    <button
-                      onClick={clearError}
-                      className="text-red-500/60 hover:text-red-500 transition-colors cursor-pointer"
-                      aria-label="Dismiss"
-                    >
-                      <X className="size-3" />
-                    </button>
-                  </div>
-                </motion.div>
+                <ChatError message={t("error")} onDismiss={clearError} />
               )}
             </AnimatePresence>
 
