@@ -14,7 +14,8 @@
     "greeting": "Hallo, ich bin",
     "name": "Yaroslav Dolhushyn",
     "role": "Full-Stack-Entwickler",
-    "subtitle": "Ich verwandle Ideen in produktionsreife Apps — von pixelgenauen Frontends bis zu belastbaren Backend-Systemen. TypeScript überall.",
+    "subtitle": "Ich entwickle KI-gestützte Webanwendungen für den Produktiveinsatz — nicht nur Demos.",
+    "note": "Produktionsarchitektur · KI-Pipelines mit niedriger Latenz · skalierbare Serverless-Systeme · datenschutzbewusstes Design.",
     "cta": "Meine Arbeit",
     "contact": "Kontakt aufnehmen",
     "workRights": "Sangerhausen, Deutschland · §24 Arbeitsrechte"
@@ -22,7 +23,7 @@
   "About": {
     "label": "Über mich",
     "title": "Über mich",
-    "description": "7+ kommerzielle Produkte mit über 100K Nutzern ausgeliefert — Ladezeiten um 40% reduziert, Infrastrukturkosten gesenkt und alles von KI-gestützten Sprach-Apps bis zu hochfrequentierten Video-Plattformen gebaut. Mir liegt sauberer Code und starke Teamarbeit am Herzen.",
+    "description": "7+ kommerzielle Produkte ausgeliefert. 100K+ Nutzer erreicht. Ladezeiten um 40% reduziert. Von KI-Sprach-Apps bis zu hochfrequentierten Video-Plattformen — ich baue Systeme, die unter realen Bedingungen performen, nicht nur in Demos.",
     "highlights": {
       "experience": "2+ Jahre",
       "experienceLabel": "Berufserfahrung",
@@ -31,10 +32,17 @@
       "users": "100K+",
       "usersLabel": "Nutzer erreicht",
       "education": "M.Sc.",
-      "educationLabel": "Informatik"
+      "educationLabel": "Informatik",
+      "currently": "aktuell"
     },
-    "bio1": "Meine Stärke: Features von Anfang bis Ende verantworten — API-Design, React- oder React-Native-UI, AWS-Infrastruktur aufsetzen und sicherstellen, dass alles unter echtem Traffic standhält. Ich habe kleine Teams geleitet, Juniors gecoacht und Produktionsprobleme um 2 Uhr nachts gelöst — die volle Startup-Erfahrung.",
-    "bio2": "Wohnhaft in Sangerhausen, Deutschland mit voller Arbeitserlaubnis (§24). Ich suche ein Team, das schnell liefert, auf Qualität achtet und Produkte baut, die wirklich genutzt werden. Offen für Vor-Ort, hybrid oder remote in ganz Deutschland."
+    "bio1": "Ich verantworte Features von Anfang bis Ende — API-Design, React- oder React-Native-UI, AWS-Infrastruktur — und stelle sicher, dass alles unter echtem Traffic standhält. Aktuell fokussiert auf KI-native Produktarchitektur: Streaming-LLM-Systeme, Retrieval-Augmented Generation und performance-optimierte Interfaces, bei denen Intelligenz die Interaktion in Echtzeit verbessert.",
+    "bio2": "Wohnhaft in Sangerhausen, Deutschland mit voller Arbeitserlaubnis (§24). Ich suche ein Team, das schnell liefert, auf Qualität achtet und Produkte baut, die wirklich genutzt werden. Offen für Vor-Ort, hybrid oder remote in ganz Deutschland.",
+    "topics": {
+      "streaming": "Streaming-LLM-Systeme",
+      "generation": "Retrieval-Augmented Generation",
+      "interfaces": "KI-native Interfaces",
+      "optimization": "Performance-Optimierung"
+    }
   },
   "Skills": {
     "label": "Tech-Stack",

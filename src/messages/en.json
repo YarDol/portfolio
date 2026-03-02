@@ -14,7 +14,8 @@
     "greeting": "Hi, I'm",
     "name": "Yaroslav Dolhushyn",
     "role": "Full-Stack Engineer",
-    "subtitle": "I turn ideas into production-ready apps — from pixel-perfect frontends to resilient backend systems. TypeScript everywhere.",
+    "subtitle": "I build AI-powered web applications for real-world use — not just demos.",
+    "note": "Production architecture · low-latency AI pipelines · scalable serverless systems · privacy-aware design.",
     "cta": "View My Work",
     "contact": "Get in Touch",
     "workRights": "Sangerhausen, Germany · §24 Work Rights"
@@ -22,7 +23,7 @@
   "About": {
     "label": "About",
     "title": "About Me",
-    "description": "I've shipped 7+ commercial products reaching over 100K users — cutting load times by 40%, reducing infrastructure costs, and building everything from AI-powered voice apps to high-traffic video platforms. I care about code that lasts and teams that grow.",
+    "description": "7+ commercial products shipped. 100K+ users reached. 40% load time reduction. From AI voice apps to high-traffic video platforms — I build systems that perform under real conditions, not just in demos.",
     "highlights": {
       "experience": "2+ Years",
       "experienceLabel": "Commercial Experience",
@@ -31,10 +32,17 @@
       "users": "100K+",
       "usersLabel": "Users Reached",
       "education": "M.Sc.",
-      "educationLabel": "Computer Engineering"
+      "educationLabel": "Computer Engineering",
+      "currently": "currently"
     },
-    "bio1": "My sweet spot is owning features end-to-end: designing the API, building the React or React Native UI, setting up the AWS infrastructure, and making sure it all holds up under real traffic. I've led small teams, mentored juniors, and debugged production issues at 2 AM — the full startup experience.",
-    "bio2": "Now based in Sangerhausen, Germany with full working rights (§24). I'm looking for a team that ships fast, cares about quality, and builds products people actually use. Open to on-site, hybrid, or remote across Germany."
+    "bio1": "I own features end-to-end — API design, React or React Native UI, AWS infrastructure — and make sure everything holds up under real traffic. Currently focused on AI-native product architecture: streaming LLM systems, retrieval-augmented generation, and performance-optimized interfaces where intelligence enhances interaction in real time.",
+    "bio2": "Based in Sangerhausen, Germany with full working rights (§24). Looking for a team that ships fast, cares about quality, and builds products people actually use. Open to on-site, hybrid, or remote across Germany.",
+    "topics": {
+      "streaming": "Streaming LLM systems",
+      "generation": "Retrieval-augmented generation",
+      "interfaces": "AI-native interfaces",
+      "optimization": "Performance optimization"
+    }
   },
   "Skills": {
     "label": "Tech Stack",

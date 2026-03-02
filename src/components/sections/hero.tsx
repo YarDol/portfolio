@@ -58,9 +58,16 @@ export function Hero() {
 
             <motion.p
               variants={fadeUp}
-              className="max-w-sm text-sm leading-relaxed text-muted/70"
+              className="max-w-sm text-base leading-relaxed text-muted/80"
             >
               {t("subtitle")}
+            </motion.p>
+
+            <motion.p
+              variants={fadeUp}
+              className="max-w-sm text-xs text-muted/50 tracking-wide leading-relaxed"
+            >
+              {t("note")}
             </motion.p>
 
             <motion.p
