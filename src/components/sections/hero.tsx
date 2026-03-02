@@ -33,7 +33,7 @@ export function Hero() {
 
       <motion.div
         style={{ y, opacity }}
-        className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-12"
+        className="relative z-10 mx-auto w-full max-w-6xl px-6 lg:px-6"
       >
         <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2 lg:gap-12">
           <motion.div
