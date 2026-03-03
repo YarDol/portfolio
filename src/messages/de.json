@@ -47,12 +47,11 @@
   "Skills": {
     "label": "Tech-Stack",
     "title": "Fähigkeiten & Technologien",
+    "ai": "KI & LLM",
     "frontend": "Frontend",
     "backend": "Backend",
     "mobile": "Mobile",
-    "devops": "DevOps & Cloud",
-    "tools": "Tools & Plattformen",
-    "analytics": "Analytik & Werbung"
+    "platform": "Plattform"
   },
   "Experience": {
     "label": "Karriere",

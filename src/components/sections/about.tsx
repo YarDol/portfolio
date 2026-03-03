@@ -77,7 +77,7 @@ export function About() {
 
             <ScrollReveal delay={0.3}>
               <div className="flex items-center gap-3">
-                <span className="font-mono text-[11px] text-muted/40 tracking-wide whitespace-nowrap">
+                <span className="font-mono text-[11px] text-muted/60 tracking-wide whitespace-nowrap">
                   {t("highlights.currently")} →
                 </span>
                 <div className="relative h-4 overflow-hidden flex-1 max-w-55">

@@ -65,14 +65,14 @@ export function Hero() {
 
             <motion.p
               variants={fadeUp}
-              className="max-w-sm text-xs text-muted/50 tracking-wide leading-relaxed"
+              className="max-w-sm text-xs text-muted/70 tracking-wide leading-relaxed"
             >
               {t("note")}
             </motion.p>
 
             <motion.p
               variants={fadeUp}
-              className="font-mono text-xs text-muted/40 tracking-wide"
+              className="font-mono text-xs text-muted/60 tracking-wide"
             >
               {t("workRights")}
             </motion.p>
