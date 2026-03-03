@@ -103,7 +103,7 @@ export function About() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.2 }}
-            className="relative h-105 lg:h-full lg:min-h-135"
+            className="relative h-105 lg:h-full lg:min-h-135 rounded-4xl overflow-hidden"
           >
             <div className="absolute inset-y-0 left-0 w-16 bg-linear-to-r from-background to-transparent z-10 pointer-events-none" />
 
