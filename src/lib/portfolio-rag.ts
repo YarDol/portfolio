@@ -47,9 +47,8 @@ export function getSkills(locale: Locale) {
     frontend: m.Skills.frontend,
     backend: m.Skills.backend,
     mobile: m.Skills.mobile,
-    devops: m.Skills.devops,
-    tools: m.Skills.tools,
-    analytics: m.Skills.analytics,
+    platform: m.Skills.platform,
+    ai: m.Skills.ai,
   };
 
   return skillCategories.map(({ key, skills }) => ({
