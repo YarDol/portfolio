@@ -141,6 +141,7 @@
   "Education": {
     "label": "Ausbildung",
     "title": "Ausbildung & Zertifizierungen",
+    "certifications": "Zertifizierungen",
     "master": {
       "degree": "Master in Informatik",
       "school": "Nationale Technische Universität Ternopil Iwan Puluj",

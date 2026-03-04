@@ -56,7 +56,7 @@ export function Experience() {
 
             <div className="mt-6">
               <p className="font-mono text-[10px] tracking-widest text-muted/50 uppercase mb-1">
-                Certifications
+                {edu("certifications")}
               </p>
               <div className="flex flex-col">
                 {certifications.map((key, i) => (

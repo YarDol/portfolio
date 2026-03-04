@@ -1,11 +1,15 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState } from "react";
+import {
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+  startTransition,
+} from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { motion, AnimatePresence } from "motion/react";
-import { SectionHeading } from "@/components/ui/section-heading";
-import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { motion, AnimatePresence, useInView } from "motion/react";
 import { sendContactForm, type ContactState } from "@/app/actions/contact";
 import { siteConfig } from "@/lib/constants";
 import {
@@ -17,8 +21,15 @@ import {
   Send,
   CheckCircle,
   AlertCircle,
+  ArrowUpRight,
 } from "lucide-react";
 import { trackEvent } from "@/lib/gtag";
+import dynamic from "next/dynamic";
+
+const ContactBg = dynamic(
+  () => import("./contact/contact-bg").then((m) => m.ContactBg),
+  { ssr: false },
+);
 
 const initialState: ContactState = { success: false };
 
@@ -32,6 +43,44 @@ const errorMap: Record<
   messageRequired: "messageRequired",
 };
 
+function Field({
+  id,
+  label,
+  error,
+  children,
+}: {
+  id: string;
+  label: string;
+  error?: string | null;
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <label
+        htmlFor={id}
+        className="mb-2 block font-mono text-[10px] tracking-widest text-muted/50 uppercase select-none"
+      >
+        {label}
+      </label>
+      <div className="group rounded-xl border border-border/60 bg-foreground/3 transition-colors focus-within:border-accent/50 focus-within:bg-foreground/5">
+        {children}
+      </div>
+      <AnimatePresence>
+        {error && (
+          <motion.p
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="mt-1.5 text-xs text-red-500"
+          >
+            {error}
+          </motion.p>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export function Contact() {
   const t = useTranslations("Contact");
   const [state, action, isPending] = useActionState(
@@ -39,6 +88,8 @@ export function Contact() {
     initialState,
   );
   const formRef = useRef<HTMLFormElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
   const [consented, setConsented] = useState(false);
   const [consentTouched, setConsentTouched] = useState(false);
 
@@ -48,11 +99,12 @@ export function Contact() {
   }
 
   useEffect(() => {
-    if (state.success) {
-      formRef.current?.reset();
+    if (!state.success) return;
+    formRef.current?.reset();
+    queueMicrotask(() => {
       setConsented(false);
       setConsentTouched(false);
-    }
+    });
   }, [state.success]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -69,86 +121,105 @@ export function Contact() {
       event_label: "contact_form_submit",
       value: name.length + email.length + message.length,
     });
-    action(formData);
+    startTransition(() => {
+      action(formData);
+    });
     formRef.current?.reset();
   };
 
+  const inputClass =
+    "w-full bg-transparent px-4 py-3 text-sm text-foreground placeholder:text-muted/40 outline-none";
+
+  const fadeUp = (delay: number) => ({
+    initial: { opacity: 0, y: 16 },
+    animate: isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
+    transition: {
+      duration: 0.5,
+      delay,
+      ease: [0.25, 0.46, 0.45, 0.94] as const,
+    },
+  });
+
   return (
-    <section id="contact" className="border-t border-border py-24">
-      <div className="mx-auto max-w-5xl px-6">
-        <SectionHeading
-          label={t("label")}
-          title={t("title")}
-          subtitle={t("subtitle")}
-        />
+    <section
+      id="contact"
+      className="relative border-t border-border py-24 overflow-hidden"
+      ref={sectionRef}
+    >
+      <ContactBg />
 
-        <div className="grid gap-12 md:grid-cols-5">
-          <ScrollReveal className="md:col-span-3">
+      <div className="relative mx-auto max-w-6xl px-6">
+        <div className="mb-10">
+          <motion.p
+            {...fadeUp(0)}
+            className="font-mono text-xs tracking-widest text-accent uppercase mb-3"
+          >
+            {t("label")}
+          </motion.p>
+          <motion.h2
+            {...fadeUp(0.06)}
+            className="text-3xl font-bold tracking-tight sm:text-4xl mb-4"
+          >
+            {t("title")}
+          </motion.h2>
+          <motion.a
+            {...fadeUp(0.12)}
+            href={`mailto:${siteConfig.email}`}
+            className="group inline-flex items-center gap-2 text-muted hover:text-foreground transition-colors"
+          >
+            <span className="text-sm">{siteConfig.email}</span>
+            <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </motion.a>
+        </div>
+
+        <div className="grid gap-14 md:grid-cols-5">
+          <motion.div {...fadeUp(0.2)} className="md:col-span-3">
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label
-                  htmlFor="name"
-                  className="mb-1.5 block text-sm font-medium"
-                >
-                  {t("name")}
-                </label>
-                <input
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Field
                   id="name"
-                  name="name"
-                  type="text"
-                  placeholder={t("namePlaceholder")}
-                  className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted outline-none transition-colors focus:border-accent"
-                />
-                {state.fieldErrors?.name && (
-                  <p className="mt-1 text-xs text-red-500">
-                    {fieldError(state.fieldErrors.name)}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label
-                  htmlFor="email"
-                  className="mb-1.5 block text-sm font-medium"
+                  label={t("name")}
+                  error={fieldError(state.fieldErrors?.name)}
                 >
-                  {t("email")}
-                </label>
-                <input
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder={t("namePlaceholder")}
+                    className={inputClass}
+                  />
+                </Field>
+
+                <Field
                   id="email"
-                  name="email"
-                  type="email"
-                  placeholder={t("emailPlaceholder")}
-                  className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted outline-none transition-colors focus:border-accent"
-                />
-                {state.fieldErrors?.email && (
-                  <p className="mt-1 text-xs text-red-500">
-                    {fieldError(state.fieldErrors.email)}
-                  </p>
-                )}
+                  label={t("email")}
+                  error={fieldError(state.fieldErrors?.email)}
+                >
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder={t("emailPlaceholder")}
+                    className={inputClass}
+                  />
+                </Field>
               </div>
 
-              <div>
-                <label
-                  htmlFor="message"
-                  className="mb-1.5 block text-sm font-medium"
-                >
-                  {t("message")}
-                </label>
+              <Field
+                id="message"
+                label={t("message")}
+                error={fieldError(state.fieldErrors?.message)}
+              >
                 <textarea
                   id="message"
                   name="message"
-                  rows={5}
+                  rows={6}
                   placeholder={t("messagePlaceholder")}
-                  className="w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted outline-none transition-colors focus:border-accent"
+                  className={`${inputClass} resize-none`}
                 />
-                {state.fieldErrors?.message && (
-                  <p className="mt-1 text-xs text-red-500">
-                    {fieldError(state.fieldErrors.message)}
-                  </p>
-                )}
-              </div>
+              </Field>
 
-              <div className="space-y-1">
+              <div className="space-y-1 pt-1">
                 <label className="flex items-start gap-3 cursor-pointer group">
                   <div className="relative mt-0.5 shrink-0">
                     <input
@@ -160,7 +231,7 @@ export function Contact() {
                       }}
                       className="sr-only peer"
                     />
-                    <div className="size-4 rounded border border-border bg-background transition-colors peer-checked:border-accent peer-checked:bg-accent group-hover:border-accent/60" />
+                    <div className="size-4 rounded border border-border/60 bg-transparent transition-colors peer-checked:border-accent peer-checked:bg-accent group-hover:border-accent/50" />
                     {consented && (
                       <svg
                         className="absolute inset-0 m-auto size-2.5 text-white pointer-events-none"
@@ -177,7 +248,7 @@ export function Contact() {
                       </svg>
                     )}
                   </div>
-                  <span className="text-xs text-muted leading-relaxed">
+                  <span className="text-xs text-muted/70 leading-relaxed">
                     {t("consentBefore")}
                     <Link
                       href="/privacy"
@@ -195,33 +266,35 @@ export function Contact() {
                 )}
               </div>
 
-              <motion.button
-                type="submit"
-                disabled={isPending}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-medium text-white transition-opacity disabled:opacity-60"
-              >
-                {isPending ? (
-                  <>
-                    <motion.span
-                      animate={{ rotate: 360 }}
-                      transition={{
-                        duration: 1,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                      className="inline-block h-4 w-4 rounded-full border-2 border-white/30 border-t-white"
-                    />
-                    {t("sending")}
-                  </>
-                ) : (
-                  <>
-                    <Send className="h-4 w-4" />
-                    {t("send")}
-                  </>
-                )}
-              </motion.button>
+              <div className="pt-1">
+                <motion.button
+                  type="submit"
+                  disabled={isPending}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="inline-flex items-center gap-2 rounded-xl bg-foreground px-7 py-3 text-sm font-medium text-background transition-opacity disabled:opacity-50 hover:opacity-85"
+                >
+                  {isPending ? (
+                    <>
+                      <motion.span
+                        animate={{ rotate: 360 }}
+                        transition={{
+                          duration: 1,
+                          repeat: Infinity,
+                          ease: "linear",
+                        }}
+                        className="inline-block h-4 w-4 rounded-full border-2 border-background/30 border-t-background"
+                      />
+                      {t("sending")}
+                    </>
+                  ) : (
+                    <>
+                      {t("send")}
+                      <Send className="h-3.5 w-3.5" />
+                    </>
+                  )}
+                </motion.button>
+              </div>
 
               <AnimatePresence mode="wait">
                 {state.success && (
@@ -248,68 +321,88 @@ export function Contact() {
                 )}
               </AnimatePresence>
             </form>
-          </ScrollReveal>
+          </motion.div>
 
-          <ScrollReveal delay={0.2} className="md:col-span-2">
-            <div className="rounded-2xl border border-border bg-card p-6">
-              <h3 className="mb-4 font-mono text-sm font-medium tracking-wide text-accent uppercase">
-                {t("orReachOut")}
-              </h3>
+          <div className="md:col-span-2 flex flex-col gap-8 md:pt-4">
+            <motion.div {...fadeUp(0.18)} className="flex items-start gap-3">
+              <span className="relative flex h-4 w-4 shrink-0 items-center justify-center mt-1">
+                <span className="absolute inset-0 rounded-full border border-border transition-colors duration-200 group-hover:border-accent/50" />
+                <span className="h-1.5 w-1.5 rounded-full bg-accent/40 transition-all duration-200 group-hover:bg-accent group-hover:scale-125" />
+              </span>
+              <p className="text-sm text-muted leading-relaxed hover:text-foreground group">
+                {t("availability")}
+              </p>
+            </motion.div>
 
-              <div className="space-y-4">
-                <a
-                  href={`mailto:${siteConfig.email}`}
-                  className="flex items-center gap-3 text-sm text-muted transition-colors hover:text-accent"
-                >
-                  <Mail className="h-4 w-4 shrink-0" />
-                  {siteConfig.email}
-                </a>
+            <motion.div
+              initial={{ scaleX: 0, originX: 0 }}
+              animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
+              transition={{ duration: 0.5, delay: 0.22 }}
+              className="h-px bg-border/60"
+            />
 
-                <a
-                  href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
-                  className="flex items-center gap-3 text-sm text-muted transition-colors hover:text-accent"
+            <div className="space-y-4">
+              {[
+                {
+                  href: `mailto:${siteConfig.email}`,
+                  icon: Mail,
+                  text: siteConfig.email,
+                  delay: 0.25,
+                },
+                {
+                  href: `tel:${siteConfig.phone.replace(/\s/g, "")}`,
+                  icon: Phone,
+                  text: siteConfig.phone,
+                  delay: 0.3,
+                },
+              ].map(({ href, icon: Icon, text, delay }) => (
+                <motion.a
+                  key={text}
+                  href={href}
+                  {...fadeUp(delay)}
+                  className="flex items-center gap-3 text-sm text-muted transition-colors hover:text-foreground group"
                 >
-                  <Phone className="h-4 w-4 shrink-0" />
-                  {siteConfig.phone}
-                </a>
-
-                <div className="flex items-center gap-3 text-sm text-muted">
-                  <MapPin className="h-4 w-4 shrink-0" />
-                  <div>
-                    <p>{t("based")}</p>
-                    <p className="text-xs text-accent/70">
-                      {t("availability")}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 flex gap-3 border-t border-border pt-6">
-                <a
-                  href={siteConfig.links.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-background text-muted transition-colors hover:border-accent hover:text-accent"
-                >
-                  <Github className="h-4 w-4" />
-                </a>
-                <a
-                  href={siteConfig.links.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-background text-muted transition-colors hover:border-accent hover:text-accent"
-                >
-                  <Linkedin className="h-4 w-4" />
-                </a>
-                <a
-                  href={`mailto:${siteConfig.email}`}
-                  className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-background text-muted transition-colors hover:border-accent hover:text-accent"
-                >
-                  <Mail className="h-4 w-4" />
-                </a>
-              </div>
+                  <Icon className="h-4 w-4 shrink-0 transition-colors group-hover:text-accent" />
+                  {text}
+                </motion.a>
+              ))}
+              <motion.div
+                {...fadeUp(0.35)}
+                className="flex items-center gap-3 text-sm text-muted"
+              >
+                <MapPin className="h-4 w-4 shrink-0" />
+                {t("based")}
+              </motion.div>
             </div>
-          </ScrollReveal>
+
+            <motion.div {...fadeUp(0.4)} className="flex gap-2">
+              {[
+                {
+                  href: siteConfig.links.github,
+                  icon: Github,
+                  label: "GitHub",
+                },
+                {
+                  href: siteConfig.links.linkedin,
+                  icon: Linkedin,
+                  label: "LinkedIn",
+                },
+              ].map(({ href, icon: Icon, label }) => (
+                <motion.a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.93 }}
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-border/60 text-muted transition-colors hover:border-accent/60 hover:text-accent"
+                  aria-label={label}
+                >
+                  <Icon className="h-3.5 w-3.5" />
+                </motion.a>
+              ))}
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>

@@ -138,6 +138,7 @@
   "Education": {
     "label": "Education",
     "title": "Education & Certifications",
+    "certifications": "Certifications",
     "master": {
       "degree": "Master in Computer Engineering",
       "school": "Ternopil Ivan Puluj National Technical University",
