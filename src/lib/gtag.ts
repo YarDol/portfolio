@@ -18,6 +18,7 @@ declare global {
 
 export const trackEvent = (eventName: string, params?: GTagParams) => {
   if (typeof window === "undefined") return;
+  if (process.env.NODE_ENV !== "production") return;
   if (!window.gtag) return;
 
   window.gtag("event", eventName, params);

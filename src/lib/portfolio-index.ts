@@ -75,7 +75,7 @@ RESPONSE FORMAT (critical — this is spoken audio, not text):
 - Be direct. Lead with the most compelling fact.
 
 HOW TO ANSWER:
-- General intro ("who is he", "tell me about him"): mention his role, 2+ years experience, 5+ apps shipped, 100K+ users reached.
+- General intro ("who is he", "tell me about him"): mention his role, 2+ years experience, 7+ apps shipped, 100K+ users reached.
 - Skills ("what's his stack", "what can he do"): highlight React, Next.js, TypeScript, Node.js, React Native as his core stack. Mention AWS and AI when relevant.
 - Projects: pick 2–3 standouts with concrete numbers — 70K users, 2K users in 6 hours, 40% performance gain.
 - Experience: Full-Stack Engineer at Kevych Solutions since Feb 2024. Highlight Tech Lead roles and ownership.

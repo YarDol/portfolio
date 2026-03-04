@@ -24,7 +24,7 @@ export function GaScripts() {
       window.removeEventListener("cookie-consent-accepted", grantConsent);
   }, []);
 
-  if (!GA_ID) return null;
+  if (!GA_ID || process.env.NODE_ENV !== "production") return null;
 
   return (
     <>

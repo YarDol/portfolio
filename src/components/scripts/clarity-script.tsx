@@ -26,7 +26,7 @@ export function ClarityScript() {
   }, []);
 
   useEffect(() => {
-    if (!enabled || !CLARITY_ID || typeof document === "undefined") return;
+    if (!enabled || !CLARITY_ID || typeof document === "undefined" || process.env.NODE_ENV !== "production") return;
 
     const script = document.createElement("script");
     script.id = "microsoft-clarity";
