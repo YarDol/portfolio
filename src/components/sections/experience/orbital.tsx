@@ -79,23 +79,55 @@ export function OrbitalScene() {
     const group = new THREE.Group();
     scene.add(group);
 
-    // ── Materials (kept as refs so updateColors can patch them) ───────────────
-    const nucleusMat = new THREE.MeshStandardMaterial({ roughness: 0.15, metalness: 0.7 });
-    const glowMat    = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.07, side: THREE.BackSide });
-    const ringMat    = new THREE.LineBasicMaterial({ transparent: true, opacity: 0.10 });
-    const satMat     = new THREE.MeshStandardMaterial({ roughness: 0.3, metalness: 0.5 });
-    const haloMat    = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.2, side: THREE.BackSide });
-    const connMat    = new THREE.LineBasicMaterial({ transparent: true, opacity: 0.2 });
-    const particleMat= new THREE.PointsMaterial({ size: 0.038, transparent: true, opacity: 0.3, sizeAttenuation: true });
+    const nucleusMat = new THREE.MeshStandardMaterial({
+      roughness: 0.15,
+      metalness: 0.7,
+    });
+    const glowMat = new THREE.MeshBasicMaterial({
+      transparent: true,
+      opacity: 0.07,
+      side: THREE.BackSide,
+    });
+    const ringMat = new THREE.LineBasicMaterial({
+      transparent: true,
+      opacity: 0.1,
+    });
+    const satMat = new THREE.MeshStandardMaterial({
+      roughness: 0.3,
+      metalness: 0.5,
+    });
+    const haloMat = new THREE.MeshBasicMaterial({
+      transparent: true,
+      opacity: 0.2,
+      side: THREE.BackSide,
+    });
+    const connMat = new THREE.LineBasicMaterial({
+      transparent: true,
+      opacity: 0.2,
+    });
+    const particleMat = new THREE.PointsMaterial({
+      size: 0.038,
+      transparent: true,
+      opacity: 0.3,
+      sizeAttenuation: true,
+    });
 
-    const nucleus = new THREE.Mesh(new THREE.SphereGeometry(0.55, 48, 48), nucleusMat);
+    const nucleus = new THREE.Mesh(
+      new THREE.SphereGeometry(0.55, 48, 48),
+      nucleusMat,
+    );
     group.add(nucleus);
     group.add(new THREE.Mesh(new THREE.SphereGeometry(0.82, 32, 32), glowMat));
 
-    ORBITS.forEach((o) => group.add(new THREE.Line(makeOrbitRing(o.radius, o.incline), ringMat)));
+    ORBITS.forEach((o) =>
+      group.add(new THREE.Line(makeOrbitRing(o.radius, o.incline), ringMat)),
+    );
 
     const satellites = ORBITS.map(() => {
-      const sat = new THREE.Mesh(new THREE.SphereGeometry(0.13, 16, 16), satMat);
+      const sat = new THREE.Mesh(
+        new THREE.SphereGeometry(0.13, 16, 16),
+        satMat,
+      );
       sat.add(new THREE.Mesh(new THREE.SphereGeometry(0.24, 12, 12), haloMat));
       group.add(sat);
       return sat;
@@ -128,9 +160,8 @@ export function OrbitalScene() {
     rim.position.set(5, 5, 5);
     scene.add(rim);
 
-    // ── Apply / re-apply theme colors ─────────────────────────────────────────
     const updateColors = () => {
-      const accent     = resolveColor("--accent");
+      const accent = resolveColor("--accent");
       const foreground = resolveColor("--foreground");
 
       nucleusMat.color.copy(accent);
@@ -144,15 +175,23 @@ export function OrbitalScene() {
       particleMat.color.copy(foreground);
       ptLight.color.copy(accent);
 
-      [nucleusMat, glowMat, ringMat, satMat, haloMat, connMat, particleMat].forEach(
-        (m) => (m.needsUpdate = true),
-      );
+      [
+        nucleusMat,
+        glowMat,
+        ringMat,
+        satMat,
+        haloMat,
+        connMat,
+        particleMat,
+      ].forEach((m) => (m.needsUpdate = true));
     };
     updateColors();
 
-    // Watch <html> class/attribute changes (theme toggle mutates these)
     const mo = new MutationObserver(updateColors);
-    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["class", "data-theme"] });
+    mo.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class", "data-theme"],
+    });
 
     const mouse = { x: 0, y: 0 };
     const onMouseMove = (e: MouseEvent) => {

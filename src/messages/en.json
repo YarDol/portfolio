@@ -128,7 +128,7 @@
       "items": {
         "0": "AI & Voice Advisory App (Tech Lead): Architected a React Native & Nest.js platform. Enabled voice consultations and AI advice via OpenAI with custom prompting pipelines.",
         "1": "Creative Design Platform: Engineered a headless video rendering engine using Puppeteer, Express, and Nginx for server-side React animation rendering.",
-        "2": "Entertainment & Media: Scaled a multi-platform ecosystem to 70,000+ users across React Native apps and admin panels. Integrated AI-driven features, NestJS APIs, cloud functions, and payments via Stripe & PayPal.",
+        "2": "Helped evolve the platform from no-code constraints to a scalable cloud-based architecture supporting 70,000+ users.Engineered core monetization systems including internal wallet infrastructure, Stripe & PayPal integrations, payout automation logic, backend services, analytics pipelines, and AI-driven internal tools.",
         "3": "Video Course Platform: Handled 2,000+ users and 700+ paid subscriptions in 6 hours using optimized DB indexing and caching.",
         "4": "E-commerce Migration: Migrated React to Next.js. Improved LCP/CLS by 40% and reduced hosting costs by 17%.",
         "5": "Technical Leadership: Standardized CI/CD pipelines, linting rules, and reusable templates across projects."
@@ -174,19 +174,19 @@
     "viewCode": "Source Code",
     "items": {
       "0": {
-        "title": "AI & Voice Advisory App",
-        "description": "Architected a full-stack platform enabling voice consultations stored on AWS S3 and AI-powered advice via OpenAI with custom prompting pipelines. Led the SDLC as Tech Lead, driving architectural decisions, overseeing delivery, and mentoring a junior engineer.",
-        "role": "Tech Lead"
+        "title": "Entertainment & Media Platform",
+        "description": "Helped evolve the platform from no-code constraints to a scalable cloud-based architecture supporting 70,000+ users. Engineered core monetization systems including internal wallet infrastructure, Stripe & PayPal integrations, payout automation logic, backend services, analytics pipelines, and AI-driven internal tools.",
+        "role": "Full-Stack Engineer"
       },
       "1": {
-        "title": "Entertainment & Media Platform",
-        "description": "Helped scale a live creator-brand marketplace to 70,000+ users by transitioning critical parts of the platform from a no-code setup to a robust full-stack architecture. Contributed to rebuilding brand-facing flows, backend services, and monetization systems to support long-term growth.",
-        "role": "Full-Stack Engineer"
+        "title": "AI & Voice Advisory App",
+        "description": "Architected and delivered a production-ready full-stack platform enabling real-time voice consultations, with encrypted audio storage on AWS S3 and AI-powered guidance powered by OpenAI via custom prompt-engineered pipelines. Led the SDLC as Tech Lead, driving architectural decisions, overseeing delivery, and mentoring a junior engineer.",
+        "role": "Tech Lead"
       },
       "2": {
-        "title": "E-commerce Next.js Migration",
-        "description": "Migrated a legacy React SPA to Next.js. Improved Core Web Vitals (LCP/CLS) by 40% and reduced hosting costs by 17% through Docker containerization. Mentored a junior engineer on Next.js best practices and performance optimization.",
-        "role": "Full-Stack Engineer"
+        "title": "Internal CRM Platform",
+        "description": "Owned mentorship and technical guidance for 6 interns, conducting thorough code reviews and providing actionable feedback to accelerate their growth. Drove launch readiness by stabilizing new features, and supporting deployment processes. 3 mentees were successfully hired as full-time engineers.",
+        "role": "Tech Lead"
       },
       "3": {
         "title": "Video Course Platform",
@@ -195,13 +195,13 @@
       },
       "4": {
         "title": "Headless Video Rendering Engine",
-        "description": "Built a server-side video rendering engine powering a Canva-like design platform. Executed client-side React animations via Puppeteer, Express, and Nginx, exposing a robust polling API for reliable MP4 exports under high load.",
+        "description": "Built a production-grade server-side video rendering engine powering a Canva-like design platform. Executed client-side React animations through Puppeteer, orchestrated by Express and Nginx, and exposed a resilient polling API ensuring reliable MP4 exports under high-load conditions.",
         "role": "Full-Stack Engineer"
       },
       "5": {
-        "title": "Internal CRM Platform",
-        "description": "Owned mentorship and technical guidance for 6 interns, conducting thorough code reviews and providing actionable feedback to accelerate their growth. Drove launch readiness by stabilizing new features, and supporting deployment processes. 3 mentees were successfully hired as full-time engineers.",
-        "role": "Tech Lead"
+        "title": "Event & Community Platform",
+        "description": "Assisted in developing marketplace features connecting brands with vetted local communities (run clubs, pilates collectives, studios), enabling authentic partnerships. Quickly onboarded into the codebase and supported feature delivery under tight deadlines during a short-term engagement.",
+        "role": "Frontend Engineer"
       },
       "6": {
         "title": "Healthcare SaaS Refactor",
@@ -209,9 +209,14 @@
         "role": "Frontend Engineer"
       },
       "7": {
-        "title": "Event & Community Platform",
-        "description": "Assisted in developing marketplace features connecting brands with vetted local communities (run clubs, pilates collectives, studios), enabling authentic partnerships. Quickly onboarded into the codebase and supported feature delivery under tight deadlines during a short-term engagement.",
-        "role": "Frontend Engineer"
+        "title": "E-commerce Next.js Migration",
+        "description": "Migrated a legacy React SPA to Next.js. Improved Core Web Vitals (LCP/CLS) by 40% and reduced hosting costs by 17% through Docker containerization. Mentored a junior engineer on Next.js best practices and performance optimization.",
+        "role": "Full-Stack Engineer"
+      },
+      "8": {
+        "title": "This Portfolio",
+        "description": "The site you're looking at. Built with Next.js 15, Three.js, Framer Motion, Tailwind CSS v4, and next-intl for EN/DE i18n. Includes an OpenAI-powered chat assistant with RAG, a voice interface with STT/TTS, and a cookie-consent-aware analytics setup.",
+        "role": "Personal Project"
       }
     }
   },

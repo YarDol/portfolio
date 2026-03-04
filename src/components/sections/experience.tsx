@@ -17,7 +17,7 @@ export function Experience() {
       id="experience"
       className="border-t border-border py-24 overflow-hidden"
     >
-      <div className="mx-auto max-w-5xl px-6">
+      <div className="mx-auto max-w-6xl px-6">
         <div className="lg:grid lg:grid-cols-[1fr_1fr] lg:gap-16 lg:items-start">
           <div className="lg:sticky lg:top-24 lg:self-start mb-12 lg:mb-0">
             <ScrollReveal className="mb-6">
@@ -54,7 +54,7 @@ export function Experience() {
               </div>
             </motion.div>
 
-            <div className="mt-8 pt-4">
+            <div className="mt-6">
               <p className="font-mono text-[10px] tracking-widest text-muted/50 uppercase mb-1">
                 Certifications
               </p>
