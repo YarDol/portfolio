@@ -26,7 +26,7 @@ export function Hero() {
     <section
       ref={ref}
       id="hero"
-      className="relative flex min-h-screen items-center overflow-hidden"
+      className="relative flex min-h-svh items-center overflow-hidden pt-20"
     >
       <MouseGlow />
       <FloatingShapes />

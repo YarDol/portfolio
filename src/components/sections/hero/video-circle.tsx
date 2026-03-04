@@ -45,7 +45,6 @@ export function VideoCircle() {
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
           className="h-full w-full object-cover"
-          loop
           playsInline
           preload="metadata"
         >
