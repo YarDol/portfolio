@@ -16,7 +16,7 @@ export function Footer() {
 
   return (
     <footer className="border-t border-border py-8">
-      <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 px-6 sm:flex-row sm:justify-between">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6 sm:flex-row sm:justify-between">
         <div className="flex flex-col items-center gap-1.5 sm:items-start">
           <p className="text-sm text-muted">
             &copy; {new Date().getFullYear()} {siteConfig.name}

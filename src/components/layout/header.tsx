@@ -30,7 +30,7 @@ export function Header() {
           : "border-transparent bg-transparent",
       )}
     >
-      <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <a
           href={isHome ? "#hero" : "/"}
           className="font-mono text-sm font-bold tracking-tight"
