@@ -51,12 +51,78 @@
     "frontend": "Frontend",
     "backend": "Backend",
     "mobile": "Mobile",
-    "platform": "Plattform"
+    "platform": "Plattform",
+    "items": {
+      "ai": {
+        "0": "Streaming-LLM-Integrationen (OpenAI, Groq...)",
+        "1": "Voice-KI (STT/TTS, ElevenLabs)",
+        "2": "RAG-Pipelines",
+        "3": "Prompt-Engineering & Kontext-Design"
+      },
+      "frontend": {
+        "0": "React",
+        "1": "Next.js",
+        "2": "TypeScript",
+        "3": "Tailwind CSS",
+        "4": "TanStack Query",
+        "5": "Zustand",
+        "6": "Three.js",
+        "7": "WebSockets",
+        "8": "SEO"
+      },
+      "backend": {
+        "0": "Node.js",
+        "1": "Nest.js",
+        "2": "PostgreSQL",
+        "3": "Redis",
+        "4": "MongoDB",
+        "5": "Kafka",
+        "6": "GraphQL",
+        "7": "Microservices",
+        "8": "Stripe"
+      },
+      "mobile": {
+        "0": "React Native",
+        "1": "Expo",
+        "2": "Deep Linking",
+        "3": "Push Notifications",
+        "4": "In-App-Käufe",
+        "5": "Ionic"
+      },
+      "platform": {
+        "0": "AWS (S3, Lambda, RDS)",
+        "1": "Docker",
+        "2": "GitHub Actions",
+        "3": "Cloudflare",
+        "4": "Nginx",
+        "5": "Sentry",
+        "6": "GA4",
+        "7": "Amplitude",
+        "8": "Playwright",
+        "9": "Jest",
+        "10": "Meta Ads"
+      }
+    }
   },
   "Experience": {
     "label": "Karriere",
     "title": "Berufserfahrung",
     "present": "Aktuell",
+    "impact": "Wirkung",
+    "metrics": {
+      "0": {
+        "label": "Features geliefert",
+        "sub": "Vom Ticket zur Produktion"
+      },
+      "1": { "label": "Kostensenkung", "sub": "Infrastruktur-Einsparungen" },
+      "2": { "label": "Performance-Steigerung", "sub": "E-Commerce LCP / CLS" },
+      "3": { "label": "Bezahlte Abonnements", "sub": "In 6 Stunden erreicht" },
+      "4": { "label": "0 → 1 Produkte", "sub": "Von der Idee zur Produktion" },
+      "5": {
+        "label": "Eingestellte Mentees",
+        "sub": "Ins kalte Wasser geworfen"
+      }
+    },
     "kevych": {
       "role": "Full-Stack-Entwickler",
       "company": "Kevych Solutions",

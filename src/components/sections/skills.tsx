@@ -4,10 +4,8 @@ import { useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
-import { skillCategories } from "@/lib/skills";
+import { skillCategories, CategoryKey } from "@/lib/skills";
 import { SkillsGlobe } from "./skills/globe";
-
-type CategoryKey = (typeof skillCategories)[number]["key"];
 
 export function Skills() {
   const t = useTranslations("Skills");
@@ -75,13 +73,11 @@ export function Skills() {
                       isHovered ? "text-foreground/90" : "text-foreground/60"
                     }`}
                   >
-                    {cat.skills.map((skill, j) => (
-                      <span key={skill}>
-                        {skill}
-                        {j < cat.skills.length - 1 && (
-                          <span className="mx-2  select-none bold text-foreground/20">
-                            ·
-                          </span>
+                    {Array.from({ length: cat.count }, (_, j) => (
+                      <span key={j}>
+                        {t(`items.${cat.key}.${j}` as Parameters<typeof t>[0])}
+                        {j < cat.count - 1 && (
+                          <span className="mx-2 select-none text-foreground/20">·</span>
                         )}
                       </span>
                     ))}

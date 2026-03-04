@@ -51,12 +51,75 @@
     "frontend": "Frontend",
     "backend": "Backend",
     "mobile": "Mobile",
-    "platform": "Platform"
+    "platform": "Platform",
+    "items": {
+      "ai": {
+        "0": "Streaming LLM integrations (OpenAI, Groq...)",
+        "1": "Voice AI (STT/TTS, ElevenLabs)",
+        "2": "RAG pipelines",
+        "3": "Prompt engineering & context design"
+      },
+      "frontend": {
+        "0": "React",
+        "1": "Next.js",
+        "2": "TypeScript",
+        "3": "Tailwind CSS",
+        "4": "TanStack Query",
+        "5": "Zustand",
+        "6": "Three.js",
+        "7": "WebSockets",
+        "8": "SEO"
+      },
+      "backend": {
+        "0": "Node.js",
+        "1": "Nest.js",
+        "2": "PostgreSQL",
+        "3": "Redis",
+        "4": "MongoDB",
+        "5": "Kafka",
+        "6": "GraphQL",
+        "7": "Microservices",
+        "8": "Stripe"
+      },
+      "mobile": {
+        "0": "React Native",
+        "1": "Expo",
+        "2": "Deep Linking",
+        "3": "Push Notifications",
+        "4": "In-App Purchases",
+        "5": "Ionic"
+      },
+      "platform": {
+        "0": "AWS (S3, Lambda, RDS)",
+        "1": "Docker",
+        "2": "GitHub Actions",
+        "3": "Cloudflare",
+        "4": "Nginx",
+        "5": "Sentry",
+        "6": "GA4",
+        "7": "Amplitude",
+        "8": "Playwright",
+        "9": "Jest",
+        "10": "Meta ADs"
+      }
+    }
   },
   "Experience": {
     "label": "Career",
     "title": "Work Experience",
     "present": "Present",
+    "impact": "Impact",
+    "metrics": {
+      "0": {
+        "label": "Features Delivered",
+        "sub": "From ticket to production"
+      },
+      "1": { "label": "Cost reduction", "sub": "Infrastructure savings" },
+      "2": { "label": "Performance gain", "sub": "E-commerce LCP / CLS" },
+      "3": { "label": "Paid subscriptions", "sub": "Acquired in 6 hours" },
+      "4": { "label": "0 → 1 Products", "sub": "From idea to production" },
+      "5": { "label": "Mentees hired", "sub": "Thrown into deep water" }
+    },
     "kevych": {
       "role": "Full-Stack Engineer",
       "company": "Kevych Solutions",
@@ -100,7 +163,7 @@
       "note": "Graduated with honors"
     },
     "aws": "AWS Certified Cloud Practitioner CLF-C02 (2025)",
-    "front-end": "Front-end React JS Web Development Course (2024)",
+    "front-end": "Front-end React Web Development Course (2024)",
     "java-script": "JavaScript + React from scratch to result (2024)"
   },
   "Projects": {

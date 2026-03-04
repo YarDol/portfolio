@@ -28,7 +28,7 @@ export function Footer() {
             >
               {t("privacy")}
             </Link>
-            <span className="text-xs text-muted/40">·</span>
+            <span className="text-xs text-muted/60">·</span>
             <Link
               href="/terms"
               className="text-xs text-muted hover:text-accent transition-colors"
@@ -44,7 +44,9 @@ export function Footer() {
               key={label}
               href={href}
               target={href.startsWith("mailto") ? undefined : "_blank"}
-              rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
+              rel={
+                href.startsWith("mailto") ? undefined : "noopener noreferrer"
+              }
               className="flex h-9 w-9 items-center justify-center rounded-lg border border-border text-muted transition-colors hover:border-accent hover:text-accent"
               aria-label={label}
             >
