@@ -43,7 +43,6 @@ export function SignalScene() {
     const group = new THREE.Group();
     scene.add(group);
 
-    // Materials
     const nucleusMat = new THREE.MeshStandardMaterial({
       roughness: 0.15,
       metalness: 0.7,
@@ -53,8 +52,9 @@ export function SignalScene() {
       opacity: 0.08,
       side: THREE.BackSide,
     });
-    const ringMats = Array.from({ length: RING_COUNT }, () =>
-      new THREE.LineBasicMaterial({ transparent: true }),
+    const ringMats = Array.from(
+      { length: RING_COUNT },
+      () => new THREE.LineBasicMaterial({ transparent: true }),
     );
     const particleMat = new THREE.PointsMaterial({
       size: 0.04,
@@ -62,10 +62,15 @@ export function SignalScene() {
       opacity: 0.35,
       sizeAttenuation: true,
     });
-    const nodeMat = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.6 });
-    const connMat = new THREE.LineBasicMaterial({ transparent: true, opacity: 0.15 });
+    const nodeMat = new THREE.MeshBasicMaterial({
+      transparent: true,
+      opacity: 0.6,
+    });
+    const connMat = new THREE.LineBasicMaterial({
+      transparent: true,
+      opacity: 0.15,
+    });
 
-    // Nucleus
     const nucleus = new THREE.Mesh(
       new THREE.SphereGeometry(0.42, 48, 48),
       nucleusMat,
@@ -73,7 +78,6 @@ export function SignalScene() {
     group.add(nucleus);
     group.add(new THREE.Mesh(new THREE.SphereGeometry(0.65, 32, 32), glowMat));
 
-    // Signal rings (circles on XY plane)
     const rings = ringMats.map((mat, i) => {
       const pts: number[] = [];
       const SEGS = 128;
@@ -89,7 +93,6 @@ export function SignalScene() {
       return ring;
     });
 
-    // Floating connection nodes
     const NODE_COUNT = 8;
     const nodePositions = Array.from({ length: NODE_COUNT }, (_, i) => {
       const angle = (i / NODE_COUNT) * Math.PI * 2;
@@ -101,14 +104,16 @@ export function SignalScene() {
       );
     });
     const nodes = nodePositions.map((pos) => {
-      const node = new THREE.Mesh(new THREE.SphereGeometry(0.07, 12, 12), nodeMat.clone());
+      const node = new THREE.Mesh(
+        new THREE.SphereGeometry(0.07, 12, 12),
+        nodeMat.clone(),
+      );
       node.position.copy(pos);
       group.add(node);
       return node;
     });
 
-    // Connection lines from nucleus to nodes
-    const connLines = nodes.map((node) => {
+    const connLines = nodes.map(() => {
       const posArr = new Float32Array(6);
       const geo = new THREE.BufferGeometry();
       geo.setAttribute("position", new THREE.BufferAttribute(posArr, 3));
@@ -117,7 +122,6 @@ export function SignalScene() {
       return { line, posArr, geo };
     });
 
-    // Ambient particles
     const N = 150;
     const pPos = new Float32Array(N * 3);
     for (let i = 0; i < N; i++) {
@@ -132,7 +136,6 @@ export function SignalScene() {
     pGeo.setAttribute("position", new THREE.BufferAttribute(pPos, 3));
     group.add(new THREE.Points(pGeo, particleMat));
 
-    // Lights
     scene.add(new THREE.AmbientLight(0xffffff, 0.4));
     const ptLight = new THREE.PointLight(undefined, 3, 12);
     ptLight.position.set(0, 0, 0);
@@ -196,14 +199,12 @@ export function SignalScene() {
       rafId = requestAnimationFrame(tick);
       t += 0.008;
 
-      // Nucleus pulse
       nucleus.scale.setScalar(1 + Math.sin(t * 2.2) * 0.05);
       nucleusMat.emissiveIntensity = 0.3 + Math.sin(t * 2.2) * 0.15;
 
-      // Expanding signal rings
-      rings.forEach((ring, i) => {
+      rings.forEach((ring) => {
         const phase = ring.userData.phase as number;
-        const progress = ((t * 0.4 + phase / (Math.PI * 2)) % 1);
+        const progress = (t * 0.4 + phase / (Math.PI * 2)) % 1;
         const scale = 0.5 + progress * 4.5;
         ring.scale.setScalar(scale);
         const mat = ring.material as THREE.LineBasicMaterial;
@@ -211,22 +212,23 @@ export function SignalScene() {
         mat.needsUpdate = true;
       });
 
-      // Floating nodes (gentle bob)
       nodes.forEach((node, i) => {
         const base = nodePositions[i];
         node.position.x = base.x + Math.sin(t * 0.5 + i * 0.8) * 0.12;
         node.position.y = base.y + Math.cos(t * 0.4 + i * 1.1) * 0.1;
       });
 
-      // Update connection lines
       connLines.forEach(({ posArr, geo }, i) => {
         const pos = nodes[i].position;
-        posArr[0] = 0; posArr[1] = 0; posArr[2] = 0;
-        posArr[3] = pos.x; posArr[4] = pos.y; posArr[5] = pos.z;
+        posArr[0] = 0;
+        posArr[1] = 0;
+        posArr[2] = 0;
+        posArr[3] = pos.x;
+        posArr[4] = pos.y;
+        posArr[5] = pos.z;
         geo.attributes.position.needsUpdate = true;
       });
 
-      // Mouse-driven group tilt
       group.rotation.x += (-mouse.y * 0.12 - group.rotation.x) * 0.04;
       group.rotation.y += (mouse.x * 0.2 - group.rotation.y) * 0.04;
       group.rotation.y += 0.001;

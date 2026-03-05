@@ -18,7 +18,7 @@ export function ContactBg() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const DOT_COUNT = 55;
+    const DOT_COUNT = 75;
     const CONNECTION_DIST = 120;
     let dots: Dot[] = [];
     let w = 0;
@@ -57,7 +57,9 @@ export function ContactBg() {
     };
 
     let accentRgb = "255,255,255";
-    const updateAccent = () => { accentRgb = getAccentRgb(); };
+    const updateAccent = () => {
+      accentRgb = getAccentRgb();
+    };
     updateAccent();
 
     const mo = new MutationObserver(updateAccent);
@@ -77,14 +79,13 @@ export function ContactBg() {
         if (d.y < 0 || d.y > h) d.vy *= -1;
       }
 
-      // Connections
       for (let i = 0; i < dots.length; i++) {
         for (let j = i + 1; j < dots.length; j++) {
           const dx = dots[i].x - dots[j].x;
           const dy = dots[i].y - dots[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < CONNECTION_DIST) {
-            const alpha = (1 - dist / CONNECTION_DIST) * 0.08;
+            const alpha = (1 - dist / CONNECTION_DIST) * 0.25;
             ctx.beginPath();
             ctx.strokeStyle = `rgba(${accentRgb},${alpha})`;
             ctx.lineWidth = 0.8;
@@ -95,10 +96,9 @@ export function ContactBg() {
         }
       }
 
-      // Dots
       for (const d of dots) {
         ctx.beginPath();
-        ctx.fillStyle = `rgba(${accentRgb},0.15)`;
+        ctx.fillStyle = `rgba(${accentRgb},035)`;
         ctx.arc(d.x, d.y, 1.5, 0, Math.PI * 2);
         ctx.fill();
       }
