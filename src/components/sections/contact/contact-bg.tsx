@@ -37,8 +37,8 @@ export function ContactBg() {
       dots = Array.from({ length: DOT_COUNT }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.18,
-        vy: (Math.random() - 0.5) * 0.18,
+        vx: (Math.random() - 0.5) * 0.15,
+        vy: (Math.random() - 0.5) * 0.15,
       }));
     };
 
@@ -85,7 +85,7 @@ export function ContactBg() {
           const dy = dots[i].y - dots[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < CONNECTION_DIST) {
-            const alpha = (1 - dist / CONNECTION_DIST) * 0.25;
+            const alpha = (1 - dist / CONNECTION_DIST) * 0.15;
             ctx.beginPath();
             ctx.strokeStyle = `rgba(${accentRgb},${alpha})`;
             ctx.lineWidth = 0.8;
@@ -98,7 +98,7 @@ export function ContactBg() {
 
       for (const d of dots) {
         ctx.beginPath();
-        ctx.fillStyle = `rgba(${accentRgb},035)`;
+        ctx.fillStyle = `rgba(${accentRgb},015)`;
         ctx.arc(d.x, d.y, 1.5, 0, Math.PI * 2);
         ctx.fill();
       }
@@ -106,7 +106,6 @@ export function ContactBg() {
 
     const ro = new ResizeObserver(() => {
       resize();
-      init();
     });
     ro.observe(canvas);
     resize();

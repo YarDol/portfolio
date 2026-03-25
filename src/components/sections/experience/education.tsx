@@ -11,7 +11,7 @@ export function EducationBlock() {
 
   return (
     <ScrollReveal>
-      <p className="font-mono text-[10px] tracking-widest text-accent uppercase mb-6">
+      <p className="font-mono text-xs tracking-widest text-accent uppercase mb-6">
         {edu("label")}
       </p>
 

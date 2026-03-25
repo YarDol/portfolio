@@ -4,7 +4,6 @@ import {
   useActionState,
   useEffect,
   useRef,
-  useState,
   startTransition,
 } from "react";
 import { useTranslations } from "next-intl";
@@ -18,7 +17,7 @@ import dynamic from "next/dynamic";
 import { initialState, errorMap } from "./contact/constants";
 import { Field } from "./contact/field";
 import { ContactHeader } from "./contact/contact-header";
-import { ConsentCheckbox } from "./contact/consent-checkbox";
+import { ConsentCheckbox, type ConsentCheckboxRef } from "./contact/consent-checkbox";
 import { SubmitButton } from "./contact/submit-button";
 import { FormStatus } from "./contact/form-status";
 import { ContactSidebar } from "./contact/sidebar";
@@ -36,9 +35,8 @@ export function Contact() {
   );
   const formRef = useRef<HTMLFormElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const consentRef = useRef<ConsentCheckboxRef>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
-  const [consented, setConsented] = useState(false);
-  const [consentTouched, setConsentTouched] = useState(false);
 
   function fieldError(key: string | undefined) {
     if (!key || !errorMap[key]) return null;
@@ -49,16 +47,15 @@ export function Contact() {
     if (!state.success) return;
     formRef.current?.reset();
     queueMicrotask(() => {
-      setConsented(false);
-      setConsentTouched(false);
+      consentRef.current?.reset();
     });
   }, [state.success]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isPending) return;
-    setConsentTouched(true);
-    if (!consented) return;
+    consentRef.current?.touch();
+    if (!consentRef.current?.isConsented()) return;
     const formData = new FormData(e.target as HTMLFormElement);
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
@@ -171,12 +168,7 @@ export function Contact() {
               </Field>
 
               <ConsentCheckbox
-                consented={consented}
-                consentTouched={consentTouched}
-                onConsentChange={(checked) => {
-                  setConsented(checked);
-                  setConsentTouched(true);
-                }}
+                ref={consentRef}
                 consentBefore={t("consentBefore")}
                 consentLink={t("consentLink")}
                 consentAfter={t("consentAfter")}

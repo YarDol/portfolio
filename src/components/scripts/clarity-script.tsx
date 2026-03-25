@@ -1,27 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Script from "next/script";
-import { getConsent } from "@/lib/consent";
 
 const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID;
 
 export function ClarityScript() {
-  const [enabled, setEnabled] = useState(false);
-
-  useEffect(() => {
-    if (getConsent() === "accepted") {
-      queueMicrotask(() => setEnabled(true));
-    }
-
-    const handler = () => setEnabled(true);
-    window.addEventListener("cookie-consent-accepted", handler);
-    return () => window.removeEventListener("cookie-consent-accepted", handler);
-  }, []);
-
-  if (!enabled || !CLARITY_ID || process.env.NODE_ENV !== "production") {
-    return null;
-  }
+  if (!CLARITY_ID || process.env.NODE_ENV !== "production") return null;
 
   return (
     <Script id="microsoft-clarity" strategy="afterInteractive">

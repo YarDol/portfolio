@@ -31,7 +31,7 @@ export function ContactHeader({
       </motion.p>
       <motion.h2
         {...fadeUp(0.06)}
-        className="text-3xl font-bold tracking-tight sm:text-4xl mb-4"
+        className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl mb-4"
       >
         {title}
       </motion.h2>

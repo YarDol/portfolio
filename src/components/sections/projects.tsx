@@ -17,7 +17,7 @@ export function Projects() {
           <p className="font-mono text-xs tracking-widest text-accent uppercase mb-2">
             {t("label")}
           </p>
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+          <h2 className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
             {t("title")}
           </h2>
           <p className="mt-3 text-muted text-sm max-w-lg">{t("subtitle")}</p>
