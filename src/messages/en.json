@@ -18,7 +18,7 @@
     "note": "Production architecture · low-latency AI pipelines · scalable serverless systems · privacy-aware design.",
     "cta": "View My Work",
     "contact": "Get in Touch",
-    "workRights": "Sangerhausen, Germany · §24 Work Rights"
+    "workRights": "Sangerhausen, Germany"
   },
   "About": {
     "label": "About",
@@ -141,25 +141,25 @@
     "certifications": "Certifications",
     "master": {
       "degree": "Master in Computer Engineering",
-      "school": "Ternopil Ivan Puluj National Technical University",
+      "school": "Ternopil Ivan Puluj National Technical University, Anabin H+",
       "period": "09/2024 — 01/2026",
       "note": "Specialized in software architecture and cloud computing"
     },
     "bachelor": {
       "degree": "Bachelor of Computer Engineering",
-      "school": "Ternopil Ivan Puluj National Technical University",
+      "school": "Ternopil Ivan Puluj National Technical University, Anabin H+",
       "period": "09/2022 — 06/2024",
       "note": "Graduated with honors"
     },
     "exchange": {
       "degree": "Bachelor of Artificial Intelligence (Interrupted)",
-      "school": "Technical University of Kosice",
+      "school": "Technical University of Kosice, Anabin H+",
       "period": "09/2022 — 01/2023",
       "note": "Focused on AI and machine learning courses"
     },
     "junior": {
       "degree": "Professional Junior Bachelor's degree",
-      "school": "Ternopil State Ivan Pul'uj' Technical College",
+      "school": "Ternopil State Ivan Pul'uj' Technical College, Anabin H+/-",
       "period": "09/2018 — 06/2022",
       "note": "Graduated with honors"
     },
