@@ -14,7 +14,7 @@ export function getProfile(locale: Locale) {
   const m = msg(locale);
   return {
     name: "Yaroslav Dolhushyn",
-    role: m.Hero.role,
+    role: m.Hero.role1,
     location: siteConfig.location,
     workAuthorization: "Full working rights in Germany (§24)",
     experience: m.About.highlights.experience,
