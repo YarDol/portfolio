@@ -11,14 +11,24 @@
     "contact": "Kontakt"
   },
   "Hero": {
-    "greeting": "Hallo, ich bin",
     "name": "Yaroslav Dolhushyn",
-    "role": "Full-Stack-Entwickler",
-    "subtitle": "Ich entwickle KI-gestützte Webanwendungen für den Produktiveinsatz — nicht nur Demos.",
-    "note": "Produktionsarchitektur · KI-Pipelines mit niedriger Latenz · skalierbare Serverless-Systeme · datenschutzbewusstes Design.",
+    "role1": "Full-Stack-Entwickler",
+    "role2": " & Problemlöser",
+    "whoDesc": "Entwicklung skalierbarer Systeme, die technische Komplexität mit intuitiven Nutzererlebnissen verbinden. Fokus auf hochperformante Webanwendungen und die Zukunft KI-gestützter Entwicklung.",
+    "pastDesc": "Digitale Produkte für 100.000+ Nutzer entwickelt und ausgeliefert. Full-Stack-Entwicklung für hochlastige Medien-Ökosysteme, KI-Sprachplattformen und kreative Automatisierungstools geleitet. Fokus auf den Übergang von Legacy-Architekturen zu modernen, containerisierten Stacks, die Geschwindigkeit und Kosteneffizienz priorisieren.",
+    "nowItem1Desc": "Die Lücke zwischen LLMs und deterministischem Code schließen. KI-gesteuerte Workflows standardisieren, um Entwickler-Reibung zu eliminieren. Die Backend-Schicht optimieren – Datenbankindizierung, Caching-Strategien und die Ergonomie hochperformanter Websysteme verfeinern.",
     "cta": "Meine Arbeit",
     "contact": "Kontakt aufnehmen",
-    "workRights": "Sangerhausen, Deutschland · §24 Arbeitsrechte"
+    "annotations": {
+      "title": "Problemlöser",
+      "titleSub": "& Full-Stack-Entwickler",
+      "status": "Offen für Angebote",
+      "location": "Sangerhausen, Deutschland",
+      "locationSub": "51.28° N · 11.17° E",
+      "cv": "Lebenslauf laden",
+      "cta": "Meine Arbeit",
+      "contact": "Kontakt aufnehmen"
+    }
   },
   "About": {
     "label": "Über mich",

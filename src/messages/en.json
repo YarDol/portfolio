@@ -11,14 +11,24 @@
     "contact": "Contact"
   },
   "Hero": {
-    "greeting": "Hi, I'm",
     "name": "Yaroslav Dolhushyn",
-    "role": "Full-Stack Engineer",
-    "subtitle": "I build AI-powered web applications for real-world use — not just demos.",
-    "note": "Production architecture · low-latency AI pipelines · scalable serverless systems · privacy-aware design.",
+    "role1": "Full-Stack Engineer",
+    "role2": " & Problem Solver",
+    "whoDesc": "Building scalable systems that bridge technical complexity with intuitive user experiences. Focused on high-performance web applications and the future of AI-driven development.",
+    "pastDesc": "Architected and shipped digital products for 100k+ users. Led full-stack development for high-load media ecosystems, AI voice platforms, and creative automation tools. Focused on the transition from legacy architectures to modern, containerized stacks that prioritize speed and cost-efficiency.",
+    "nowItem1Desc": "Bridging the gap between LLMs and deterministic code. Standardizing AI-driven workflows to eliminate developer friction. Optimizing the backend layer-refining database indexing, caching strategies, and the ergonomics of high-performance web systems.",
     "cta": "View My Work",
     "contact": "Get in Touch",
-    "workRights": "Sangerhausen, Germany"
+    "annotations": {
+      "title": "Problem Solver",
+      "titleSub": "& Full-Stack Engineer",
+      "status": "Open to Work",
+      "location": "Sangerhausen, Germany",
+      "locationSub": "51.28° N · 11.17° E",
+      "cv": "Download CV",
+      "cta": "View My Work",
+      "contact": "Get in Touch"
+    }
   },
   "About": {
     "label": "About",

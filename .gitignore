@@ -42,3 +42,18 @@ next-env.d.ts
 
 PROJECT_INDEX.md
 PROJECT_INDEX.json
+
+# Claude Code
+.claude/
+CLAUDE.md
+
+_bmad/
+_bmad-output/
+
+.vscode/
+
+bun.lock
+
+skills-lock.json
+
+.agents/

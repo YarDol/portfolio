@@ -29,7 +29,7 @@ const certifications = [
 
 export const portfolioSnapshot = `
 Name: Yaroslav Dolhushyn
-Role: ${en.Hero.role}
+Role: ${en.Hero.role1}
 Location: ${siteConfig.location}
 Work Authorization: Full working rights in Germany (§24)
 Summary: ${en.About.description}

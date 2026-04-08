@@ -1,99 +1,124 @@
 "use client";
 
+import { useLayoutEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
-import { siteConfig } from "@/lib/constants";
-import { VideoCircle } from "./video-circle";
 import { stagger, fadeUp } from "./variants";
 
 type HeroContentProps = {
   name: string;
-  role: string;
-  subtitle: string;
-  note: string;
-  workRights: string;
-  cta: string;
-  contact: string;
+  role1: string;
+  role2: string;
+  whoDesc: string;
+  pastDesc: string;
+  nowText: string;
 };
+
+function FigmaSelect({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [size, setSize] = useState("");
+
+  useLayoutEffect(() => {
+    if (ref.current) {
+      const rect = ref.current.getBoundingClientRect();
+      setSize(`${Math.round(rect.width)}×${Math.round(rect.height)}`);
+    }
+  }, []);
+
+  return (
+    <span ref={ref} className="figma-select">
+      {children}
+      <span className="figma-select-corners">
+        <span className="figma-select-border" />
+        <span className="figma-corner figma-corner--tl" />
+        <span className="figma-corner figma-corner--tr" />
+        <span className="figma-corner figma-corner--bl" />
+        <span className="figma-corner figma-corner--br" />
+        {size && <span className="figma-size-label">{size}</span>}
+      </span>
+    </span>
+  );
+}
+
+function IndexLabel({ children }: { children: string }) {
+  return (
+    <span className="group relative inline-block text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/60 pt-0.5 cursor-default select-none w-fit">
+      {children}
+
+      <span className="absolute bottom-0 left-0 h-px w-full bg-foreground/20" />
+
+      <span className="absolute bottom-0 left-0 h-px w-0 bg-foreground/65 transition-all duration-300 group-hover:w-full" />
+    </span>
+  );
+}
+
+function LeadText({ text }: { text: string }) {
+  const cut = text.indexOf(". ");
+  if (cut === -1) {
+    return <span className="text-foreground/80">{text}</span>;
+  }
+  return (
+    <>
+      <span className="text-foreground/85">{text.slice(0, cut + 1)}</span>
+      <span className="text-muted">{text.slice(cut + 1)}</span>
+    </>
+  );
+}
 
 export function HeroContent({
   name,
-  role,
-  subtitle,
-  note,
-  workRights,
-  cta,
-  contact,
+  role1,
+  role2,
+  whoDesc,
+  pastDesc,
+  nowText,
 }: HeroContentProps) {
   return (
-    <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2 lg:gap-12">
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={stagger}
-        className="flex flex-col gap-7"
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={stagger}
+      className="pointer-events-auto flex flex-col gap-8 max-w-2xl"
+    >
+  
+      <motion.h1
+        variants={fadeUp}
+        className="text-5xl font-bold leading-[1.02] tracking-tight text-foreground sm:text-6xl xl:text-[5.25rem]"
       >
-        <motion.h1
-          variants={fadeUp}
-          className="text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl xl:text-7xl"
-        >
-          {name}
-        </motion.h1>
+        {name}
+      </motion.h1>
 
-        <motion.p variants={fadeUp} className="text-lg text-muted sm:text-xl">
-          {role}
-        </motion.p>
 
-        <motion.p
-          variants={fadeUp}
-          className="max-w-sm text-base leading-relaxed text-muted/80"
-        >
-          {subtitle}
-        </motion.p>
+      <motion.p variants={fadeUp} className="text-xl text-muted leading-snug">
+        <FigmaSelect>{role1}</FigmaSelect>
+        {role2}
+      </motion.p>
 
-        <motion.p
-          variants={fadeUp}
-          className="max-w-sm text-xs text-muted/70 tracking-wide leading-relaxed"
-        >
-          {note}
-        </motion.p>
 
-        <motion.p
-          variants={fadeUp}
-          className="font-mono text-xs text-muted/60 tracking-wide"
-        >
-          {workRights}
-        </motion.p>
+      <motion.div
+        variants={fadeUp}
+        className="w-10 border-t border-border/60"
+      />
 
-        <motion.div
-          variants={fadeUp}
-          className="flex flex-wrap items-center gap-6 pt-1"
-        >
-          <a
-            href="#projects"
-            className="text-sm font-medium text-foreground underline underline-offset-4 decoration-accent/60 hover:decoration-accent transition-colors"
-          >
-            {cta} →
-          </a>
-          <a
-            href={siteConfig.cvUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm font-medium text-muted hover:text-foreground transition-colors underline underline-offset-4 decoration-muted/30 hover:decoration-muted"
-          >
-            Download CV
-          </a>
-          <a
-            href="#contact"
-            className="text-sm font-medium text-muted hover:text-foreground transition-colors underline underline-offset-4 decoration-muted/30 hover:decoration-muted"
-          >
-            {contact}
-          </a>
-        </motion.div>
+  
+      <motion.div
+        variants={fadeUp}
+        className="grid grid-cols-[3rem_1fr] gap-x-8 gap-y-8 items-start"
+      >
+        <IndexLabel>Who</IndexLabel>
+        <p className="text-base leading-[1.8] max-w-115">
+          <LeadText text={whoDesc} />
+        </p>
+
+        <IndexLabel>Past</IndexLabel>
+        <p className="text-base leading-[1.8] max-w-150">
+          <LeadText text={pastDesc} />
+        </p>
+
+        <IndexLabel>Now</IndexLabel>
+        <p className="text-base leading-[1.8] lg:w-[calc(100%+10rem)]">
+          <LeadText text={nowText} />
+        </p>
       </motion.div>
-
-      <div className="flex justify-center lg:justify-end">
-        <VideoCircle />
-      </div>
-    </div>
+    </motion.div>
   );
 }
