@@ -228,9 +228,9 @@
         "role": "Full-Stack-Entwickler"
       },
       "8": {
-        "title": "Dieses Portfolio",
-        "description": "Die Website, die Sie gerade sehen. Gebaut mit Next.js 15, Three.js, Framer Motion, Tailwind CSS v4 und next-intl für EN/DE-Lokalisierung. Enthält einen OpenAI-gestützten Chat-Assistenten mit RAG, eine Sprachoberfläche mit STT/TTS und ein datenschutzkonformes Analytics-Setup.",
-        "role": "Persönliches Projekt"
+        "title": "Kinderplattform",
+        "description": "Ein sicherer Ort für Kinder. Lernspiele mit hohen Sicherheitsstandards. Verknüpfung von React Native mit Unity-Modulen und Implementierung von RAG für intelligente Interaktionen im Spiel. Entwicklung maßgeschneiderter Editoren und eines Live-Chats unter Einhaltung strenger Datenschutzstandards für Kinder.",
+        "role": "Full-Stack-Entwickler"
       }
     }
   },
