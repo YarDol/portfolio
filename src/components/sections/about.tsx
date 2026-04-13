@@ -1,39 +1,33 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { HighlightsGrid } from "./about/highlights-grid";
 import { TopicsTicker } from "./about/topics-ticker";
 import { AboutGraphSection } from "./about/graph-section";
+import { GumText } from "./about/gum-text";
+
 export function About() {
   const t = useTranslations("About");
+  const locale = (useLocale() as string) ?? "en";
 
   return (
     <section id="about" className="py-24 overflow-hidden">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-6 items-center min-h-135">
-          <div className="flex flex-col gap-7">
+          <div className="flex flex-col gap-8">
             <ScrollReveal>
-              <p className="font-mono text-xs tracking-widest text-accent uppercase">
+              <p className="font-mono text-[12px] tracking-widest text-muted/90 uppercase">
                 {t("label")}
               </p>
-              <h2 className="mt-2 text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
-                {t("title")}
-              </h2>
             </ScrollReveal>
 
-            <ScrollReveal delay={0.1}>
-              <p className="text-base font-medium text-foreground/90 leading-relaxed">
-                {t("description")}
-              </p>
-            </ScrollReveal>
-
-            <ScrollReveal delay={0.15}>
-              <p className="text-sm leading-relaxed text-muted">{t("bio1")}</p>
-            </ScrollReveal>
-
-            <ScrollReveal delay={0.2}>
-              <p className="text-sm leading-relaxed text-muted">{t("bio2")}</p>
+            <ScrollReveal delay={0.08}>
+              <GumText
+                paras={[t("description"), t("bio1"), t("bio2")]}
+                locale={locale}
+              />
             </ScrollReveal>
 
             <HighlightsGrid t={t as (key: string) => string} />

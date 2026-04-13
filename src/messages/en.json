@@ -33,7 +33,9 @@
   "About": {
     "label": "About",
     "title": "About Me",
-    "description": "7+ commercial products shipped. 100K+ users reached. 40% load time reduction. From AI voice apps to high-traffic video platforms — I build systems that perform under real conditions, not just in demos.",
+    "description": "After shipping commercial products reaching 100k+ users and building a foundation in high-performance web systems and AI-native architecture, I've shifted my focus toward engineering growth.",
+    "bio1": "For me, that means more than just writing code — spotting technical opportunities, optimizing for sub-second latency, and making bold architectural decisions that survive real-world scale.",
+    "bio2": "I believe great software is a team sport. I thrive in environments where we ship quickly, challenge each other's ideas, and celebrate wins together. Whether it's mentoring interns or collaborating with cross-functional teams, my goal is always the same: building scalable platforms that don't just work, but excel.",
     "highlights": {
       "experience": "2+ Years",
       "experienceLabel": "Commercial Experience",
@@ -45,8 +47,6 @@
       "educationLabel": "Computer Engineering",
       "currently": "currently"
     },
-    "bio1": "I own features end-to-end — API design, React or React Native UI, AWS infrastructure — and make sure everything holds up under real traffic. Currently focused on AI-native product architecture: streaming LLM systems, retrieval-augmented generation, and performance-optimized interfaces where intelligence enhances interaction in real time.",
-    "bio2": "Based in Sangerhausen, Germany with full working rights. Looking for a team that ships fast, cares about quality, and builds products people actually use. Open to on-site, hybrid, or remote across Germany.",
     "topics": {
       "streaming": "Streaming LLM systems",
       "generation": "Retrieval-augmented generation",

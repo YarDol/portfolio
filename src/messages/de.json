@@ -33,7 +33,9 @@
   "About": {
     "label": "Über mich",
     "title": "Über mich",
-    "description": "7+ kommerzielle Produkte ausgeliefert. 100K+ Nutzer erreicht. Ladezeiten um 40% reduziert. Von KI-Sprach-Apps bis zu hochfrequentierten Video-Plattformen — ich baue Systeme, die unter realen Bedingungen performen, nicht nur in Demos.",
+    "description": "Nach der Auslieferung kommerzieller Produkte für über 100.000 Nutzer und dem Aufbau eines Fundaments in hochperformanten Web-Systemen und KI-nativer Architektur habe ich meinen Fokus auf Engineering-Wachstum verlagert.",
+    "bio1": "Für mich bedeutet das mehr als nur Code schreiben — technische Möglichkeiten erkennen, für Sub-Sekunden-Latenz optimieren und mutige Architekturentscheidungen treffen, die echten Bedingungen standhalten.",
+    "bio2": "Ich glaube, gute Software ist Teamsport. Ich arbeite am besten in Umgebungen, wo wir schnell liefern, Ideen gegenseitig hinterfragen und Erfolge gemeinsam feiern. Ob Mentoring von Junioren oder crossfunktionale Zusammenarbeit — mein Ziel ist immer dasselbe: skalierbare Plattformen bauen, die nicht nur funktionieren, sondern herausragen.",
     "highlights": {
       "experience": "2+ Jahre",
       "experienceLabel": "Berufserfahrung",
@@ -45,8 +47,6 @@
       "educationLabel": "Informatik",
       "currently": "aktuell"
     },
-    "bio1": "Ich verantworte Features von Anfang bis Ende — API-Design, React- oder React-Native-UI, AWS-Infrastruktur — und stelle sicher, dass alles unter echtem Traffic standhält. Aktuell fokussiert auf KI-native Produktarchitektur: Streaming-LLM-Systeme, Retrieval-Augmented Generation und performance-optimierte Interfaces, bei denen Intelligenz die Interaktion in Echtzeit verbessert.",
-    "bio2": "Wohnhaft in Sangerhausen, Deutschland mit voller Arbeitserlaubnis (§24). Ich suche ein Team, das schnell liefert, auf Qualität achtet und Produkte baut, die wirklich genutzt werden. Offen für Vor-Ort, hybrid oder remote in ganz Deutschland.",
     "topics": {
       "streaming": "Streaming-LLM-Systeme",
       "generation": "Retrieval-Augmented Generation",

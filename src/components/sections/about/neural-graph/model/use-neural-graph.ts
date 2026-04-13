@@ -1,20 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, RefObject } from "react";
 import * as THREE from "three";
+import { NODE_COUNT, BOUNDS, PALETTE, CONNECTION_DIST } from "../config/constants";
+import type { NodeData } from "./types";
 
-const NODE_COUNT = 52;
-const CONNECTION_DIST = 2.6;
-const BOUNDS = 5.5;
-
-interface NodeData {
-  pos: THREE.Vector3;
-  vel: THREE.Vector3;
-}
-
-export function NeuralGraph() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
+export const useNeuralGraph = (canvasRef: RefObject<HTMLCanvasElement | null>) => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -31,44 +22,56 @@ export function NeuralGraph() {
     const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
     camera.position.z = 14;
 
-    const rawAccent =
-      getComputedStyle(document.documentElement)
-        .getPropertyValue("--accent")
-        .trim() || "#818cf8";
-    const accentColor = new THREE.Color(rawAccent);
+    const dark = document.documentElement.classList.contains("dark");
 
-    const nodeGeo = new THREE.SphereGeometry(0.07, 8, 6);
+    const nodeGeo = new THREE.IcosahedronGeometry(0.08, 0);
     const nodeMat = new THREE.MeshBasicMaterial({
-      color: accentColor,
+      color: 0xffffff,
       transparent: true,
-      opacity: 0.8,
+      opacity: dark ? 0.8 : 0.7,
+      wireframe: true,
     });
     const instancedMesh = new THREE.InstancedMesh(nodeGeo, nodeMat, NODE_COUNT);
     instancedMesh.frustumCulled = false;
     scene.add(instancedMesh);
 
-    const nodes: NodeData[] = Array.from({ length: NODE_COUNT }, () => ({
-      pos: new THREE.Vector3(
-        (Math.random() - 0.5) * BOUNDS * 2,
-        (Math.random() - 0.5) * BOUNDS * 2,
-        (Math.random() - 0.5) * BOUNDS,
-      ),
-      vel: new THREE.Vector3(
-        (Math.random() - 0.5) * 0.006,
-        (Math.random() - 0.5) * 0.006,
-        (Math.random() - 0.5) * 0.002,
-      ),
-    }));
+    const paletteColors = PALETTE.map(c => new THREE.Color(c));
+
+    const nodes: NodeData[] = Array.from({ length: NODE_COUNT }, (_, i) => {
+      const color = paletteColors[Math.floor(Math.random() * paletteColors.length)];
+      instancedMesh.setColorAt(i, color);
+      return {
+        pos: new THREE.Vector3(
+          (Math.random() - 0.5) * BOUNDS * 2,
+          (Math.random() - 0.5) * BOUNDS * 2,
+          (Math.random() - 0.5) * BOUNDS,
+        ),
+        vel: new THREE.Vector3(
+          (Math.random() - 0.5) * 0.006,
+          (Math.random() - 0.5) * 0.006,
+          (Math.random() - 0.5) * 0.002,
+        ),
+        color,
+        scale: 0.4 + Math.random() * 0.8,
+      };
+    });
+    if (instancedMesh.instanceColor) instancedMesh.instanceColor.needsUpdate = true;
 
     const MAX_PAIRS = (NODE_COUNT * (NODE_COUNT - 1)) / 2;
     const linePosArr = new Float32Array(MAX_PAIRS * 2 * 3);
+    const lineColArr = new Float32Array(MAX_PAIRS * 2 * 3);
+    
     const lineGeo = new THREE.BufferGeometry();
     const linePosAttr = new THREE.BufferAttribute(linePosArr, 3);
+    const lineColAttr = new THREE.BufferAttribute(lineColArr, 3);
+    
     lineGeo.setAttribute("position", linePosAttr);
+    lineGeo.setAttribute("color", lineColAttr);
+    
     const lineMat = new THREE.LineBasicMaterial({
-      color: accentColor,
+      vertexColors: true,
       transparent: true,
-      opacity: 0.18,
+      opacity: dark ? 0.35 : 0.25,
     });
     const lineSegs = new THREE.LineSegments(lineGeo, lineMat);
     lineSegs.frustumCulled = false;
@@ -119,12 +122,14 @@ export function NeuralGraph() {
         }
 
         dummy.position.copy(n.pos);
+        dummy.scale.setScalar(n.scale);
         dummy.updateMatrix();
         instancedMesh.setMatrixAt(i, dummy.matrix);
       }
       instancedMesh.instanceMatrix.needsUpdate = true;
 
       let v = 0;
+      let cIdx = 0;
       for (let i = 0; i < NODE_COUNT; i++) {
         for (let j = i + 1; j < NODE_COUNT; j++) {
           const dx = nodes[i].pos.x - nodes[j].pos.x;
@@ -137,10 +142,18 @@ export function NeuralGraph() {
             linePosArr[v++] = nodes[j].pos.x;
             linePosArr[v++] = nodes[j].pos.y;
             linePosArr[v++] = nodes[j].pos.z;
+            
+            lineColArr[cIdx++] = nodes[i].color.r;
+            lineColArr[cIdx++] = nodes[i].color.g;
+            lineColArr[cIdx++] = nodes[i].color.b;
+            lineColArr[cIdx++] = nodes[j].color.r;
+            lineColArr[cIdx++] = nodes[j].color.g;
+            lineColArr[cIdx++] = nodes[j].color.b;
           }
         }
       }
       linePosAttr.needsUpdate = true;
+      lineColAttr.needsUpdate = true;
       lineGeo.setDrawRange(0, v / 3);
 
       const t = Date.now() * 0.00018;
@@ -162,7 +175,5 @@ export function NeuralGraph() {
       lineGeo.dispose();
       lineMat.dispose();
     };
-  }, []);
-
-  return <canvas ref={canvasRef} className="w-full h-full block" />;
-}
+  }, [canvasRef]);
+};

@@ -13,7 +13,7 @@ export function HighlightsGrid({ t }: HighlightsGridProps) {
       <div className="grid grid-cols-4 gap-x-6 gap-y-3 pt-1 border-t border-border">
         {highlights.map(({ key, labelKey }) => (
           <div key={key} className="pt-3">
-            <p className="text-lg font-bold text-accent">
+            <p className="text-lg font-bold">
               {t(`highlights.${key}`)}
             </p>
             <p className="text-[11px] text-muted leading-tight mt-0.5">
