@@ -3,11 +3,12 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { siteConfig } from "@/lib/constants";
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Github, Linkedin, Mail, Instagram } from "lucide-react";
 
 const socialLinks = [
   { href: siteConfig.links.github, icon: Github, label: "GitHub" },
   { href: siteConfig.links.linkedin, icon: Linkedin, label: "LinkedIn" },
+  { href: siteConfig.links.instagram, icon: Instagram, label: "Instagram" },
   { href: `mailto:${siteConfig.email}`, icon: Mail, label: "Email" },
 ] as const;
 

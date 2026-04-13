@@ -3,8 +3,8 @@
 :root {
   --background: #fafafa;
   --foreground: #0a0a0a;
-  --accent: #4f46e5;
-  --accent-light: #818cf8;
+  --accent: #005ce6;
+  --accent-light: #3385ff;
   --muted: #737373;
   --border: #e5e5e5;
   --card: #ffffff;
@@ -13,8 +13,8 @@
 .dark {
   --background: #0a0a0a;
   --foreground: #fafafa;
-  --accent: #818cf8;
-  --accent-light: #a5b4fc;
+  --accent: #0d99ff;
+  --accent-light: #66bfff;
   --muted: #a3a3a3;
   --border: #262626;
   --card: #171717;
@@ -37,10 +37,17 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
   line-height: 1.6;
-  font-feature-settings: "rlig" 1, "calt" 1;
+  font-feature-settings:
+    "rlig" 1,
+    "calt" 1;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   text-rendering: optimizeLegibility;
   text-wrap: balance;
   line-height: 1.2;
@@ -56,25 +63,49 @@ html {
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20% { transform: translateX(-4px); }
-  40% { transform: translateX(4px); }
-  60% { transform: translateX(-3px); }
-  80% { transform: translateX(3px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-4px);
+  }
+  40% {
+    transform: translateX(4px);
+  }
+  60% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
 }
 
 @keyframes cursor-blink {
-  0% { opacity: 1; }
-  50% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes typing-dot {
-  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
-  30% { opacity: 1; transform: translateY(-3px); }
+  0%,
+  60%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
 }
 
-/* Figma selection easter egg — desktop only */
 .figma-select {
   position: relative;
   display: inline-block;
@@ -99,10 +130,22 @@ html {
   background: white;
   border: 1.5px solid #0d99ff;
 }
-.figma-corner--tl { top: -3px; left: -3px; }
-.figma-corner--tr { top: -3px; right: -3px; }
-.figma-corner--bl { bottom: -3px; left: -3px; }
-.figma-corner--br { bottom: -3px; right: -3px; }
+.figma-corner--tl {
+  top: -3px;
+  left: -3px;
+}
+.figma-corner--tr {
+  top: -3px;
+  right: -3px;
+}
+.figma-corner--bl {
+  bottom: -3px;
+  left: -3px;
+}
+.figma-corner--br {
+  bottom: -3px;
+  right: -3px;
+}
 .figma-size-label {
   position: absolute;
   bottom: calc(100% + 6px);

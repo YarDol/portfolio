@@ -104,7 +104,15 @@ export const projects = [
     titleKey: "items.8.title",
     descKey: "items.8.description",
     roleKey: "items.8.role",
-    stack: ["Next.js", "Three.js", "Framer Motion", "Groq", "Llama", "OpenAI"],
+    stack: [
+      "Unity",
+      "React Native",
+      "Next.js",
+      "OpenAI",
+      "RAG",
+      "AWS",
+      "TypeScript",
+    ],
     gradient: "from-cyan-500/20 to-sky-500/20",
   },
 ] as const;

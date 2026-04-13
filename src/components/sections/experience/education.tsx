@@ -1,7 +1,6 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { motion } from "motion/react";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
 const educationEntries = ["master", "bachelor", "exchange", "junior"] as const;
@@ -22,7 +21,7 @@ export function EducationBlock() {
               {edu(`${key}.degree`)}
             </p>
             <p className="text-xs text-muted mt-0.5">{edu(`${key}.school`)}</p>
-            <p className="font-mono text-[10px] text-accent/60 mt-1">
+            <p className="font-mono text-[11px] text-accent/60 mt-1">
               {edu(`${key}.period`)}
             </p>
           </div>

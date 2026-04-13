@@ -44,7 +44,7 @@ export function Experience() {
           <div className="flex flex-col gap-14">
             <div>
               <ScrollReveal className="mb-2">
-                <p className="font-mono text-[10px] tracking-widest text-muted/60 uppercase">
+                <p className="font-mono text-[10px] tracking-widest text-accent/60 uppercase">
                   {t("impact")}
                 </p>
               </ScrollReveal>

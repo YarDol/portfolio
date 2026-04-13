@@ -19,7 +19,7 @@ export function PersonJsonLd({ locale }: JsonLdProps) {
       addressLocality: "Sangerhausen",
       addressCountry: "DE",
     },
-    sameAs: [siteConfig.links.github, siteConfig.links.linkedin],
+    sameAs: [siteConfig.links.github, siteConfig.links.linkedin, siteConfig.links.instagram],
     knowsAbout: [
       "TypeScript",
       "React",

@@ -8,6 +8,7 @@ export const siteConfig = {
   links: {
     github: "https://github.com/yarDol",
     linkedin: "https://www.linkedin.com/in/yaroslav-dolhushyn-46466418a/",
+    instagram: "https://www.instagram.com/yar.do_?igsh=MWk1bWNvcDNseTA3Mw%3D%3D&utm_source=qr",
   },
   cvUrl: "https://yaroslavdolhushyn.dev/cv.pdf",
 } as const;

@@ -18,7 +18,7 @@ export function About() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-6 items-center min-h-135">
           <div className="flex flex-col gap-8">
             <ScrollReveal>
-              <p className="font-mono text-[12px] tracking-widest text-muted/90 uppercase">
+              <p className="font-mono text-[12px] tracking-widest text-accent uppercase">
                 {t("label")}
               </p>
             </ScrollReveal>

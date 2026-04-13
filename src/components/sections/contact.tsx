@@ -10,7 +10,7 @@ import { useTranslations } from "next-intl";
 import { motion, useInView } from "motion/react";
 import { sendContactForm } from "@/app/actions/contact";
 import { siteConfig } from "@/lib/constants";
-import { Mail, Phone, Github, Linkedin } from "lucide-react";
+import { Mail, Phone, Github, Linkedin, Instagram } from "lucide-react";
 import { trackEvent } from "@/lib/gtag";
 import dynamic from "next/dynamic";
 
@@ -102,6 +102,7 @@ export function Contact() {
   const socialLinks = [
     { href: siteConfig.links.github, icon: Github, label: "GitHub" },
     { href: siteConfig.links.linkedin, icon: Linkedin, label: "LinkedIn" },
+    { href: siteConfig.links.instagram, icon: Instagram, label: "Instagram" },
   ];
 
   return (
