@@ -5,18 +5,16 @@ import { DefaultChatTransport } from "ai";
 import { useTranslations } from "next-intl";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { MessageCircle, Send } from "lucide-react";
-import { useVoiceRecorder } from "@/hooks/use-voice-recorder";
+import { MessageCircle } from "lucide-react";
 import { useTTS } from "@/hooks/use-tts";
-import {
-  VoiceButton,
-  type VoiceButtonDisplayState,
-} from "@/components/chat/voice-button";
 import { ChatMessage } from "@/components/chat/chat-message";
 import { ChatWelcome } from "@/components/chat/chat-welcome";
 import { ChatHeader } from "@/components/chat/chat-header";
 import { ChatError } from "@/components/chat/chat-error";
 import { ChatThinking } from "@/components/chat/chat-thinking";
+import { ChatInputBar } from "@/components/chat/ui/chat-input-bar";
+import { useTtsStreaming } from "@/components/chat/model/use-tts-streaming";
+import { useChatVoice } from "@/components/chat/model/use-chat-voice";
 import { trackEvent } from "@/lib/gtag";
 
 export default function Chat({ locale = "en" }: { locale?: string }) {
@@ -28,97 +26,34 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { messages, sendMessage, status, error, clearError } = useChat({
-    transport: new DefaultChatTransport({
-      api: "/api/chat",
-      body: { locale },
-    }),
+    transport: new DefaultChatTransport({ api: "/api/chat", body: { locale } }),
   });
 
   const isStreaming = status === "streaming";
   const isWaiting = status === "submitted" || status === "streaming";
 
-  const {
-    isSpeaking: isTtsSpeaking,
-    stop: ttsStop,
-    feedChunk,
-    flush: ttsFlush,
-  } = useTTS({
-    locale: locale ?? "en",
-  });
+  const { isSpeaking: isTtsSpeaking, stop: ttsStop, feedChunk, flush: ttsFlush } = useTTS({ locale: locale ?? "en" });
 
   const lastSeenLengthRef = useRef(0);
   const voiceActiveRef = useRef(false);
-  const [voiceActive, setVoiceActive] = useState(false);
 
-  const activateVoice = () => {
-    voiceActiveRef.current = true;
-    setVoiceActive(true);
-  };
-  const deactivateVoice = () => {
-    voiceActiveRef.current = false;
-    setVoiceActive(false);
-  };
-
-  useEffect(() => {
-    if (!voiceActiveRef.current) return;
-    const lastMsg = messages.at(-1);
-    if (!lastMsg || lastMsg.role !== "assistant") return;
-
-    const textContent = lastMsg.parts
-      .filter((p): p is { type: "text"; text: string } => p.type === "text")
-      .map((p) => p.text)
-      .join("");
-
-    const newText = textContent.slice(lastSeenLengthRef.current);
-    if (!newText) return;
-
-    lastSeenLengthRef.current = textContent.length;
-    feedChunk(newText);
-  }, [messages, feedChunk]);
-
-  useEffect(() => {
-    if (status !== "ready" || !voiceActiveRef.current) return;
-    ttsFlush();
-    voiceActiveRef.current = false;
-    lastSeenLengthRef.current = 0;
-  }, [status, ttsFlush]);
-
-  const {
-    state: voiceState,
-    startRecording,
-    stopRecording,
-    isSupported,
-  } = useVoiceRecorder({
-    onTranscript: (text) => {
-      if (!text.trim()) return;
-      ttsStop();
-      lastSeenLengthRef.current = 0;
-      activateVoice();
-      clearError();
-      sendMessage({ text });
-    },
-    onError: () => {
-      deactivateVoice();
-    },
+  const voice = useChatVoice({
+    isWaiting,
+    isTtsSpeaking,
+    ttsStop,
+    clearError,
+    sendMessage,
+    onActivate: () => { voiceActiveRef.current = true; lastSeenLengthRef.current = 0; },
+    onDeactivate: () => { voiceActiveRef.current = false; },
   });
 
-  const voiceDisplayState: VoiceButtonDisplayState = (() => {
-    if (voiceState === "recording") return "recording";
-    if (voiceState === "transcribing") return "transcribing";
-    if (voiceState === "error") return "error";
-    if (isWaiting && voiceActive) return "thinking";
-    if (isTtsSpeaking) return "speaking";
-    return "idle";
-  })();
+  useTtsStreaming({ messages, status, feedChunk, ttsFlush, voiceActiveRef, lastSeenLengthRef });
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-    });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages, isWaiting]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isWaiting) return;
     if (!input.trim()) {
@@ -128,30 +63,19 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
       return;
     }
     ttsStop();
-    deactivateVoice();
+    voice.deactivate();
     clearError();
     sendMessage({ text: input });
     setInput("");
-    trackEvent("ai_message_send", {
-      event_category: "engagement",
-      event_label: "ai_message_send",
-      value: input.length,
-    });
+    trackEvent("ai_message_send", { event_category: "engagement", event_label: "ai_message_send", value: input.length });
   };
 
   const handleOpen = () => {
     setIsOpen(true);
-    trackEvent("ai_button_click", {
-      event_category: "engagement",
-      event_label: "chat_open",
-      value: 1,
-    });
+    trackEvent("ai_button_click", { event_category: "engagement", event_label: "chat_open", value: 1 });
   };
 
-  const handleClose = () => {
-    ttsStop();
-    setIsOpen(false);
-  };
+  const handleClose = () => { ttsStop(); setIsOpen(false); };
 
   const quickActions = [t("quickStack"), t("quickProjects"), t("quickCV")];
   const isThinking = isWaiting && messages.at(-1)?.role !== "assistant";
@@ -165,11 +89,7 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         initial={{ opacity: 0, y: 20 }}
-        animate={{
-          opacity: isOpen ? 0 : 1,
-          y: isOpen ? 20 : 0,
-          pointerEvents: isOpen ? "none" : "auto",
-        }}
+        animate={{ opacity: isOpen ? 0 : 1, y: isOpen ? 20 : 0, pointerEvents: isOpen ? "none" : "auto" }}
         transition={{ duration: 0.2 }}
         aria-label={t("title")}
       >
@@ -185,11 +105,7 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
             className="fixed inset-0 sm:inset-auto sm:bottom-6 sm:right-6 z-50 flex flex-col w-full h-full sm:w-95 sm:h-135 sm:rounded-2xl border-0 sm:border border-border bg-card shadow-2xl overflow-hidden"
           >
-            <ChatHeader
-              title={t("title")}
-              subtitle={t("subtitle")}
-              onClose={handleClose}
-            />
+            <ChatHeader title={t("title")} subtitle={t("subtitle")} onClose={handleClose} />
 
             <div className="flex-1 overflow-y-auto px-3 sm:px-4 py-4 space-y-4 scroll-smooth">
               {isWelcome && (
@@ -205,62 +121,32 @@ export default function Chat({ locale = "en" }: { locale?: string }) {
                 <ChatMessage
                   key={message.id}
                   message={message}
-                  isActiveStream={
-                    isStreaming &&
-                    messages.at(-1)?.id === message.id &&
-                    message.role === "assistant"
-                  }
+                  isActiveStream={isStreaming && messages.at(-1)?.id === message.id && message.role === "assistant"}
                   downloadLabel={t("downloadCV")}
                   lookingUpLabel={t("lookingUp")}
                 />
               ))}
 
-              <AnimatePresence>
-                {isThinking && <ChatThinking />}
-              </AnimatePresence>
-
+              <AnimatePresence>{isThinking && <ChatThinking />}</AnimatePresence>
               <div ref={messagesEndRef} />
             </div>
 
             <AnimatePresence>
-              {error && (
-                <ChatError message={t("error")} onDismiss={clearError} />
-              )}
+              {error && <ChatError message={t("error")} onDismiss={clearError} />}
             </AnimatePresence>
 
-            <form
+            <ChatInputBar
+              input={input}
+              setInput={setInput}
+              isWaiting={isWaiting}
+              shakeInput={shakeInput}
+              placeholder={t("placeholder")}
+              voiceDisplayState={voice.displayState}
+              isSupported={voice.isSupported}
               onSubmit={handleSubmit}
-              className="flex items-center gap-2 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] border-t border-border bg-card"
-            >
-              <input
-                ref={inputRef}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder={t("placeholder")}
-                className={`flex-1 bg-transparent text-sm text-foreground placeholder:text-muted outline-none transition-colors ${
-                  shakeInput
-                    ? "placeholder:text-red-400 animate-[shake_0.4s_ease-in-out]"
-                    : ""
-                }`}
-                disabled={isWaiting}
-              />
-              {isSupported && (
-                <VoiceButton
-                  displayState={voiceDisplayState}
-                  onStart={startRecording}
-                  onStop={stopRecording}
-                  disabled={isWaiting && voiceDisplayState === "idle"}
-                />
-              )}
-              <button
-                type="submit"
-                disabled={isWaiting}
-                className="flex items-center justify-center size-8 rounded-lg bg-accent text-white disabled:opacity-40 hover:bg-accent-light transition-colors cursor-pointer disabled:cursor-not-allowed"
-                aria-label={t("placeholder")}
-              >
-                <Send className="size-3.5" />
-              </button>
-            </form>
+              onVoiceStart={voice.startRecording}
+              onVoiceStop={voice.stopRecording}
+            />
           </motion.div>
         )}
       </AnimatePresence>

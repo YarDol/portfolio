@@ -2,62 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-
-const ORBITS = [
-  { radius: 1.55, speed: 0.55, incline: 0.3, phase: 0 },
-  { radius: 2.1, speed: 0.38, incline: -0.55, phase: Math.PI / 3 },
-  { radius: 2.6, speed: 0.28, incline: 0.65, phase: (2 * Math.PI) / 3 },
-  { radius: 1.9, speed: 0.46, incline: -0.2, phase: Math.PI },
-  { radius: 3.0, speed: 0.22, incline: 0.45, phase: (4 * Math.PI) / 3 },
-  { radius: 2.35, speed: 0.34, incline: -0.7, phase: (5 * Math.PI) / 3 },
-] as const;
-
-const ORBIT_SEGMENTS = 128;
-
-function makeOrbitRing(radius: number, incline: number): THREE.BufferGeometry {
-  const pts: number[] = [];
-  for (let i = 0; i <= ORBIT_SEGMENTS; i++) {
-    const θ = (i / ORBIT_SEGMENTS) * Math.PI * 2;
-    pts.push(
-      Math.cos(θ) * radius,
-      Math.sin(θ) * radius * Math.sin(incline),
-      Math.sin(θ) * radius * Math.cos(incline),
-    );
-  }
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute("position", new THREE.Float32BufferAttribute(pts, 3));
-  return geo;
-}
-
-function getOrbitPos(o: (typeof ORBITS)[number], t: number): THREE.Vector3 {
-  const θ = t * o.speed + o.phase;
-  return new THREE.Vector3(
-    Math.cos(θ) * o.radius,
-    Math.sin(θ) * o.radius * Math.sin(o.incline),
-    Math.sin(θ) * o.radius * Math.cos(o.incline),
-  );
-}
-
-function resolveColor(cssVar: string): THREE.Color {
-  const raw = getComputedStyle(document.documentElement)
-    .getPropertyValue(cssVar)
-    .trim();
-
-  const tmp = document.createElement("div");
-
-  tmp.style.color = raw.startsWith("oklch(") ? raw : `oklch(${raw})`;
-  document.body.appendChild(tmp);
-  const resolved = getComputedStyle(tmp).color;
-  document.body.removeChild(tmp);
-
-  const m = resolved.match(/\d+(\.\d+)?/g);
-  if (!m || m.length < 3) return new THREE.Color(0xffffff);
-  return new THREE.Color(
-    parseInt(m[0]) / 255,
-    parseInt(m[1]) / 255,
-    parseInt(m[2]) / 255,
-  );
-}
+import { resolveCssColor } from "@/lib/three/resolve-color";
+import { ORBITS, makeOrbitRing, getOrbitPos } from "./lib/orbital-helpers";
 
 export function OrbitalScene() {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -79,55 +25,21 @@ export function OrbitalScene() {
     const group = new THREE.Group();
     scene.add(group);
 
-    const nucleusMat = new THREE.MeshStandardMaterial({
-      roughness: 0.15,
-      metalness: 0.7,
-    });
-    const glowMat = new THREE.MeshBasicMaterial({
-      transparent: true,
-      opacity: 0.07,
-      side: THREE.BackSide,
-    });
-    const ringMat = new THREE.LineBasicMaterial({
-      transparent: true,
-      opacity: 0.1,
-    });
-    const satMat = new THREE.MeshStandardMaterial({
-      roughness: 0.3,
-      metalness: 0.5,
-    });
-    const haloMat = new THREE.MeshBasicMaterial({
-      transparent: true,
-      opacity: 0.2,
-      side: THREE.BackSide,
-    });
-    const connMat = new THREE.LineBasicMaterial({
-      transparent: true,
-      opacity: 0.2,
-    });
-    const particleMat = new THREE.PointsMaterial({
-      size: 0.038,
-      transparent: true,
-      opacity: 0.3,
-      sizeAttenuation: true,
-    });
+    const nucleusMat = new THREE.MeshStandardMaterial({ roughness: 0.15, metalness: 0.7 });
+    const glowMat = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.07, side: THREE.BackSide });
+    const ringMat = new THREE.LineBasicMaterial({ transparent: true, opacity: 0.1 });
+    const satMat = new THREE.MeshStandardMaterial({ roughness: 0.3, metalness: 0.5 });
+    const haloMat = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.2, side: THREE.BackSide });
+    const connMat = new THREE.LineBasicMaterial({ transparent: true, opacity: 0.2 });
+    const particleMat = new THREE.PointsMaterial({ size: 0.038, transparent: true, opacity: 0.3, sizeAttenuation: true });
 
-    const nucleus = new THREE.Mesh(
-      new THREE.SphereGeometry(0.55, 48, 48),
-      nucleusMat,
-    );
+    const nucleus = new THREE.Mesh(new THREE.SphereGeometry(0.55, 48, 48), nucleusMat);
     group.add(nucleus);
     group.add(new THREE.Mesh(new THREE.SphereGeometry(0.82, 32, 32), glowMat));
-
-    ORBITS.forEach((o) =>
-      group.add(new THREE.Line(makeOrbitRing(o.radius, o.incline), ringMat)),
-    );
+    ORBITS.forEach((o) => group.add(new THREE.Line(makeOrbitRing(o.radius, o.incline), ringMat)));
 
     const satellites = ORBITS.map(() => {
-      const sat = new THREE.Mesh(
-        new THREE.SphereGeometry(0.13, 16, 16),
-        satMat,
-      );
+      const sat = new THREE.Mesh(new THREE.SphereGeometry(0.13, 16, 16), satMat);
       sat.add(new THREE.Mesh(new THREE.SphereGeometry(0.24, 12, 12), haloMat));
       group.add(sat);
       return sat;
@@ -161,9 +73,8 @@ export function OrbitalScene() {
     scene.add(rim);
 
     const updateColors = () => {
-      const accent = resolveColor("--accent");
-      const foreground = resolveColor("--foreground");
-
+      const accent = resolveCssColor("--accent");
+      const foreground = resolveCssColor("--foreground");
       nucleusMat.color.copy(accent);
       nucleusMat.emissive.copy(accent);
       glowMat.color.copy(accent);
@@ -174,24 +85,12 @@ export function OrbitalScene() {
       connMat.color.copy(accent);
       particleMat.color.copy(foreground);
       ptLight.color.copy(accent);
-
-      [
-        nucleusMat,
-        glowMat,
-        ringMat,
-        satMat,
-        haloMat,
-        connMat,
-        particleMat,
-      ].forEach((m) => (m.needsUpdate = true));
+      [nucleusMat, glowMat, ringMat, satMat, haloMat, connMat, particleMat].forEach((m) => (m.needsUpdate = true));
     };
     updateColors();
 
     const mo = new MutationObserver(updateColors);
-    mo.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class", "data-theme"],
-    });
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["class", "data-theme"] });
 
     const mouse = { x: 0, y: 0 };
     const onMouseMove = (e: MouseEvent) => {
@@ -202,8 +101,7 @@ export function OrbitalScene() {
     mount.addEventListener("mousemove", onMouseMove);
 
     const resize = () => {
-      const w = mount.clientWidth;
-      const h = mount.clientHeight;
+      const w = mount.clientWidth, h = mount.clientHeight;
       if (!w || !h) return;
       renderer.setSize(w, h);
       camera.aspect = w / h;
@@ -213,33 +111,23 @@ export function OrbitalScene() {
     ro.observe(mount);
     resize();
 
-    let rafId: number;
-    let t = 0;
-
+    let rafId: number, t = 0;
     const tick = () => {
       rafId = requestAnimationFrame(tick);
       t += 0.008;
-
       nucleus.scale.setScalar(1 + Math.sin(t * 2.1) * 0.04);
       nucleusMat.emissiveIntensity = 0.28 + Math.sin(t * 2.1) * 0.14;
-
       satellites.forEach((sat, i) => {
         const pos = getOrbitPos(ORBITS[i], t);
         sat.position.copy(pos);
         const b = i * 6;
-        linePosArr[b] = 0;
-        linePosArr[b + 1] = 0;
-        linePosArr[b + 2] = 0;
-        linePosArr[b + 3] = pos.x;
-        linePosArr[b + 4] = pos.y;
-        linePosArr[b + 5] = pos.z;
+        linePosArr[b] = 0; linePosArr[b + 1] = 0; linePosArr[b + 2] = 0;
+        linePosArr[b + 3] = pos.x; linePosArr[b + 4] = pos.y; linePosArr[b + 5] = pos.z;
       });
       lineGeo.attributes.position.needsUpdate = true;
-
       group.rotation.x += (-mouse.y * 0.18 - group.rotation.x) * 0.04;
       group.rotation.y += (mouse.x * 0.3 - group.rotation.y) * 0.04;
       group.rotation.y += 0.0018;
-
       renderer.render(scene, camera);
     };
     tick();
@@ -250,9 +138,7 @@ export function OrbitalScene() {
       mo.disconnect();
       mount.removeEventListener("mousemove", onMouseMove);
       renderer.dispose();
-      if (renderer.domElement.parentNode === mount) {
-        mount.removeChild(renderer.domElement);
-      }
+      if (renderer.domElement.parentNode === mount) mount.removeChild(renderer.domElement);
     };
   }, []);
 
