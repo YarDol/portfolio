@@ -1,66 +1,21 @@
 "use client";
 
-import { useRef, useCallback, useState } from "react";
-import { CONNECTIONS, KW_EN, KW_DE } from "./gum-text/constants";
-import { parse } from "./gum-text/parser";
-import { useGumAnimation } from "./gum-text/use-gum-animation";
-import type { Rope } from "./gum-text/types";
+import { CONNECTIONS, KW_DE, KW_EN } from "./constants";
+import { parse } from "./physics";
+import { useGumRopes } from "./use-gum-ropes";
 
-export function GumText({
-  paras,
-  locale = "en",
-}: {
+interface GumTextProps {
   paras: string[];
   locale?: string;
-}) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const wordRefs = useRef<Map<string, HTMLSpanElement>>(new Map());
-  const pathRefs = useRef<Map<string, SVGPathElement>>(new Map());
-  const ropesRef = useRef<Map<string, Rope>>(new Map());
-  const activeId = useRef<string | null>(null);
-  const rafRef = useRef<number | null>(null);
+}
 
-  const [activeSet, setActiveSet] = useState<ReadonlySet<string>>(new Set());
-
+export function GumText({ paras, locale = "en" }: GumTextProps) {
   const kw = locale === "de" ? KW_DE : KW_EN;
   const parsed = paras.map((p) => parse(p, kw));
-
-  const register = useCallback((id: string, el: HTMLSpanElement | null) => {
-    if (el) wordRefs.current.set(id, el);
-    else wordRefs.current.delete(id);
-  }, []);
-
-  const center = useCallback((id: string) => {
-    const el = wordRefs.current.get(id);
-    const box = containerRef.current;
-    if (!el || !box) return null;
-    const rects = el.getClientRects();
-    const er = rects[0] ?? el.getBoundingClientRect();
-    const cr = box.getBoundingClientRect();
-    return {
-      x: er.left - cr.left + er.width / 2,
-      y: er.top - cr.top + er.height * 0.75,
-    };
-  }, []);
-
-  const handleEnter = useCallback((id: string) => {
-    activeId.current = id;
-    const linked = new Set<string>([id]);
-    for (const [a, b] of CONNECTIONS) {
-      if (a === id) linked.add(b);
-      if (b === id) linked.add(a);
-    }
-    setActiveSet(linked);
-  }, []);
-
-  const handleLeave = useCallback(() => {
-    activeId.current = null;
-    setActiveSet(new Set());
-  }, []);
-
-  useGumAnimation(ropesRef, pathRefs, rafRef, activeId, center);
-
   const connected = new Set(CONNECTIONS.flat());
+
+  const { containerRef, pathRefs, activeSet, register, handleEnter, handleLeave } =
+    useGumRopes();
 
   return (
     <div ref={containerRef} className="relative">
@@ -99,9 +54,7 @@ export function GumText({
                 <span
                   key={si}
                   ref={(el) => register(seg.id, el)}
-                  onMouseEnter={() =>
-                    connected.has(seg.id) && handleEnter(seg.id)
-                  }
+                  onMouseEnter={() => connected.has(seg.id) && handleEnter(seg.id)}
                   onMouseLeave={() => connected.has(seg.id) && handleLeave()}
                   className={[
                     "font-medium text-foreground/95",

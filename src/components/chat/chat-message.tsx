@@ -2,56 +2,10 @@
 
 import { memo } from "react";
 import type { UIMessage } from "@ai-sdk/react";
-import Markdown from "react-markdown";
 import { motion } from "motion/react";
-import { Bot, Download, Mail, Sparkles, User } from "lucide-react";
-
-const MemoizedMarkdown = memo(
-  function MarkdownRenderer({ content }: { content: string }) {
-    return (
-      <Markdown
-        components={{
-          p: ({ children }) => <p className="mb-1.5 last:mb-0">{children}</p>,
-          strong: ({ children }) => (
-            <strong className="font-semibold">{children}</strong>
-          ),
-          em: ({ children }) => <em className="italic">{children}</em>,
-          ul: ({ children }) => (
-            <ul className="list-disc list-inside mb-1.5 last:mb-0 space-y-0.5">
-              {children}
-            </ul>
-          ),
-          ol: ({ children }) => (
-            <ol className="list-decimal list-inside mb-1.5 last:mb-0 space-y-0.5">
-              {children}
-            </ol>
-          ),
-          li: ({ children }) => (
-            <li className="leading-relaxed">{children}</li>
-          ),
-          a: ({ href, children }) => (
-            <a
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-accent underline underline-offset-2 hover:text-accent-light transition-colors"
-            >
-              {children}
-            </a>
-          ),
-          code: ({ children }) => (
-            <code className="px-1 py-0.5 rounded bg-foreground/10 text-xs font-mono">
-              {children}
-            </code>
-          ),
-        }}
-      >
-        {content}
-      </Markdown>
-    );
-  },
-  (prev, next) => prev.content === next.content,
-);
+import { Bot, User } from "lucide-react";
+import { MarkdownRenderer } from "@/components/chat/markdown-renderer";
+import { ChatToolPart, type ToolPart } from "@/components/chat/chat-tool-part";
 
 interface ChatMessageProps {
   message: UIMessage;
@@ -80,11 +34,7 @@ export const ChatMessage = memo(function ChatMessage({
           isUser ? "bg-accent text-white" : "bg-accent/10 text-accent"
         }`}
       >
-        {isUser ? (
-          <User className="size-3.5" />
-        ) : (
-          <Bot className="size-3.5" />
-        )}
+        {isUser ? <User className="size-3.5" /> : <Bot className="size-3.5" />}
       </div>
 
       <div
@@ -105,7 +55,7 @@ export const ChatMessage = memo(function ChatMessage({
             }
             return (
               <div key={i} className="chat-markdown">
-                <MemoizedMarkdown content={part.text} />
+                <MarkdownRenderer content={part.text} />
                 {isActiveStream && (
                   <span className="inline-block w-0.5 h-3.5 bg-accent rounded-full align-middle ml-0.5 animate-[cursor-blink_0.8s_steps(2)_infinite]" />
                 )}
@@ -114,63 +64,14 @@ export const ChatMessage = memo(function ChatMessage({
           }
 
           if (part.type.startsWith("tool-")) {
-            const toolPart = part as UIMessage["parts"][number] & {
-              toolCallId: string;
-              state: string;
-              output?: Record<string, unknown>;
-            };
-
-            if (toolPart.state === "output-available") {
-              const output = (toolPart.output ?? {}) as Record<string, string>;
-
-              if (part.type === "tool-downloadCV" && output.url) {
-                return (
-                  <a
-                    key={i}
-                    href={output.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 mt-1 px-3 py-1.5 rounded-lg bg-accent/10 text-accent text-sm font-medium hover:bg-accent/20 transition-colors"
-                  >
-                    <Download className="size-3.5" />
-                    {downloadLabel}
-                  </a>
-                );
-              }
-
-              if (part.type === "tool-getContact" && output.email) {
-                return (
-                  <div key={i} className="flex flex-col gap-1 mt-1">
-                    <a
-                      href={`mailto:${output.email}`}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent/10 text-accent text-sm font-medium hover:bg-accent/20 transition-colors w-fit"
-                    >
-                      <Mail className="size-3.5" />
-                      {output.email}
-                    </a>
-                  </div>
-                );
-              }
-
-              return null;
-            }
-
-            if (
-              toolPart.state === "call" ||
-              toolPart.state === "input-streaming"
-            ) {
-              return (
-                <span
-                  key={i}
-                  className="inline-flex items-center gap-1.5 text-xs text-muted"
-                >
-                  <Sparkles className="size-3 animate-pulse" />
-                  {lookingUpLabel}
-                </span>
-              );
-            }
-
-            return null;
+            return (
+              <ChatToolPart
+                key={i}
+                part={part as ToolPart}
+                downloadLabel={downloadLabel}
+                lookingUpLabel={lookingUpLabel}
+              />
+            );
           }
 
           return null;

@@ -295,5 +295,99 @@
     "title": "Page not found",
     "description": "The page you're looking for doesn't exist.",
     "backHome": "Back to Home"
+  },
+  "Terms": {
+    "back": "← Back to portfolio",
+    "title": "Terms of Use",
+    "updated": "Last updated: February 2026",
+    "sections": [
+      {
+        "heading": "1. Acceptance",
+        "body": "By accessing this portfolio website (yaroslavdolhushyn.dev), you agree to these Terms of Use. If you do not agree, please do not use the site. These terms apply alongside the Privacy Policy, which is incorporated by reference."
+      },
+      {
+        "heading": "2. Purpose of the Site",
+        "body": "This website is a personal portfolio showcasing the professional work, skills, and background of Yaroslav Dolhushyn. It is provided for informational purposes only and does not constitute a commercial offering, employment contract, or binding professional engagement."
+      },
+      {
+        "heading": "3. Analytics & Session Recording",
+        "body": "This site uses Google Analytics 4 and Microsoft Clarity to understand how visitors use the site. These tools may collect anonymised usage data including page views, session duration, clicks, and screen recordings. They are only activated after your explicit consent via the cookie banner.\n\nFor full details on what is collected and how, see the Privacy Policy."
+      },
+      {
+        "heading": "4. AI-Powered Features",
+        "body": "This site includes experimental AI features:\n\n• AI Chat — answers questions about Yaroslav's background using a language model. Responses are generated automatically and may not always be accurate or complete.\n• Voice Chat — allows spoken interaction with the AI assistant. Audio is processed by third-party APIs (Groq, ElevenLabs) and is not stored.\n\nThese features are provided \"as is\" for demonstration purposes. Do not rely on AI-generated responses as professional or legal advice. The operator makes no guarantees regarding accuracy, availability, or fitness for a particular purpose."
+      },
+      {
+        "heading": "5. Intellectual Property",
+        "body": "All content on this site — including text, design, code, and media — is the property of Yaroslav Dolhushyn unless otherwise stated. You may not reproduce, redistribute, or use any content commercially without prior written permission.\n\nProject descriptions and experience information represent Yaroslav's own contributions to past professional engagements and do not reveal confidential client information."
+      },
+      {
+        "heading": "6. Limitation of Liability",
+        "body": "To the fullest extent permitted by applicable law, the operator shall not be liable for any direct, indirect, incidental, or consequential damages arising from your use of this website or its AI features, including but not limited to reliance on AI-generated content.\n\nThe site is provided without warranties of any kind, express or implied."
+      },
+      {
+        "heading": "7. External Links",
+        "body": "This site may contain links to third-party websites (GitHub, LinkedIn, external projects). These links are provided for convenience only. The operator has no control over and accepts no responsibility for the content or privacy practices of external sites."
+      },
+      {
+        "heading": "8. Governing Law",
+        "body": "These terms are governed by the laws of the Federal Republic of Germany. Any disputes shall be subject to the exclusive jurisdiction of the competent courts in Germany, unless mandatory consumer protection laws in your country of residence require otherwise."
+      },
+      {
+        "heading": "9. Contact",
+        "body": "For questions about these terms, please contact:\nyardolhushyn@gmail.com"
+      },
+      {
+        "heading": "10. Changes",
+        "body": "The operator reserves the right to update these Terms of Use at any time. The \"last updated\" date reflects the most recent revision. Continued use of the site after changes constitutes acceptance of the revised terms."
+      }
+    ]
+  },
+  "Privacy": {
+    "back": "← Back to portfolio",
+    "title": "Privacy Policy",
+    "updated": "Last updated: February 2026",
+    "sections": [
+      {
+        "heading": "1. Controller",
+        "body": "The controller responsible for data processing on this website is:\n\nYaroslav Dolhushyn\nSangerhausen, Germany\nEmail: yardolhushyn@gmail.com\nPhone: +49 160 425 1263"
+      },
+      {
+        "heading": "2. Contact Form",
+        "body": "When you submit the contact form, we collect your name, email address, and message. This data is transmitted directly to the controller's email address and is used solely to respond to your inquiry.\n\nLegal basis: Article 6(1)(b) GDPR (performance of a pre-contractual measure at the data subject's request). Data is retained only as long as needed to handle your inquiry and is then deleted."
+      },
+      {
+        "heading": "3. Analytics — Google Analytics 4",
+        "body": "This website uses Google Analytics 4 (GA4), a web analytics service provided by Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland. GA4 collects anonymised usage data (pages visited, session duration, device type, approximate location based on IP) to help understand how visitors interact with the site.\n\nGA4 is only loaded after you have given your explicit consent via the cookie banner.\n\nLegal basis: Article 6(1)(a) GDPR (consent). You may withdraw consent at any time by clearing the cookie-consent entry in your browser's local storage.\n\nData may be transferred to Google LLC servers in the United States under standard contractual clauses. For more information, see Google's Privacy Policy at https://policies.google.com/privacy."
+      },
+      {
+        "heading": "4. Session Recording & Heatmaps — Microsoft Clarity",
+        "body": "This website uses Microsoft Clarity, a session analytics service provided by Microsoft Corporation, One Microsoft Way, Redmond, WA 98052, USA. Clarity records anonymised user sessions including mouse movements, clicks, scrolls, and heatmaps to help understand how visitors interact with the site. Clarity may capture the content visible on screen during a session.\n\nMicrosoft Clarity is only loaded after you have given your explicit consent via the cookie banner.\n\nLegal basis: Article 6(1)(a) GDPR (consent). You may withdraw consent at any time by clearing the cookie-consent entry in your browser's local storage.\n\nData may be transferred to Microsoft servers in the United States under standard contractual clauses. For more information, see Microsoft's Privacy Statement at https://privacy.microsoft.com/en-us/privacystatement."
+      },
+      {
+        "heading": "5. AI Chat",
+        "body": "The portfolio includes an AI-powered chat assistant. Messages you send are transmitted to the OpenAI API (OpenAI, L.L.C., San Francisco, USA) to generate a response. Messages are processed in real time and are not stored on our servers beyond the active browser session.\n\nLegal basis: Article 6(1)(f) GDPR (legitimate interest in providing an interactive portfolio experience). Data is not used to train AI models.\n\nFor more information, see OpenAI's Privacy Policy at https://openai.com/policies/privacy-policy."
+      },
+      {
+        "heading": "6. Voice Chat",
+        "body": "The portfolio includes an optional voice chat feature. When you use it:\n\n• Your microphone audio is recorded locally in your browser and sent to Groq, Inc. (USA) for speech-to-text transcription.\n• The transcribed text is sent to Groq's LLM API to generate a response.\n• Optionally, the text response is converted to speech via ElevenLabs, Inc. (USA).\n\nAudio recordings and transcripts are not stored on our servers. Processing is transient and used only to generate the reply.\n\nLegal basis: Article 6(1)(a) GDPR (your explicit action of activating the microphone constitutes consent). You may stop voice processing at any time by closing the voice widget.\n\nFor more information, see:\n• Groq Privacy Policy: https://groq.com/privacy-policy/\n• ElevenLabs Privacy Policy: https://elevenlabs.io/privacy"
+      },
+      {
+        "heading": "7. Cookies & Local Storage",
+        "body": "This website uses browser local storage (not cookies) to remember your cookie consent preference. No tracking cookies are placed without your consent.\n\nIf you accept analytics cookies, the following third-party cookies may be set:\n• Google Analytics 4: __ga, __ga_* (session/user distinction)\n• Microsoft Clarity: _clsk, _clck (session recording)\n\nYou can withdraw consent at any time by clearing your browser's local storage for this domain."
+      },
+      {
+        "heading": "8. Your Rights",
+        "body": "Under GDPR, you have the right to:\n\n• Access the personal data we hold about you (Art. 15)\n• Rectification of inaccurate data (Art. 16)\n• Erasure of your data (\"right to be forgotten\") (Art. 17)\n• Restriction of processing (Art. 18)\n• Data portability (Art. 20)\n• Object to processing (Art. 21)\n• Withdraw consent at any time without affecting the lawfulness of prior processing (Art. 7(3))\n\nTo exercise any of these rights, please contact: yardolhushyn@gmail.com\n\nYou also have the right to lodge a complaint with your local supervisory authority. In Germany, this is the relevant Landesbeauftragter für den Datenschutz."
+      },
+      {
+        "heading": "9. Data Security",
+        "body": "This website is served over HTTPS. We take appropriate technical and organisational measures to protect your personal data against accidental or unlawful destruction, loss, alteration, or unauthorised disclosure."
+      },
+      {
+        "heading": "10. Changes to This Policy",
+        "body": "We may update this Privacy Policy from time to time. The \"last updated\" date at the top of this page reflects the most recent revision. We encourage you to review this page periodically."
+      }
+    ]
   }
 }

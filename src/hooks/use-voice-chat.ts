@@ -2,44 +2,19 @@
 
 import { useRef, useState, useCallback, useEffect } from "react";
 import { useMotionValue } from "motion/react";
+import type { VoiceChatState, TtsEngine, ConversationTurn } from "./voice/types";
+import { splitSentences } from "./voice/split-sentences";
+import { useBrowserTTS } from "./voice/use-browser-tts";
+import { useElevenTTS } from "./voice/use-eleven-tts";
+import { useAudioLevel } from "./voice/use-audio-level";
 
-export type VoiceChatState =
-  | "idle"
-  | "recording"
-  | "transcribing"
-  | "thinking"
-  | "speaking"
-  | "error"
-  | "quota"
-  | "disabled";
-
-export type TtsEngine = "browser" | "elevenlabs";
-
-export interface ConversationTurn {
-  user: string;
-  assistant: string;
-}
+export type { VoiceChatState, TtsEngine, ConversationTurn };
 
 interface UseVoiceChatOptions {
   locale?: string;
   silenceTimeout?: number;
   ttsEngine?: TtsEngine;
   disabled?: boolean;
-}
-
-function splitSentences(text: string): {
-  complete: string[];
-  remaining: string;
-} {
-  const re = /[^.!?]+[.!?]+\s*/g;
-  const complete: string[] = [];
-  let lastIndex = 0;
-  let match: RegExpExecArray | null;
-  while ((match = re.exec(text)) !== null) {
-    complete.push(match[0].trim());
-    lastIndex = re.lastIndex;
-  }
-  return { complete, remaining: text.slice(lastIndex) };
 }
 
 export function useVoiceChat({
@@ -56,208 +31,39 @@ export function useVoiceChat({
   const [conversations, setConversations] = useState<ConversationTurn[]>([]);
 
   const audioLevel = useMotionValue(0);
-
   const ttsEngineRef = useRef(ttsEngine);
   const disabledRef = useRef(disabled);
 
-  useEffect(() => {
-    ttsEngineRef.current = ttsEngine;
-  }, [ttsEngine]);
+  useEffect(() => { ttsEngineRef.current = ttsEngine; }, [ttsEngine]);
+  useEffect(() => { disabledRef.current = disabled; }, [disabled]);
 
-  useEffect(() => {
-    disabledRef.current = disabled;
-  }, [disabled]);
+  const browserTTS = useBrowserTTS(locale, setState);
+  const elevenTTS = useElevenTTS(setState);
+
+  const stopAllTTS = useCallback(() => {
+    browserTTS.stop();
+    elevenTTS.stop();
+  }, [browserTTS, elevenTTS]);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
-  const analyserRef = useRef<AnalyserNode | null>(null);
-  const audioCtxRef = useRef<AudioContext | null>(null);
-  const animFrameRef = useRef<number | null>(null);
-  const silenceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const abortRef = useRef<AbortController | null>(null);
-
   const historyRef = useRef<
     Array<{ role: "user" | "assistant"; content: string }>
   >([]);
 
-  const ttsQueueRef = useRef<string[]>([]);
-  const ttsSpeakingRef = useRef(false);
-
-  const ttsSpeakNext = useCallback(() => {
-    if (!ttsQueueRef.current.length) {
-      ttsSpeakingRef.current = false;
-      setState("idle");
-      return;
-    }
-    ttsSpeakingRef.current = true;
-    const text = ttsQueueRef.current.shift()!;
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = locale === "de" ? "de-DE" : "en-US";
-    utter.rate = 1.05;
-    utter.onend = ttsSpeakNext;
-    utter.onerror = ttsSpeakNext;
-    window.speechSynthesis.speak(utter);
-  }, [locale]);
-
-  const ttsEnqueue = useCallback(
-    (text: string) => {
-      if (!text.trim()) return;
-      ttsQueueRef.current.push(text);
-      if (!ttsSpeakingRef.current) {
-        setState("speaking");
-        ttsSpeakNext();
-      }
-    },
-    [ttsSpeakNext],
-  );
-
-  const stopTTS = useCallback(() => {
-    if (typeof window !== "undefined") window.speechSynthesis?.cancel();
-    ttsQueueRef.current = [];
-    ttsSpeakingRef.current = false;
+  const onSilence = useCallback(() => {
+    const rec = mediaRecorderRef.current;
+    if (rec?.state === "recording") rec.stop();
   }, []);
 
-  const elevenQueueRef = useRef<string[]>([]);
-  const elevenPlayingRef = useRef(false);
-  const elevenAudioRef = useRef<HTMLAudioElement | null>(null);
-  const elevenFetchAbortRef = useRef<AbortController | null>(null);
-
-  const stopElevenTTS = useCallback(() => {
-    elevenFetchAbortRef.current?.abort();
-    if (elevenAudioRef.current) {
-      elevenAudioRef.current.pause();
-      elevenAudioRef.current.src = "";
-      elevenAudioRef.current = null;
-    }
-    elevenQueueRef.current = [];
-    elevenPlayingRef.current = false;
-  }, []);
-
-  const elevenSpeakNext = useCallback(async () => {
-    if (!elevenQueueRef.current.length) {
-      elevenPlayingRef.current = false;
-      setState("idle");
-      return;
-    }
-    elevenPlayingRef.current = true;
-    const text = elevenQueueRef.current.shift()!;
-
-    const aborter = new AbortController();
-    elevenFetchAbortRef.current = aborter;
-
-    try {
-      const res = await fetch("/api/voice/tts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
-        signal: aborter.signal,
-      });
-      if (!res.ok) throw new Error("TTS failed");
-
-      const blob = await res.blob();
-      if (aborter.signal.aborted) return;
-
-      const url = URL.createObjectURL(blob);
-      const audio = new Audio(url);
-      elevenAudioRef.current = audio;
-
-      audio.onended = () => {
-        URL.revokeObjectURL(url);
-        elevenAudioRef.current = null;
-        if (!aborter.signal.aborted) elevenSpeakNext();
-      };
-      audio.onerror = () => {
-        URL.revokeObjectURL(url);
-        elevenAudioRef.current = null;
-        if (!aborter.signal.aborted) elevenSpeakNext();
-      };
-
-      audio.play().catch(() => {
-        if (!aborter.signal.aborted) elevenSpeakNext();
-      });
-    } catch {
-      if (!aborter.signal.aborted) elevenSpeakNext();
-    }
-  }, []);
-
-  const elevenEnqueue = useCallback(
-    (text: string) => {
-      if (!text.trim()) return;
-      elevenQueueRef.current.push(text);
-      if (!elevenPlayingRef.current) {
-        setState("speaking");
-        elevenSpeakNext();
-      }
-    },
-    [elevenSpeakNext],
-  );
-
-  const stopAllTTS = useCallback(() => {
-    stopTTS();
-    stopElevenTTS();
-  }, [stopTTS, stopElevenTTS]);
-
-  const stopAudioPolling = useCallback(() => {
-    if (animFrameRef.current) {
-      cancelAnimationFrame(animFrameRef.current);
-      animFrameRef.current = null;
-    }
-    if (silenceTimerRef.current) {
-      clearTimeout(silenceTimerRef.current);
-      silenceTimerRef.current = null;
-    }
-    audioLevel.set(0);
-    analyserRef.current = null;
-    audioCtxRef.current?.close().catch(() => {});
-    audioCtxRef.current = null;
-  }, [audioLevel]);
-
-  const startAudioPolling = useCallback(
-    (stream: MediaStream) => {
-      const ctx = new AudioContext();
-      const source = ctx.createMediaStreamSource(stream);
-      const analyser = ctx.createAnalyser();
-      analyser.fftSize = 256;
-      source.connect(analyser);
-      audioCtxRef.current = ctx;
-      analyserRef.current = analyser;
-
-      const data = new Uint8Array(analyser.frequencyBinCount);
-
-      function tick() {
-        if (!analyserRef.current) return;
-        analyser.getByteFrequencyData(data);
-        const sum = data.reduce((a, b) => a + b, 0);
-        const level = Math.min(1, sum / (data.length * 80));
-        audioLevel.set(level);
-
-        if (level < 0.02) {
-          if (!silenceTimerRef.current) {
-            silenceTimerRef.current = setTimeout(() => {
-              silenceTimerRef.current = null;
-              const rec = mediaRecorderRef.current;
-              if (rec?.state === "recording") rec.stop();
-            }, silenceTimeout);
-          }
-        } else {
-          if (silenceTimerRef.current) {
-            clearTimeout(silenceTimerRef.current);
-            silenceTimerRef.current = null;
-          }
-        }
-
-        animFrameRef.current = requestAnimationFrame(tick);
-      }
-
-      animFrameRef.current = requestAnimationFrame(tick);
-    },
-    [audioLevel, silenceTimeout],
-  );
+  const { start: startAudioLevel, stop: stopAudioLevel, clearSilenceTimer } =
+    useAudioLevel(audioLevel, silenceTimeout, onSilence);
 
   const handleRecordingStop = useCallback(
     async (abort: AbortController) => {
       if (abort.signal.aborted) return;
-      stopAudioPolling();
+      stopAudioLevel();
       setState("transcribing");
 
       const blob = new Blob(chunksRef.current, { type: "audio/webm" });
@@ -282,10 +88,7 @@ export function useVoiceChat({
         return;
       }
 
-      if (!userText) {
-        setState("idle");
-        return;
-      }
+      if (!userText) { setState("idle"); return; }
 
       setTranscript(userText);
       setCurrentResponse("");
@@ -297,7 +100,9 @@ export function useVoiceChat({
       ];
 
       const enqueue =
-        ttsEngineRef.current === "elevenlabs" ? elevenEnqueue : ttsEnqueue;
+        ttsEngineRef.current === "elevenlabs"
+          ? elevenTTS.enqueue
+          : browserTTS.enqueue;
 
       try {
         const res = await fetch("/api/voice/chat", {
@@ -312,13 +117,11 @@ export function useVoiceChat({
           setState("disabled");
           return;
         }
-
         if (res.status === 429) {
           historyRef.current = historyRef.current.slice(0, -1);
           setState("quota");
           return;
         }
-
         if (!res.ok) throw new Error("Chat failed");
 
         const { text } = await res.json();
@@ -349,7 +152,7 @@ export function useVoiceChat({
         setState("error");
       }
     },
-    [locale, stopAudioPolling, ttsEnqueue, elevenEnqueue],
+    [locale, stopAudioLevel, browserTTS.enqueue, elevenTTS.enqueue],
   );
 
   const startRecording = useCallback(async () => {
@@ -378,26 +181,23 @@ export function useVoiceChat({
       mediaRecorderRef.current = recorder;
       recorder.start();
       setState("recording");
-      startAudioPolling(stream);
+      startAudioLevel(stream);
     } catch {
       setState("error");
     }
-  }, [disabled, stopAllTTS, handleRecordingStop, startAudioPolling]);
+  }, [disabled, stopAllTTS, handleRecordingStop, startAudioLevel]);
 
   const stopRecording = useCallback(() => {
-    if (silenceTimerRef.current) {
-      clearTimeout(silenceTimerRef.current);
-      silenceTimerRef.current = null;
-    }
+    clearSilenceTimer();
     if (mediaRecorderRef.current?.state === "recording") {
       mediaRecorderRef.current.stop();
     }
-  }, []);
+  }, [clearSilenceTimer]);
 
   const stop = useCallback(() => {
     abortRef.current?.abort();
     stopAllTTS();
-    stopAudioPolling();
+    stopAudioLevel();
     if (mediaRecorderRef.current?.state === "recording") {
       mediaRecorderRef.current.stop();
     }
@@ -406,14 +206,14 @@ export function useVoiceChat({
     setState(disabledRef.current ? "disabled" : "idle");
     setTranscript("");
     setCurrentResponse("");
-  }, [stopAllTTS, stopAudioPolling]);
+  }, [stopAllTTS, stopAudioLevel]);
 
   useEffect(() => {
     return () => {
       stopAllTTS();
-      stopAudioPolling();
+      stopAudioLevel();
     };
-  }, [stopAllTTS, stopAudioPolling]);
+  }, [stopAllTTS, stopAudioLevel]);
 
   const [isSupported, setIsSupported] = useState(false);
   useEffect(() => {
