@@ -3,10 +3,8 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
-
 const STAR_COUNT = 2600;
 const BRIGHT_STAR_COUNT = 22;
-
 
 function seededRng(seed: number) {
   let s = seed;
@@ -15,7 +13,6 @@ function seededRng(seed: number) {
     return (s >>> 0) / 0xffffffff;
   };
 }
-
 
 function createStarGeometry(
   count: number,
@@ -38,6 +35,32 @@ function createStarGeometry(
   return geo;
 }
 
+function createCoronaTexture(): THREE.CanvasTexture {
+  const size = 256;
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d")!;
+
+  const grad = ctx.createRadialGradient(
+    size / 2,
+    size / 2,
+    size * 0.18,
+    size / 2,
+    size / 2,
+    size / 2,
+  );
+  grad.addColorStop(0, "rgba(255, 230, 120, 0.55)");
+  grad.addColorStop(0.3, "rgba(255, 180, 60,  0.22)");
+  grad.addColorStop(0.6, "rgba(255, 130, 30,  0.07)");
+  grad.addColorStop(1, "rgba(255, 100,  0,  0)");
+
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, size, size);
+
+  return new THREE.CanvasTexture(canvas);
+}
+
 export function SkyScene() {
   const mountRef = useRef<HTMLDivElement>(null);
   const cleanupRef = useRef<(() => void) | null>(null);
@@ -49,15 +72,15 @@ export function SkyScene() {
     let disposed = false;
 
     async function init() {
-     
       const el = mount!;
 
- 
-      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+      const renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: false,
+      });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       el.appendChild(renderer.domElement);
-
 
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(65, 1, 0.1, 300);
@@ -67,16 +90,18 @@ export function SkyScene() {
       const sceneGroup = new THREE.Group();
       scene.add(sceneGroup);
 
-  
+      // ── Moon ─────────────────────────────────────────────────────────
       const loader = new THREE.TextureLoader();
-      const [colorTex, normalTex] = await Promise.all([
+      const [colorTex, normalTex, sunTex] = await Promise.all([
         loader.loadAsync("/textures/moon-color.jpg"),
         loader.loadAsync("/textures/moon-normal.jpg"),
+        loader.loadAsync("/textures/sun-color.png"),
       ]);
 
       if (disposed) {
         colorTex.dispose();
         normalTex.dispose();
+        sunTex.dispose();
         renderer.dispose();
         if (renderer.domElement.parentNode === el) {
           el.removeChild(renderer.domElement);
@@ -85,10 +110,9 @@ export function SkyScene() {
       }
 
       colorTex.colorSpace = THREE.SRGBColorSpace;
+      sunTex.colorSpace = THREE.SRGBColorSpace;
 
-      
       const moonGeo = new THREE.SphereGeometry(2.2, 128, 128);
-
       moonGeo.computeTangents();
       const moonMat = new THREE.MeshStandardMaterial({
         map: colorTex,
@@ -98,18 +122,40 @@ export function SkyScene() {
         metalness: 0.0,
       });
       const moon = new THREE.Mesh(moonGeo, moonMat);
-
       moon.position.set(3.1, 1.5, -0.5);
       sceneGroup.add(moon);
 
- 
+      // ── Sun ──────────────────────────────────────────────────────────
+      const sunGeo = new THREE.SphereGeometry(2.2, 128, 128);
+
+      const sunMat = new THREE.MeshBasicMaterial({ map: sunTex });
+      const sun = new THREE.Mesh(sunGeo, sunMat);
+      sun.position.copy(moon.position);
+      sun.visible = false;
+      sceneGroup.add(sun);
+
+      const coronaTex = createCoronaTexture();
+      const coronaSpriteMat = new THREE.SpriteMaterial({
+        map: coronaTex,
+        transparent: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      });
+      const corona = new THREE.Sprite(coronaSpriteMat);
+      corona.position.copy(moon.position);
+      corona.scale.set(9, 9, 1);
+      corona.visible = false;
+      sceneGroup.add(corona);
+
+      // ── Lighting ─────────────────────────────────────────────────────
       const sunLight = new THREE.DirectionalLight(0xfff4dc, 3.2);
       sunLight.position.set(-4, 7, 10);
       scene.add(sunLight);
 
-      scene.add(new THREE.AmbientLight(0x080d20, 0.1));
+      const ambientLight = new THREE.AmbientLight(0x080d20, 0.1);
+      scene.add(ambientLight);
 
-    
+      // ── Stars ────────────────────────────────────────────────────────
       const starGeo = createStarGeometry(STAR_COUNT, 13, 38, 93);
       const starMat = new THREE.PointsMaterial({
         size: 0.13,
@@ -121,7 +167,6 @@ export function SkyScene() {
       const stars = new THREE.Points(starGeo, starMat);
       sceneGroup.add(stars);
 
-   
       const brightGeo = createStarGeometry(BRIGHT_STAR_COUNT, 77, 42, 80);
       const brightMat = new THREE.PointsMaterial({
         size: 0.42,
@@ -133,16 +178,28 @@ export function SkyScene() {
       const brightStars = new THREE.Points(brightGeo, brightMat);
       sceneGroup.add(brightStars);
 
-   
+      // ── Theme sync ───────────────────────────────────────────────────
       const syncTheme = () => {
         const dark = document.documentElement.classList.contains("dark");
+
         renderer.setClearColor(dark ? 0x0a0a0a : 0xfafafa, 1);
+
+        moon.visible = dark;
+        sun.visible = !dark;
+        corona.visible = !dark;
+
         starMat.color.set(dark ? 0xe8eeff : 0x1a1a2e);
         starMat.opacity = dark ? 0.82 : 0.22;
         starMat.needsUpdate = true;
+
         brightMat.color.set(dark ? 0xfff4e0 : 0x0a0a1a);
         brightMat.opacity = dark ? 0.92 : 0.18;
         brightMat.needsUpdate = true;
+
+        ambientLight.color.set(dark ? 0x080d20 : 0xfff8e8);
+        ambientLight.intensity = dark ? 0.1 : 0.6;
+
+        sunLight.intensity = dark ? 3.2 : 1.8;
       };
       syncTheme();
       const themeObserver = new MutationObserver(syncTheme);
@@ -151,7 +208,7 @@ export function SkyScene() {
         attributeFilter: ["class"],
       });
 
-
+      // ── Mouse parallax ───────────────────────────────────────────────
       const mouse = { x: 0, y: 0 };
       const onMouseMove = (e: MouseEvent) => {
         mouse.x = (e.clientX / window.innerWidth - 0.5) * 2;
@@ -159,7 +216,7 @@ export function SkyScene() {
       };
       window.addEventListener("mousemove", onMouseMove);
 
-    
+      // ── Resize ───────────────────────────────────────────────────────
       const onResize = () => {
         const w = el.clientWidth;
         const h = el.clientHeight;
@@ -172,7 +229,7 @@ export function SkyScene() {
       resizeObserver.observe(el);
       onResize();
 
-    
+      // ── Animation loop ───────────────────────────────────────────────
       let rafId: number;
       let t = 0;
       const moonBaseY = moon.position.y;
@@ -181,22 +238,29 @@ export function SkyScene() {
         rafId = requestAnimationFrame(tick);
         t += 0.006;
 
+        const dark = document.documentElement.classList.contains("dark");
 
+        // Moon gentle bob + slow rotation
         moon.position.y = moonBaseY + Math.sin(t * 0.28) * 0.055;
-  
         moon.rotation.y += 0.0003;
 
+        sun.position.y = moonBaseY + Math.sin(t * 0.22) * 0.04;
+        sun.rotation.y += 0.0002;
+        corona.position.y = sun.position.y;
 
-        if (document.documentElement.classList.contains("dark")) {
+        if (!dark) {
+          const pulse = 1 + Math.sin(t * 1.1) * 0.04;
+          corona.scale.set(9 * pulse, 9 * pulse, 1);
+        }
+
+        if (dark) {
           brightMat.opacity = 0.88 + Math.sin(t * 1.7) * 0.1;
           brightMat.needsUpdate = true;
         }
 
-    
         stars.rotation.y += 0.00009;
         stars.rotation.x += 0.000038;
 
-   
         sceneGroup.rotation.x +=
           (-mouse.y * 0.048 - sceneGroup.rotation.x) * 0.028;
         sceneGroup.rotation.y +=
@@ -206,7 +270,7 @@ export function SkyScene() {
       };
       tick();
 
-     
+      // ── Cleanup ──────────────────────────────────────────────────────
       cleanupRef.current = () => {
         cancelAnimationFrame(rafId);
         resizeObserver.disconnect();
@@ -216,6 +280,11 @@ export function SkyScene() {
         normalTex.dispose();
         moonGeo.dispose();
         moonMat.dispose();
+        sunTex.dispose();
+        sunGeo.dispose();
+        sunMat.dispose();
+        coronaTex.dispose();
+        coronaSpriteMat.dispose();
         starGeo.dispose();
         starMat.dispose();
         brightGeo.dispose();

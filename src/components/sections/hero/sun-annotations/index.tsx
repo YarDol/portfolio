@@ -2,20 +2,20 @@
 
 import { useRef } from "react";
 import { useTranslations } from "next-intl";
-import { useMoonLines } from "./use-moon-lines";
-import { ANNS, AnnotationId } from "./constants";
+import { useSunLines } from "./use-sun-lines";
+import { ANNS, AnnotationId } from "../moon-annotations/constants";
 
-export function MoonAnnotations() {
+export function SunAnnotations() {
   const t = useTranslations("Hero.annotations");
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const textRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  useMoonLines(canvasRef, textRefs);
+  useSunLines(canvasRef, textRefs);
 
   const getSubKey = (id: AnnotationId) => `${id}Sub` as Parameters<typeof t>[0];
 
   return (
-    <div className="absolute inset-0 z-30 hidden lg:dark:block overflow-hidden">
+    <div className="absolute inset-0 z-30 hidden lg:block dark:hidden overflow-hidden">
       <canvas
         ref={canvasRef}
         className="pointer-events-none absolute inset-0 w-full h-full"
@@ -35,17 +35,17 @@ export function MoonAnnotations() {
               href={ann.href}
               target={ann.href.startsWith("#") ? undefined : "_blank"}
               rel={ann.href.startsWith("#") ? undefined : "noopener noreferrer"}
-              className="pointer-events-auto block font-mono text-xs text-foreground/65 hover:text-foreground/90 transition-colors tracking-wide whitespace-nowrap cursor-pointer"
+              className="pointer-events-auto block font-mono text-xs text-amber-700/70 hover:text-amber-700 transition-colors tracking-wide whitespace-nowrap cursor-pointer"
             >
               {t(ann.id)}
             </a>
           ) : (
-            <p className="font-mono text-xs text-muted/75 tracking-wide whitespace-nowrap">
+            <p className="font-mono text-xs text-foreground/55 tracking-wide whitespace-nowrap">
               {t(ann.id)}
             </p>
           )}
           {ann.sub && (
-            <p className="font-mono text-[10px] text-muted/45 tracking-wide mt-0.5 whitespace-nowrap">
+            <p className="font-mono text-[10px] text-foreground/35 tracking-wide mt-0.5 whitespace-nowrap">
               {t(getSubKey(ann.id))}
             </p>
           )}

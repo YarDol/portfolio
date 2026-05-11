@@ -7,6 +7,7 @@ import { SkyScene } from "./hero/sky-scene";
 import { MouseGlow } from "./hero/mouse-glow";
 import { HeroContent } from "./hero/hero-content";
 import { MoonAnnotations } from "./hero/moon-annotations";
+import { SunAnnotations } from "./hero/sun-annotations";
 import { ScrollIndicator } from "./hero/scroll-indicator";
 
 export function Hero() {
@@ -36,6 +37,7 @@ export function Hero() {
       <MouseGlow />
 
       <MoonAnnotations />
+      <SunAnnotations />
 
       <motion.div
         style={{ y, opacity }}
