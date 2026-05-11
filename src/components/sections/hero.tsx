@@ -32,7 +32,13 @@ export function Hero() {
         <SkyScene />
       </div>
 
-      <div className="pointer-events-none absolute inset-0 z-1 bg-linear-to-r from-background/95 via-background/70 to-background/25" />
+      {/* Dark mode: moon is right-side, let gradient trail off gently */}
+      <div className="hidden dark:block pointer-events-none absolute inset-0 z-1 bg-linear-to-r from-background/95 via-background/70 to-background/25" />
+      {/* Light mode: fade to fully transparent by 52% so the sun at ~66% is unobscured */}
+      <div
+        className="dark:hidden pointer-events-none absolute inset-0 z-1"
+        style={{ background: "linear-gradient(to right, var(--background) 0%, transparent 52%)" }}
+      />
 
       <MouseGlow />
 

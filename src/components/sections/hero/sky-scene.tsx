@@ -80,6 +80,8 @@ export function SkyScene() {
       });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.0;
       el.appendChild(renderer.domElement);
 
       const scene = new THREE.Scene();
@@ -111,6 +113,7 @@ export function SkyScene() {
 
       colorTex.colorSpace = THREE.SRGBColorSpace;
       sunTex.colorSpace = THREE.SRGBColorSpace;
+      sunTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
 
       const moonGeo = new THREE.SphereGeometry(2.2, 128, 128);
       moonGeo.computeTangents();
@@ -127,8 +130,15 @@ export function SkyScene() {
 
       // ── Sun ──────────────────────────────────────────────────────────
       const sunGeo = new THREE.SphereGeometry(2.2, 128, 128);
-
-      const sunMat = new THREE.MeshBasicMaterial({ map: sunTex });
+      // Black diffuse so lighting adds nothing; emissive drives all colour at HDR intensity
+      const sunMat = new THREE.MeshStandardMaterial({
+        color: 0x000000,
+        emissiveMap: sunTex,
+        emissive: new THREE.Color(0xffffff),
+        emissiveIntensity: 2.8,
+        roughness: 1,
+        metalness: 0,
+      });
       const sun = new THREE.Mesh(sunGeo, sunMat);
       sun.position.copy(moon.position);
       sun.visible = false;

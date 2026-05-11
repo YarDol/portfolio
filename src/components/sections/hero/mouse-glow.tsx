@@ -22,7 +22,7 @@ export function MouseGlow() {
   return (
     <motion.div
       style={{ left: springX, top: springY }}
-      className="pointer-events-none fixed h-80 w-80 rounded-full bg-accent/15 blur-3xl"
+      className="pointer-events-none fixed h-80 w-80 rounded-full bg-accent/15 blur-3xl hidden dark:block"
     />
   );
 }
