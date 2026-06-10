@@ -2,7 +2,7 @@
 
 import { useEffect, RefObject } from "react";
 import * as THREE from "three";
-import { NODE_COUNT, BOUNDS, PALETTE, CONNECTION_DIST } from "../config/constants";
+import { NODE_COUNT, BOUNDS, PALETTE_DARK, PALETTE_LIGHT, CONNECTION_DIST } from "../config/constants";
 import type { NodeData } from "./types";
 
 export const useNeuralGraph = (canvasRef: RefObject<HTMLCanvasElement | null>) => {
@@ -22,23 +22,25 @@ export const useNeuralGraph = (canvasRef: RefObject<HTMLCanvasElement | null>) =
     const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
     camera.position.z = 14;
 
-    const dark = document.documentElement.classList.contains("dark");
+    const isDark = () => document.documentElement.classList.contains("dark");
 
     const nodeGeo = new THREE.IcosahedronGeometry(0.08, 0);
     const nodeMat = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
+      color: isDark() ? 0xffffff : 0x111111,
       transparent: true,
-      opacity: dark ? 0.8 : 0.7,
+      opacity: isDark() ? 0.75 : 0.65,
       wireframe: true,
     });
     const instancedMesh = new THREE.InstancedMesh(nodeGeo, nodeMat, NODE_COUNT);
     instancedMesh.frustumCulled = false;
     scene.add(instancedMesh);
 
-    const paletteColors = PALETTE.map(c => new THREE.Color(c));
+    const getPalette = () =>
+      (isDark() ? PALETTE_DARK : PALETTE_LIGHT).map(c => new THREE.Color(c));
 
     const nodes: NodeData[] = Array.from({ length: NODE_COUNT }, (_, i) => {
-      const color = paletteColors[Math.floor(Math.random() * paletteColors.length)];
+      const palette = getPalette();
+      const color = palette[Math.floor(Math.random() * palette.length)];
       instancedMesh.setColorAt(i, color);
       return {
         pos: new THREE.Vector3(
@@ -60,22 +62,42 @@ export const useNeuralGraph = (canvasRef: RefObject<HTMLCanvasElement | null>) =
     const MAX_PAIRS = (NODE_COUNT * (NODE_COUNT - 1)) / 2;
     const linePosArr = new Float32Array(MAX_PAIRS * 2 * 3);
     const lineColArr = new Float32Array(MAX_PAIRS * 2 * 3);
-    
+
     const lineGeo = new THREE.BufferGeometry();
     const linePosAttr = new THREE.BufferAttribute(linePosArr, 3);
     const lineColAttr = new THREE.BufferAttribute(lineColArr, 3);
-    
+
     lineGeo.setAttribute("position", linePosAttr);
     lineGeo.setAttribute("color", lineColAttr);
-    
+
     const lineMat = new THREE.LineBasicMaterial({
       vertexColors: true,
       transparent: true,
-      opacity: dark ? 0.35 : 0.25,
+      opacity: isDark() ? 0.32 : 0.22,
     });
     const lineSegs = new THREE.LineSegments(lineGeo, lineMat);
     lineSegs.frustumCulled = false;
     scene.add(lineSegs);
+
+    // Recolour nodes + lines when theme toggles
+    const applyTheme = () => {
+      const dark = isDark();
+      nodeMat.color.set(dark ? 0xffffff : 0x111111);
+      nodeMat.opacity = dark ? 0.75 : 0.65;
+      lineMat.opacity = dark ? 0.32 : 0.22;
+      const palette = getPalette();
+      nodes.forEach((n, i) => {
+        n.color = palette[Math.floor(Math.random() * palette.length)];
+        instancedMesh.setColorAt(i, n.color);
+      });
+      if (instancedMesh.instanceColor) instancedMesh.instanceColor.needsUpdate = true;
+    };
+
+    const themeObserver = new MutationObserver(applyTheme);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
 
     const mouseWorld = new THREE.Vector3(9999, 9999, 0);
     const onMouseMove = (e: MouseEvent) => {
@@ -169,6 +191,7 @@ export const useNeuralGraph = (canvasRef: RefObject<HTMLCanvasElement | null>) =
       cancelAnimationFrame(animId);
       canvas.removeEventListener("mousemove", onMouseMove);
       ro.disconnect();
+      themeObserver.disconnect();
       renderer.dispose();
       nodeGeo.dispose();
       nodeMat.dispose();

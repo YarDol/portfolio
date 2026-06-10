@@ -43,7 +43,7 @@ function BrowserVisual({
 
   return (
     <div
-      className={`absolute inset-x-3 bottom-0 top-3 flex flex-col overflow-hidden rounded-t-lg border border-border/50 shadow-sm ${tall ? "inset-x-5 top-5 rounded-t-xl" : ""}`}
+      className={`absolute inset-x-3 bottom-0 top-3 flex flex-col overflow-hidden border border-border/50 shadow-sm ${tall ? "inset-x-5 top-5" : ""}`}
     >
       <div className="flex shrink-0 items-center gap-1.5 border-b border-border/50 bg-card/80 px-3 py-2 backdrop-blur-sm">
         <span className="h-2 w-2 rounded-full bg-foreground/15" />
@@ -73,7 +73,7 @@ function Stack({ stack }: { stack: readonly string[] }) {
       {stack.map((tech) => (
         <span
           key={tech}
-          className="rounded bg-foreground/5 px-2 py-0.5 font-mono text-[10px] text-foreground/45"
+          className="bg-foreground/5 px-2 py-0.5 font-mono text-[10px] text-foreground/45"
         >
           {tech}
         </span>
@@ -109,7 +109,7 @@ export function FeaturedCard({
     >
       <motion.div
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="group relative overflow-hidden rounded-2xl border border-border"
+        className="group relative overflow-hidden border border-border"
       >
         <div className="flex flex-col-reverse  md:flex-row">
           <div className="flex flex-1 flex-col justify-center gap-4 p-8">
@@ -153,7 +153,7 @@ export function ProjectCard({
     >
       <motion.div
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="group relative overflow-hidden rounded-2xl border border-border"
+        className="group relative overflow-hidden border border-border"
       >
         <div className="relative h-44 overflow-hidden border-b border-border bg-muted/5">
           <BrowserVisual index={index} gradient={project.gradient} />

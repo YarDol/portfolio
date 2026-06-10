@@ -1,9 +1,8 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { motion, useMotionValueEvent, useScroll } from "motion/react";
+import { motion } from "motion/react";
 import { useState } from "react";
-import clsx from "clsx";
 import { LanguageSwitcher } from "./language-switcher";
 import { ThemeToggle } from "./theme-toggle";
 import { usePathname } from "@/i18n/navigation";
@@ -12,49 +11,46 @@ const navItems = ["about", "experience", "projects", "contact"] as const;
 
 export function Header() {
   const t = useTranslations("Navigation");
-  const [scrolled, setScrolled] = useState(false);
-  const { scrollY } = useScroll();
+  const [hovered, setHovered] = useState<string | null>(null);
   const pathname = usePathname();
   const isHome = pathname === "/";
 
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    setScrolled(latest > 50);
-  });
-
   return (
-    <motion.header
-      className={clsx(
-        "fixed top-0 z-50 w-full border-b transition-colors duration-300",
-        scrolled
-          ? "border-border bg-background/80 backdrop-blur-md"
-          : "border-transparent bg-transparent",
-      )}
-    >
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <header className="fixed top-4 left-0 right-0 z-50">
+      <div className="relative flex items-center justify-between px-6">
         <a
           href={isHome ? "#hero" : "/"}
-          className="font-mono text-sm font-bold tracking-tight"
+          className="font-mono text-sm font-bold tracking-tight relative z-10"
         >
-          YD<span className="text-accent">.</span>
+          YD.
         </a>
 
-        <div className="hidden items-center gap-8 md:flex">
+        <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-0.5 rounded-full border border-border bg-card/80 backdrop-blur-md px-2 py-1.5">
           {navItems.map((item) => (
             <a
               key={item}
               href={isHome ? `#${item}` : `/#${item}`}
-              className="text-sm text-muted transition-colors hover:text-foreground"
+              className="relative px-4 py-1.5 text-sm text-muted transition-colors hover:text-foreground"
+              onMouseEnter={() => setHovered(item)}
+              onMouseLeave={() => setHovered(null)}
             >
-              {t(item)}
+              {hovered === item && (
+                <motion.div
+                  layoutId="nav-highlight"
+                  className="absolute inset-0 rounded-full bg-foreground/8"
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.35 }}
+                />
+              )}
+              <span className="relative z-10">{t(item)}</span>
             </a>
           ))}
-        </div>
+        </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 relative z-10">
           <ThemeToggle />
           <LanguageSwitcher />
         </div>
-      </nav>
-    </motion.header>
+      </div>
+    </header>
   );
 }

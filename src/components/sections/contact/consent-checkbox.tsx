@@ -46,10 +46,10 @@ export const ConsentCheckbox = forwardRef<ConsentCheckboxRef, ConsentCheckboxPro
               }}
               className="sr-only peer"
             />
-            <div className="size-4 rounded border border-border/60 bg-transparent transition-colors peer-checked:border-accent peer-checked:bg-accent group-hover:border-accent/50" />
+            <div className="size-4 rounded border border-foreground/25 bg-transparent transition-colors peer-checked:border-accent peer-checked:bg-accent group-hover:border-foreground/50" />
             {consented && (
               <svg
-                className="absolute inset-0 m-auto size-2.5 text-white pointer-events-none"
+                className="absolute inset-0 m-auto size-2.5 text-background pointer-events-none"
                 viewBox="0 0 12 10"
                 fill="none"
               >

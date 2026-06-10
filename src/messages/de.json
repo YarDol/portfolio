@@ -97,7 +97,8 @@
         "2": "Deep Linking",
         "3": "Push Notifications",
         "4": "In-App-Käufe",
-        "5": "Ionic"
+        "5": "Ionic",
+        "6": "Unity Bridge"
       },
       "platform": {
         "0": "AWS (S3, Lambda, RDS)",

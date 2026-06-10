@@ -21,7 +21,7 @@ export function SubmitButton({
         disabled={isPending}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.97 }}
-        className="inline-flex items-center gap-2 rounded-xl bg-foreground px-7 py-3 text-sm font-medium text-background transition-opacity disabled:opacity-50 hover:opacity-85"
+        className="inline-flex items-center gap-2 bg-foreground px-7 py-3 text-sm font-medium text-background transition-opacity disabled:opacity-50 hover:opacity-85"
       >
         {isPending ? (
           <>

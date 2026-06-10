@@ -34,7 +34,7 @@ export function SkillRow({
         onHoverEnd={onHoverEnd}
         animate={{ opacity: isDimmed ? 0.28 : 1 }}
         transition={{ duration: 0.18 }}
-        className="relative flex flex-col gap-1 py-4 border-b border-border cursor-default sm:flex-row sm:items-start sm:gap-6"
+        className="relative flex flex-col gap-1 py-4 cursor-default sm:flex-row sm:items-start sm:gap-6"
       >
         <motion.div
           animate={{

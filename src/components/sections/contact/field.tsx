@@ -21,7 +21,7 @@ export function Field({
       >
         {label}
       </label>
-      <div className="group rounded-xl border border-border/60 bg-foreground/3 transition-colors focus-within:border-accent/50 focus-within:bg-foreground/5">
+      <div className="group border border-border/60 bg-foreground/3 transition-colors focus-within:border-foreground/30 focus-within:bg-foreground/5">
         {children}
       </div>
       <AnimatePresence>
