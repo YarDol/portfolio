@@ -33,6 +33,7 @@ export default function HomePage({ params }: Props) {
       <Experience />
       <Projects />
       <Contact />
+
       <Chat locale={locale} />
       <VoiceWidget locale={locale} />
       <Footer />

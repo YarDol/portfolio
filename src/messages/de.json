@@ -45,7 +45,10 @@
       "usersLabel": "Nutzer erreicht",
       "education": "M.Sc.",
       "educationLabel": "Informatik",
-      "currently": "aktuell"
+      "currently": "aktuell",
+      "learning": "lerne gerade",
+      "learningItem1": "Three.js Journey",
+      "learningItem2": "Deutsch B1 Vorbereitung"
     },
     "topics": {
       "streaming": "Streaming-LLM-Systeme",
@@ -137,12 +140,12 @@
     "kevych": {
       "role": "Full-Stack-Entwickler",
       "company": "Kevych Solutions",
-      "location": "Lviw, Ukraine (Remote)",
+      "location": "Remote from Germany",
       "period": "02/2024 — Aktuell",
       "items": {
         "0": "KI & Sprachberatungs-App (Tech Lead): Architektur einer React Native & Nest.js Plattform. Sprachberatungen und KI-Beratung über OpenAI mit eigenen Prompting-Pipelines.",
         "1": "Kreative Design-Plattform: Headless Video-Rendering-Engine mit Puppeteer, Express und Nginx für serverseitiges React-Animations-Rendering.",
-        "2": "Unterhaltung & Medien: Skalierung eines Multi-Plattform-Ökosystems auf 70.000+ Nutzer über React Native Apps und Admin-Panels. Integration von KI-Funktionen, NestJS-APIs, Cloud Functions und Zahlungen über Stripe & PayPal.",
+        "2": "Unterhaltung & Medien: Skalierung eines Multi-Plattform-Ökosystems auf 100.000+ Nutzer über React Native Apps und Admin-Panels. Integration von KI-Funktionen, NestJS-APIs, Cloud Functions und Zahlungen über Stripe & PayPal.",
         "3": "Video-Kursplattform: 2.000+ Nutzer und 700+ bezahlte Abonnements in 6 Stunden durch optimierte DB-Indizierung und Caching.",
         "4": "E-Commerce-Migration: Migration von React zu Next.js. LCP/CLS um 40% verbessert und Hosting-Kosten um 17% gesenkt.",
         "5": "Technische Führung: Standardisierung von CI/CD-Pipelines, Linting-Regeln und wiederverwendbaren Templates über Projekte."
@@ -190,7 +193,7 @@
     "items": {
       "0": {
         "title": "Unterhaltungs- & Medienplattform",
-        "description": "Trug zur Weiterentwicklung der Plattform von No-Code-Beschränkungen zu einer skalierbaren Cloud-basierten Architektur bei, die mehr als 70.000 Benutzer unterstützt. Entwickelte zentrale Monetarisierungssysteme, darunter interne Wallet-Infrastruktur, Stripe- und PayPal-Integrationen, Automatisierungslogik für Auszahlungen, Backend-Services, Analyse-Pipelines und KI-gesteuerte interne Tools.",
+        "description": "Trug zur Weiterentwicklung der Plattform von No-Code-Beschränkungen zu einer skalierbaren Cloud-basierten Architektur bei, die mehr als 100.000 Benutzer unterstützt. Entwickelte zentrale Monetarisierungssysteme, darunter interne Wallet-Infrastruktur, Stripe- und PayPal-Integrationen, Automatisierungslogik für Auszahlungen, Backend-Services, Analyse-Pipelines und KI-gesteuerte interne Tools.",
         "role": "Full-Stack-Entwickler"
       },
       "1": {
@@ -290,6 +293,9 @@
     "learnMore": "Datenschutzerklärung",
     "accept": "Akzeptieren",
     "decline": "Ablehnen"
+  },
+  "LearningTicker": {
+    "label": "Aktuell lerne ich"
   },
   "Footer": {
     "privacy": "Datenschutzerklärung",

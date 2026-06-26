@@ -22,7 +22,7 @@
     "annotations": {
       "title": "Problem Solver",
       "titleSub": "& Full-Stack Engineer",
-      "status": "Open to Work",
+      "status": "Seeking opportunities",
       "location": "Sangerhausen, Germany",
       "locationSub": "51.28° N · 11.17° E",
       "cv": "Download CV",
@@ -45,7 +45,10 @@
       "usersLabel": "Users Reached",
       "education": "M.Sc.",
       "educationLabel": "Computer Engineering",
-      "currently": "currently"
+      "currently": "currently",
+      "learning": "learning",
+      "learningItem1": "Three.js Journey",
+      "learningItem2": "German B1 preparation"
     },
     "topics": {
       "streaming": "Streaming LLM systems",
@@ -134,12 +137,12 @@
     "kevych": {
       "role": "Full-Stack Engineer",
       "company": "Kevych Solutions",
-      "location": "Lviv, Ukraine (Remote)",
+      "location": "Remote from Germany",
       "period": "02/2024 — Present",
       "items": {
         "0": "AI & Voice Advisory App (Tech Lead): Architected a React Native & Nest.js platform. Enabled voice consultations and AI advice via OpenAI with custom prompting pipelines.",
         "1": "Creative Design Platform: Engineered a headless video rendering engine using Puppeteer, Express, and Nginx for server-side React animation rendering.",
-        "2": "Helped evolve the platform from no-code constraints to a scalable cloud-based architecture supporting 70,000+ users.Engineered core monetization systems including internal wallet infrastructure, Stripe & PayPal integrations, payout automation logic, backend services, analytics pipelines, and AI-driven internal tools.",
+        "2": "Helped evolve the platform from no-code constraints to a scalable cloud-based architecture supporting 100,000+ users.Engineered core monetization systems including internal wallet infrastructure, Stripe & PayPal integrations, payout automation logic, backend services, analytics pipelines, and AI-driven internal tools.",
         "3": "Video Course Platform: Handled 2,000+ users and 700+ paid subscriptions in 6 hours using optimized DB indexing and caching.",
         "4": "E-commerce Migration: Migrated React to Next.js. Improved LCP/CLS by 40% and reduced hosting costs by 17%.",
         "5": "Technical Leadership: Standardized CI/CD pipelines, linting rules, and reusable templates across projects."
@@ -186,8 +189,8 @@
     "viewCode": "Source Code",
     "items": {
       "0": {
-        "title": "Entertainment & Media Platform",
-        "description": "Helped evolve the platform from no-code constraints to a scalable cloud-based architecture supporting 70,000+ users. Engineered core monetization systems including internal wallet infrastructure, Stripe & PayPal integrations, payout automation logic, backend services, analytics pipelines, and AI-driven internal tools.",
+        "title": "Entertainment & Media Platform  ",
+        "description": "Helped evolve the platform from no-code constraints to a scalable cloud-based architecture supporting 100,000+ users. Engineered core monetization systems including internal wallet infrastructure, Stripe & PayPal integrations, payout automation logic, backend services, analytics pipelines, and AI-driven internal tools.",
         "role": "Full-Stack Engineer"
       },
       "1": {
@@ -287,6 +290,9 @@
     "learnMore": "Privacy Policy",
     "accept": "Accept",
     "decline": "Decline"
+  },
+  "LearningTicker": {
+    "label": "Currently learning"
   },
   "Footer": {
     "privacy": "Privacy Policy",

@@ -28,7 +28,7 @@ export const projects = [
       "Docker",
     ],
     gradient: "from-emerald-500/20 to-teal-500/20",
-    metrics: "70,000+ users",
+    metrics: "100,000+ users",
   },
   {
     titleKey: "items.2.title",
