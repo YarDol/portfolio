@@ -38,15 +38,15 @@ export function About() {
             />
 
             <ScrollReveal delay={0.35}>
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
                 <span className="font-mono text-[11px] text-muted/60 tracking-wide whitespace-nowrap">
                   {t("highlights.learning")} →
                 </span>
-                <span className="font-mono text-[11px] text-foreground/60 whitespace-nowrap">
+                <span className="font-mono text-[11px] text-foreground/60">
                   {t("highlights.learningItem1")}
                 </span>
-                <span className="text-muted/40 text-[9px]">·</span>
-                <span className="font-mono text-[11px] text-foreground/60 whitespace-nowrap">
+                <span className="text-muted/40 text-[9px] max-sm:hidden">·</span>
+                <span className="font-mono text-[11px] text-foreground/60">
                   {t("highlights.learningItem2")}
                 </span>
               </div>
