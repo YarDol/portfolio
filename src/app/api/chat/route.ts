@@ -6,30 +6,24 @@ import {
   stepCountIs,
   convertToModelMessages,
 } from "ai";
-import { portfolioSystemPrompt } from "@/lib/portfolio-context";
+import { z } from "zod";
 import {
+  portfolioSystemPrompt,
   getProfile,
   getSkills,
   getExperience,
   getProjects,
   getEducation,
   getContactInfo,
-} from "@/lib/portfolio-rag";
-import { checkRateLimit } from "@/lib/rate-limit";
-import { z } from "zod";
-import { siteConfig } from "@/lib/constants";
+} from "@/entities/portfolio";
+import { checkRateLimit, getClientIp } from "@/shared/lib/rate-limit";
+import { siteConfig } from "@/shared/config";
+import type { Locale } from "@/shared/i18n";
 
 export const maxDuration = 30;
 
-type Locale = "en" | "de";
-
 export async function POST(req: Request) {
-  const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    req.headers.get("x-real-ip") ??
-    "unknown";
-
-  const { allowed } = checkRateLimit(ip);
+  const { allowed } = checkRateLimit(getClientIp(req));
   if (!allowed) {
     return new Response(
       JSON.stringify({ error: "Too many requests. Please try again later." }),

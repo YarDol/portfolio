@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { siteConfig } from "@/lib/constants";
+import { siteConfig } from "@/shared/config";
 
 export const runtime = "edge";
 export const alt = `${siteConfig.name} — ${siteConfig.role}`;

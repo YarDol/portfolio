@@ -1,7 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { GaScripts } from "@/components/scripts/ga-scripts";
-import { ClarityScript } from "@/components/scripts/clarity-script";
+import "./styles/globals.css";
+import { GaScripts, ClarityScript } from "./analytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

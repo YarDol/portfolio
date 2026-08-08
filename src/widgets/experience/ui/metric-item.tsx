@@ -1,0 +1,55 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+import { motion, useInView } from "motion/react";
+import { useRef, useState } from "react";
+import type { Metric } from "../config/metrics";
+import { useCountUp } from "../lib/use-count-up";
+
+type MetricItemProps = Metric & {
+  index: number;
+  delay: number;
+};
+
+export function MetricItem({ animateTo, suffix, index, delay }: MetricItemProps) {
+  const t = useTranslations("Experience");
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true });
+  const count = useCountUp(animateTo, inView);
+  const [hovered, setHovered] = useState(false);
+
+  const label = t(`metrics.${index}.label` as Parameters<typeof t>[0]);
+  const sub = t(`metrics.${index}.sub` as Parameters<typeof t>[0]);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.45, delay, ease: [0.25, 0.4, 0.25, 1] }}
+      onHoverStart={() => setHovered(true)}
+      onHoverEnd={() => setHovered(false)}
+      className="relative border-b border-border pt-4 pb-2 cursor-default"
+    >
+      <motion.div
+        animate={{ scaleX: hovered ? 1 : 0 }}
+        transition={{ duration: 0.25, ease: [0.25, 0.4, 0.25, 1] }}
+        style={{ originX: 0 }}
+        className="absolute bottom-0 left-0 right-0 h-px bg-accent"
+      />
+      <p
+        className={`text-4xl font-black tabular-nums leading-none transition-colors duration-200 ${
+          hovered ? "text-accent" : "text-foreground/75"
+        }`}
+      >
+        {count}
+        {suffix}
+      </p>
+      <p className="mt-2 text-xs font-semibold text-foreground/70 uppercase tracking-wider">
+        {label}
+      </p>
+      <p className="mt-0.5 text-[11px] text-muted/60">{sub}</p>
+    </motion.div>
+  );
+}

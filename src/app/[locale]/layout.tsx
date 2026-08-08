@@ -2,12 +2,9 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { routing } from "@/i18n/routing";
-import { siteConfig } from "@/lib/constants";
-import { DocumentLang } from "@/components/layout/document-lang";
-import { ThemeProvider } from "@/components/layout/theme-provider";
-
-type Locale = (typeof routing.locales)[number];
+import { routing, type Locale } from "@/shared/i18n";
+import { siteConfig } from "@/shared/config";
+import { ThemeProvider, DocumentLang } from "../providers";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -19,9 +16,9 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale: rawLocale } = await params;
-  const locale = (
-    hasLocale(routing.locales, rawLocale) ? rawLocale : routing.defaultLocale
-  ) as Locale;
+  const locale: Locale = hasLocale(routing.locales, rawLocale)
+    ? rawLocale
+    : routing.defaultLocale;
   const t = await getTranslations({ locale, namespace: "Metadata" });
   const url = locale === "en" ? siteConfig.url : `${siteConfig.url}/${locale}`;
 

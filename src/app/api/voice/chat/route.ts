@@ -1,7 +1,7 @@
 import { createGroq } from "@ai-sdk/groq";
 import { generateText } from "ai";
-import { voiceSystemPrompt } from "@/lib/portfolio-index";
-import { checkRateLimit } from "@/lib/rate-limit";
+import { voiceSystemPrompt } from "@/entities/portfolio";
+import { checkRateLimit, getClientIp } from "@/shared/lib/rate-limit";
 
 export const maxDuration = 30;
 
@@ -12,12 +12,7 @@ export async function POST(req: Request) {
     return Response.json({ error: "disabled" }, { status: 503 });
   }
 
-  const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    req.headers.get("x-real-ip") ??
-    "unknown";
-
-  const { allowed } = checkRateLimit(ip);
+  const { allowed } = checkRateLimit(getClientIp(req));
   if (!allowed) {
     return Response.json({ error: "rate_limit" }, { status: 429 });
   }

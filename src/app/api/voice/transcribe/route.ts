@@ -1,14 +1,9 @@
-import { checkRateLimit } from "@/lib/rate-limit";
+import { checkRateLimit, getClientIp } from "@/shared/lib/rate-limit";
 
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
-  const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    req.headers.get("x-real-ip") ??
-    "unknown";
-
-  const { allowed } = checkRateLimit(ip);
+  const { allowed } = checkRateLimit(getClientIp(req));
   if (!allowed) {
     return Response.json(
       { error: "Too many requests. Please try again later." },

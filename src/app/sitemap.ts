@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
-import { siteConfig } from "@/lib/constants";
-import { routing } from "@/i18n/routing";
+import { siteConfig } from "@/shared/config";
+import { routing } from "@/shared/i18n";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [""];

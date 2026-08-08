@@ -1,4 +1,4 @@
-import { checkRateLimit } from "@/lib/rate-limit";
+import { checkRateLimit, getClientIp } from "@/shared/lib/rate-limit";
 
 export const maxDuration = 30;
 
@@ -10,12 +10,7 @@ export async function POST(req: Request) {
     return new Response("ElevenLabs TTS is disabled", { status: 503 });
   }
 
-  const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    req.headers.get("x-real-ip") ??
-    "unknown";
-
-  const { allowed } = checkRateLimit(ip);
+  const { allowed } = checkRateLimit(getClientIp(req));
   if (!allowed) {
     return new Response("Too many requests.", { status: 429 });
   }
