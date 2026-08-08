@@ -2,7 +2,6 @@
 
 import { useLayoutEffect, useRef, useState } from "react";
 
-/** Wraps text in a Figma-style selection box with a live size label. */
 export function FigmaSelect({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLSpanElement>(null);
   const [size, setSize] = useState("");

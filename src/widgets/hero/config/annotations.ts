@@ -19,9 +19,7 @@ export type AnnDef = {
   d: number;
 };
 
-/** Seconds between consecutive annotation lines. */
 export const STAGGER = 0.5;
-/** Seconds for one line to draw itself. */
 export const LINE_DUR = 1.1;
 
 export const ANNS: AnnDef[] = [

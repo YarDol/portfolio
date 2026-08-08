@@ -1,9 +1,3 @@
-/**
- * Public (client-visible) environment flags.
- *
- * `process.env.NEXT_PUBLIC_*` is inlined at build time, so it must be read via
- * direct member access — never through a computed key.
- */
 export const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
 export const GA_ID = process.env.NEXT_PUBLIC_GA_ID;

@@ -16,7 +16,6 @@ function cleanup() {
   }
 }
 
-/** Best-effort client IP from proxy headers; used as the rate-limit key. */
 export function getClientIp(req: Request): string {
   return (
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??

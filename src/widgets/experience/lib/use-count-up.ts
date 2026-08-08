@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { COUNT_UP_DURATION_MS } from "../config/metrics";
 
-/** Eases from 0 to `target` once `active` flips true. */
 export function useCountUp(target: number, active: boolean) {
   const [count, setCount] = useState(0);
 

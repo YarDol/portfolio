@@ -6,7 +6,6 @@ type ProjectVisualProps = {
   tall?: boolean;
 };
 
-/** Faux browser window with a generated pattern, used as project artwork. */
 export function ProjectVisual({
   index,
   gradient,

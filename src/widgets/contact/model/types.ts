@@ -8,7 +8,6 @@ export type FadeUpProps = {
   transition: { duration: number; delay: number; ease: Easing };
 };
 
-/** Builds the motion props for one staggered element. */
 export type FadeUp = (delay: number) => FadeUpProps;
 
 export type ContactLink = {

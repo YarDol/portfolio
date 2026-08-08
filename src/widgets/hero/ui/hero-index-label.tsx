@@ -1,4 +1,3 @@
-/** Small caps gutter label ("Who", "Past", "Now") with a hover underline. */
 export function HeroIndexLabel({ children }: { children: string }) {
   return (
     <span className="group relative inline-block text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/60 pt-0.5 cursor-default select-none w-fit">

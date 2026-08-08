@@ -1,8 +1,3 @@
-/**
- * Projects the moon/sun sphere from the sky scene onto normalised screen space,
- * so the DOM annotations can be anchored to it without reading the WebGL scene.
- * Returns fractions of viewport width/height.
- */
 export function getMoonScreen(
   W: number,
   H: number,

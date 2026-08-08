@@ -27,10 +27,6 @@ const certifications = [
   en.Education["java-script"],
 ].join(", ");
 
-/**
- * Flattened, English-only view of the whole portfolio. Used as inline context
- * for the low-latency voice model, which has no tool-calling budget.
- */
 export const portfolioSnapshot = `
 Name: Yaroslav Dolhushyn
 Role: ${en.Hero.role1}

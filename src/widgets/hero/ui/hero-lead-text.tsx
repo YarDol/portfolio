@@ -1,4 +1,3 @@
-/** Emphasises the first sentence and dims the rest. */
 export function HeroLeadText({ text }: { text: string }) {
   const cut = text.indexOf(". ");
   if (cut === -1) {

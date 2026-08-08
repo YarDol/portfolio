@@ -2,10 +2,6 @@
 
 import { useMotionValue, useSpring, useTransform } from "motion/react";
 
-/**
- * Pointer-driven 3D tilt. Spread the returned handlers on the element that
- * should react, and the rotate values on the element that should transform.
- */
 export function useTilt(strength = 5) {
   const mx = useMotionValue(0.5);
   const my = useMotionValue(0.5);

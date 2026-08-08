@@ -12,10 +12,6 @@ export type LegalDocumentContent = {
   sections: LegalSection[];
 };
 
-/**
- * Renders a static legal document (privacy policy, terms of use, …).
- * Paragraphs are split on blank lines; single newlines are preserved.
- */
 export function LegalDocument({ content }: { content: LegalDocumentContent }) {
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">

@@ -5,7 +5,6 @@ type ProjectPatternProps = {
   gradient: string;
 };
 
-/** Standalone pattern tile — the artwork without the browser chrome. */
 export function ProjectPattern({ index, gradient }: ProjectPatternProps) {
   const pattern = projectPatterns[index % projectPatterns.length];
 

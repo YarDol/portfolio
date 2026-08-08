@@ -7,7 +7,6 @@ type LearningRowProps = {
   items: string[];
 };
 
-/** "Learning →  item · item" row under the highlights grid. */
 export function LearningRow({ label, items }: LearningRowProps) {
   return (
     <ScrollReveal delay={0.35}>
