@@ -8,6 +8,8 @@
     "about": "About",
     "experience": "Experience",
     "projects": "Projects",
+    "lab": "Lab",
+    "posts": "Posts",
     "contact": "Contact"
   },
   "Hero": {
@@ -232,6 +234,34 @@
         "title": "Children's Platform",
         "description": "Safe place for children. High-security educational gaming. Bridging React Native with Unity modules and implementing RAG for intelligent in-game interactions. Built custom editors and live chat under strict child privacy standards.",
         "role": "Full-Stack Engineer"
+      }
+    }
+  },
+  "PetProjects": {
+    "label": "Personal",
+    "title": "Side Projects",
+    "subtitle": "What I build outside of client work — currently exploring 3D on the web.",
+    "live": "Live",
+    "code": "Code",
+    "items": {
+      "0": {
+        "title": "Haunted House",
+        "description": "A spooky 3D scene built with vanilla Three.js and WebGL while learning lighting, shadows, fog, and procedural geometry."
+      },
+      "1": {
+        "title": "Personal Portfolio",
+        "description": "This site — a monochrome, animated portfolio built with Next.js, TypeScript, and Motion, featuring an AI chat, a voice assistant, and a Feature-Sliced Design architecture."
+      }
+    }
+  },
+  "LinkedInPosts": {
+    "label": "LinkedIn",
+    "title": "Recent Posts",
+    "subtitle": "Notes on engineering, mentorship, and building products — shared with my network.",
+    "cta": "Read on LinkedIn",
+    "items": {
+      "0": {
+        "hook": "Mentoring four interns taught me something I didn't expect."
       }
     }
   },

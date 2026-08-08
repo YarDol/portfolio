@@ -8,6 +8,8 @@
     "about": "Über mich",
     "experience": "Erfahrung",
     "projects": "Projekte",
+    "lab": "Labor",
+    "posts": "Beiträge",
     "contact": "Kontakt"
   },
   "Hero": {
@@ -203,7 +205,7 @@
       },
       "2": {
         "title": "Internes CRM-System",
-        "description": "Übernahm Mentoring und fachliche Betreuung von 6 Praktikant:innen, führte gründliche Code-Reviews durch und gab konstruktives, umsetzbares Feedback zur Beschleunigung ihrer Entwicklung. Unterstützte Release-Vorbereitungen durch und Begleitung von Deployment-Prozessen. 3 Mentees wurden erfolgreich in Vollzeitpositionen übernommen.",
+        "description": "Übernahm Mentoring und fachliche Betreuung von 10 Praktikant:innen, führte gründliche Code-Reviews durch und gab konstruktives, umsetzbares Feedback zur Beschleunigung ihrer Entwicklung. Unterstützte Release-Vorbereitungen durch und Begleitung von Deployment-Prozessen. 5 Mentees wurden erfolgreich in Vollzeitpositionen übernommen.",
         "role": "Tech Lead"
       },
       "3": {
@@ -235,6 +237,34 @@
         "title": "Kinderplattform",
         "description": "Ein sicherer Ort für Kinder. Lernspiele mit hohen Sicherheitsstandards. Verknüpfung von React Native mit Unity-Modulen und Implementierung von RAG für intelligente Interaktionen im Spiel. Entwicklung maßgeschneiderter Editoren und eines Live-Chats unter Einhaltung strenger Datenschutzstandards für Kinder.",
         "role": "Full-Stack-Entwickler"
+      }
+    }
+  },
+  "PetProjects": {
+    "label": "Privat",
+    "title": "Nebenprojekte",
+    "subtitle": "Was ich außerhalb der Kundenarbeit baue — aktuell erkunde ich 3D im Web.",
+    "live": "Live",
+    "code": "Code",
+    "items": {
+      "0": {
+        "title": "Haunted House",
+        "description": "Eine gruselige 3D-Szene mit reinem Three.js und WebGL, entstanden beim Erlernen von Beleuchtung, Schatten, Nebel und prozeduraler Geometrie."
+      },
+      "1": {
+        "title": "Persönliches Portfolio",
+        "description": "Diese Website — ein monochromes, animiertes Portfolio mit Next.js, TypeScript und Motion, inklusive KI-Chat, Sprachassistent und einer Feature-Sliced-Design-Architektur."
+      }
+    }
+  },
+  "LinkedInPosts": {
+    "label": "LinkedIn",
+    "title": "Aktuelle Beiträge",
+    "subtitle": "Gedanken zu Engineering, Mentoring und Produktentwicklung, die ich mit meinem Netzwerk teile.",
+    "cta": "Auf LinkedIn lesen",
+    "items": {
+      "0": {
+        "hook": "Die Betreuung von vier Praktikanten hat mir etwas gezeigt, das ich nicht erwartet hatte."
       }
     }
   },
