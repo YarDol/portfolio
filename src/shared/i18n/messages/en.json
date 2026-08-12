@@ -262,6 +262,9 @@
     "items": {
       "0": {
         "hook": "Mentoring four interns taught me something I didn't expect."
+      },
+      "1": {
+        "hook": "Building a sandbox environment for interns."
       }
     }
   },

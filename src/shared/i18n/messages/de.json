@@ -265,6 +265,9 @@
     "items": {
       "0": {
         "hook": "Die Betreuung von vier Praktikanten hat mir etwas gezeigt, das ich nicht erwartet hatte."
+      },
+      "1": {
+        "hook": "Eine Sandbox-Umgebung für Praktikanten aufgebaut."
       }
     }
   },
